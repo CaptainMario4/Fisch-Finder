@@ -37,6 +37,7 @@ Requires Level 500 and a [[Prior Quest]].
  assert.equal(parsed.notes[1].tables[0].rows[1][0],'First Trial');assert.equal(parsed.notes[1].tables[0].rows[1][2],'Skycrest (-12, 3, 40)');
  const fallback=mod.questFallback;assert.ok(fallback.quests.length>300);assert.ok(fallback.quests.filter(q=>q.status==='available').length>150);
  const fabulous=fallback.quests.find(q=>q.npc==='Fabulous Deity');assert.match(fabulous.stages[0].steps[0].tasks[0].text,/2 × Shiny \+ Sparkling Handfish/);
+ assert.equal(mod.normalizeQuestRods([{page_name:'Training Rod',journal:'Moosewood',max_weight:9}])[0].name,'Training Rod');assert.equal(fallback.rods.find(r=>r.page==='Training Rod').name,'Training Rod');
  const crook=fallback.quests.find(q=>q.npc==='Dr. Crookspine');assert.ok(crook.stages.find(s=>s.name==='Time Machine').archived);
  const lyren=fallback.quests.find(q=>q.npc==='Lyren');assert.equal(lyren.notes.find(n=>n.heading==='Quests Solution').tables.length,3);assert.ok(lyren.stages[0].steps[0].tasks.every(t=>t.rods.length===1));
  assert.ok(fallback.mutations.find(m=>m.name==='Wrath').rods.some(r=>r.name==='Rod Of The Zenith'));

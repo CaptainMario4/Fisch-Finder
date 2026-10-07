@@ -18,6 +18,13 @@ function templates(source: string, name: string) {
   const blocks = [...source.matchAll(new RegExp('\\{\\{' + name + '\\s*\\n([\\s\\S]*?)\\}\\}', 'g'))];
   return blocks.map(match => Object.fromEntries([...match[1].matchAll(/^\|\s*(\w+)\s*=\s*(.*)$/gm)].map(m => [m[1], m[2].trim()])));
 }
+export function wikiDate(value: string): number {
+  // The wiki uses "YYYY-MM-DD HH:mm:ss UTC", which Safari need not
+  // accept. Always pass an explicit ISO timestamp to the browser parser.
+  const normalized = value.trim().replace(/^(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2}:\d{2})\s+UTC$/i, '$1T$2Z');
+  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/.test(normalized)) return NaN;
+  return Date.parse(normalized);
+}
 export function parseSchedules(payload: any, fetchedAt: string, mode: ScheduleData['mode'] = 'api'): ScheduleData {
   const pages = Object.values(payload.query?.pages ?? {}) as any[];
   const content = (title: string) => {
@@ -34,7 +41,7 @@ export function parseSchedules(payload: any, fetchedAt: string, mode: ScheduleDa
   if (!hunts.length) throw new Error('No hunt schedules');
   const events = templates(content(schedulePages[1]), 'Countdown').map(b => {
     const name = plain(b.header ?? '');
-    const start = Date.parse(b.start ?? ''), end = Date.parse(b.end ?? '');
+    const start = wikiDate(b.start ?? ''), end = wikiDate(b.end ?? '');
     if (!name || !Number.isFinite(start) || !Number.isFinite(end) || end <= start) throw new Error('Unknown event date');
     return { name, start, end };
   });

@@ -1,0 +1,9 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FishDatabase from '../components/FishDatabase';
+import { fallback } from '../lib/fisch';
+import { scheduleFallback } from '../lib/schedules';
+---
+<Layout title="Fisch Database" description="Search Fisch fish by name or region and compare their listed locations, preferred bait, time, weather, and seasons using Fischipedia data.">
+  <FishDatabase client:load initialData={fallback} initialSchedules={scheduleFallback} />
+</Layout>

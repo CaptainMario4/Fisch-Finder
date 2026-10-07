@@ -1,0 +1,28 @@
+---
+// ── Composer skeleton: src/components/Footer.astro ────────────────────────────
+// Substitutions (see COMPOSE.md § "5. Footer.astro"):
+//   Fisch Finder — brand name for the wordmark + copyright.
+//   Fish information sourced from Fischipedia. — short brand-voice tagline from data.shell.
+//    — same inlined Navigation links array (mirror/subset);
+//        one <a href={href}>{label}</a> per entry, labels VERBATIM. No cart,
+//        login, or account links.
+// Fixed bulk (keep literal): transition:persist, the year expression.
+const year = new Date().getFullYear();
+---
+<footer class="site-footer" transition:persist="site-footer">
+  <div class="max-w-6xl mx-auto px-lg py-3xl flex flex-col md:flex-row md:items-start md:justify-between gap-xl">
+    <div class="flex flex-col gap-sm max-w-prose">
+      <span class="font-display text-lg text-ink">Fisch Finder</span>
+      <p class="text-sm">Fish information sourced from Fischipedia.</p>
+      <p class="text-sm">Source: <a href="https://fischipedia.org/wiki/Fisch_Wiki" class="text-accent underline">Fischipedia</a>. Fish data is shared under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="text-accent underline">CC BY-NC-SA 4.0</a>.</p>
+    </div>
+    <nav>
+      <ul class="flex flex-col gap-sm text-sm">
+        
+      </ul>
+    </nav>
+  </div>
+  <div class="max-w-6xl mx-auto px-lg pb-xl text-xs">
+    <p>© {year} Fisch Finder interface. Source data remains attributed to Fischipedia contributors.</p>
+  </div>
+</footer>

@@ -1,0 +1,26 @@
+.rod-database .rod-table{min-width:740px;table-layout:fixed}
+.rod-database .rod-table th{white-space:normal;overflow-wrap:anywhere}
+.rod-database .rod-table :is(th,td){min-width:0;max-width:none}
+.rod-database .rod-table :is(th,td):nth-child(1){width:23%}
+.rod-database .rod-table :is(th,td):nth-child(2){width:12%}
+.rod-database .rod-table :is(th,td):nth-child(3){width:10%}
+.rod-database .rod-table :is(th,td):nth-child(4){width:10%}
+.rod-database .rod-table :is(th,td):nth-child(5){width:20%}
+.rod-database .rod-table :is(th,td):nth-child(6){width:25%}
+.rod-database .fish-sort select{width:170px}
+.rod-advice-note{font-size:.78rem;color:var(--color-mute);line-height:1.6;overflow-wrap:anywhere}
+.rod-enchant-groups{display:grid;gap:18px;margin-top:16px}
+.rod-enchant-groups h4,.rod-description h4{font-size:.8rem;font-weight:650;color:var(--color-ink-soft);margin-bottom:6px}
+.rod-enchant-groups ul{padding-left:18px;list-style:disc;display:grid;gap:12px;font-size:.82rem;line-height:1.6;color:var(--color-ink);overflow-wrap:anywhere}
+.rod-source-link{display:inline-block;margin-top:14px;font-size:.8rem;font-weight:600;color:var(--color-accent);overflow-wrap:anywhere}
+.rod-description{margin-top:18px;font-size:.82rem;line-height:1.6;color:var(--color-ink-soft);overflow-wrap:anywhere}
+.rod-card-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%;font-size:.82rem;color:var(--color-mute)}
+.rod-card-stats strong{color:var(--color-ink);font-weight:600;overflow-wrap:anywhere}
+@media(max-width:767px){
+  .rod-database .fish-sort select{width:170px;max-width:100%}
+  .rod-enchant-groups h4,.rod-description h4{font-size:.94rem}
+  .rod-enchant-groups ul,.rod-description{font-size:.94rem}
+  .rod-advice-note{font-size:.88rem}
+  .rod-source-link{font-size:.9rem;min-height:44px;padding:8px 0}
+}
+@media(max-width:359px){.rod-database .fish-sort select{width:150px}}

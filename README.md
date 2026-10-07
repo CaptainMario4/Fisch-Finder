@@ -2,7 +2,7 @@
 
 https://fisch-finder-moonke1-0c07.wix-site-host.com/
 
-A separate site for fish search. The search bar matches fish names, bestiary regions, and listed sublocations, with partial and case-insensitive matching. The interface uses a light table and detail panel.
+A Fisch companion for fish and rod search on desktop and mobile. The search bar matches fish names, bestiary regions, and listed sublocations, with partial and case-insensitive matching. The interface offers desktop tables, mobile cards, responsive details, and light or dark mode.
 
 ## Source and data updates
 
@@ -13,6 +13,12 @@ Automatic API reads are cached for 30 minutes. The "Refresh data" button makes a
 Empty preference lists are labeled "No listed preference", consistent with the wiki's FishInfobox template showing None when those parameters are empty. This does not imply a fish has no event, hunt, or other requirements. The detail view links to the original wiki page and its Obtainment section for special requirements.
 
 MediaWiki serializes true Boolean fields as existing empty-string properties and omits false properties. Normalization explicitly accounts for this. Availability has two choices: Available (neither removed nor unobtainable is flagged) and Unavailable (either flag is set), with All as the default. The data legend explains that Available does not guarantee active server conditions; unavailable entries retain the wiki reason in their source details. Previous status URL values map to the new choices. Clicking anywhere in a table row opens details; the fish name remains a native keyboard-accessible button, and focus highlights its entire row.
+
+## Rod Finder
+
+The `/rods` page searches rods by name, journal region, obtainment method, and recommended enchantment. Filters include all listed stages (including Stage 0 / exclusive and missing stages), region, obtainment, enchantment, and availability. Sort by name, stage, lure speed, or luck. Rows and mobile cards open full stats, source information, and grouped enchant recommendations with mastery and relic conditions preserved. Search and filters can be shared through the URL. Desktop navigation shows both pages; the mobile hamburger opens the same links.
+
+`src/lib/rods.ts` reads the Fischipedia `rods` bucket and checks individual page revision IDs. Only changed pages need their recommendation text downloaded. Advice comes from each page’s Enchanting template; absent advice is labeled “No recommendation listed.” A bundled snapshot keeps the page usable during source outages. Automatic checks use a 30 minute server cache, and manual checks are limited to once per minute per server instance. New rods and changed stages or recommendations become searchable after a successful refresh.
 
 ## Schedule Cards
 

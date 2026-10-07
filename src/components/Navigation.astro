@@ -1,20 +1,53 @@
 ---
-// ── Composer skeleton: src/components/Navigation.astro ────────────────────────
-// Substitutions (see COMPOSE.md § "4. Navigation.astro"):
-//   Fisch Finder — brand mark / wordmark text from data.shell.
-//    — one <a href={href}>{label}</a> per entry in the inlined
-//        Navigation links array, labels VERBATIM (no editorial rebrands). Render
-//        each inside a <li class="site-nav-item">.
-// Fixed bulk (keep literal): transition:persist, the <!-- nav:links --> marker,
-// the empty <div class="nav-actions"> mount, the mobile hamburger toggle.
+import '../styles/navigation.css';
+const links = [{ href: '/', label: 'Fish Finder' }, { href: '/rods', label: 'Rod Finder' }];
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
 <header class="site-nav" transition:persist="site-nav">
-  <nav class="max-w-6xl mx-auto px-lg flex items-center justify-between gap-lg py-md">
-    <a href="/" class="font-display text-lg tracking-tight">Fisch Finder</a>
-
-    <button type="button" class="theme-toggle" data-theme-toggle role="switch" aria-checked="false" aria-label="Dark mode" title="Switch to dark mode">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20.9 13.2A9 9 0 0 1 10.8 3.1 9 9 0 1 0 20.9 13.2Z" /></svg>
-      <span>Dark mode</span><span class="theme-toggle-track" aria-hidden="true"></span>
-    </button>
+  <nav class="finder-nav" aria-label="Main navigation">
+    <a href="/" class="finder-brand font-display tracking-tight">Fisch Finder</a>
+    <ul class="finder-links" id="finder-links">
+      {links.map(link => <li><a href={link.href} data-finder-link aria-current={currentPath === link.href ? 'page' : undefined}>{link.label}</a></li>)}
+    </ul>
+    <div class="finder-actions">
+      <button type="button" class="theme-toggle" data-theme-toggle role="switch" aria-checked="false" aria-label="Dark mode" title="Switch to dark mode">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20.9 13.2A9 9 0 0 1 10.8 3.1 9 9 0 1 0 20.9 13.2Z" /></svg>
+        <span class="finder-theme-label">Dark mode</span><span class="theme-toggle-track" aria-hidden="true"></span>
+      </button>
+      <button type="button" class="finder-menu-toggle" data-finder-menu-toggle aria-expanded="false" aria-controls="finder-links" aria-label="Open navigation menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+      </button>
+    </div>
   </nav>
 </header>
+<script>
+  function setMenu(open: boolean) {
+    const header = document.querySelector<HTMLElement>('.site-nav');
+    const button = header?.querySelector<HTMLButtonElement>('[data-finder-menu-toggle]');
+    header?.toggleAttribute('data-menu-open', open);
+    button?.setAttribute('aria-expanded', String(open));
+    button?.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+  }
+  function syncNavigation() {
+    const path = window.location.pathname.replace(/\/$/, '') || '/';
+    document.querySelectorAll<HTMLAnchorElement>('[data-finder-link]').forEach(link => {
+      if (link.getAttribute('href') === path) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+    setMenu(false);
+  }
+  document.addEventListener('click', event => {
+    if (!(event.target instanceof Element)) return;
+    if (event.target.closest('[data-finder-menu-toggle]')) {
+      setMenu(!document.querySelector('.site-nav')?.hasAttribute('data-menu-open'));
+    } else if (event.target.closest('[data-finder-link]') || !event.target.closest('.site-nav')) setMenu(false);
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && document.querySelector('.site-nav')?.hasAttribute('data-menu-open')) {
+      setMenu(false); document.querySelector<HTMLButtonElement>('[data-finder-menu-toggle]')?.focus();
+    }
+  });
+  window.matchMedia('(min-width: 768px)').addEventListener('change', () => setMenu(false));
+  document.addEventListener('astro:page-load', syncNavigation);
+  syncNavigation();
+</script>

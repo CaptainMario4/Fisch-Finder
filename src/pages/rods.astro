@@ -1,0 +1,8 @@
+---
+import Layout from '../layouts/Layout.astro';
+import RodDatabase from '../components/RodDatabase';
+import { rodFallback } from '../lib/rods';
+---
+<Layout title="Rod Finder" description="Search Fisch fishing rods by stage, compare their stats, and read Fischipedia's recommended enchantments.">
+  <RodDatabase client:load initialData={rodFallback} />
+</Layout>

@@ -1,0 +1,74 @@
+name: Deploy Fisch Finder to Wix
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'README.md'
+      - 'images/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fisch-finder-wix-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Verify existing Fisch Finder site
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const config = JSON.parse(fs.readFileSync('wix.config.json', 'utf8'));
+          if (config.siteId !== 'f63334f9-0148-47c1-ae4a-fe1bca4f77e4' ||
+              config.appId !== '56b0f8e8-839c-45aa-83d8-550485eee356') {
+            throw new Error('Unexpected Wix project. Deployment stopped.');
+          }
+          NODE
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: TypeScript and tests
+        run: |
+          npx tsc --noEmit
+          node --test tests/*.test.mjs
+
+      - name: Authenticate with Wix
+        env:
+          WIX_DEPLOY_KEY: ${{ secrets.WIX_API_KEY }}
+        run: |
+          if [ -z "$WIX_DEPLOY_KEY" ]; then
+            echo "::error::Add the WIX_API_KEY repository secret before deploying."
+            exit 1
+          fi
+          npm run wix -- login --api-key "$WIX_DEPLOY_KEY"
+
+      - name: Pull Wix build environment
+        run: npm run wix -- env pull
+
+      - name: Build
+        run: npm run build
+
+      - name: Release existing site
+        run: npm run release
+
+      - name: Remove local build secrets
+        if: always()
+        run: rm -f .env.local

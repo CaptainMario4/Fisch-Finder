@@ -1,0 +1,925 @@
+{
+  "fetchedAt": "2026-10-07T21:15:58.712Z",
+  "companions": [
+    {
+      "page_name": "Gary 'Gator",
+      "name": "Gary 'Gator",
+      "food": "Fish Head",
+      "location": "Mushgrove Swamp",
+      "source": "Fishing",
+      "page_id": 20074
+    },
+    {
+      "page_name": "Tropical Toucan",
+      "name": "Tropical Toucan",
+      "food": "Any [[Bait#Lost_Jungle_Bait|Lost Jungle Bait]]",
+      "location": "Lost Jungle",
+      "source": "Feeding",
+      "page_id": 20075
+    },
+    {
+      "page_name": "Nico (Companion)",
+      "name": "Nico",
+      "location": "Underground Music Venue",
+      "source": "Quest",
+      "page_id": 20076
+    },
+    {
+      "page_name": "Silly Seal",
+      "name": "Silly Seal",
+      "food": "Any fish",
+      "location": "Northern Expedition",
+      "source": "Feeding",
+      "page_id": 20077
+    },
+    {
+      "page_name": "Beak Bill",
+      "name": "Beak Bill",
+      "food": "Small fish",
+      "location": "Ocean",
+      "source": "Feeding",
+      "page_id": 20078
+    },
+    {
+      "page_name": "Flopping Salmon",
+      "name": "Flopping Salmon",
+      "location": "Ocean",
+      "source": "Fishing",
+      "page_id": 20079
+    },
+    {
+      "page_name": "Plunderbeak",
+      "name": "Plunderbeak",
+      "location": "Forsaken Shores",
+      "source": "Catching",
+      "page_id": 20080
+    },
+    {
+      "page_name": "Penguin Pal",
+      "name": "Penguin Pal",
+      "food": "Krill",
+      "location": "Snowcap Island",
+      "source": "Fishing",
+      "page_id": 20081
+    },
+    {
+      "page_name": "Mutated Sharky",
+      "name": "Mutated Sharky",
+      "location": "The Depths",
+      "source": "Catching",
+      "page_id": 20082,
+      "event": "Absolute Darkness"
+    },
+    {
+      "page_name": "Little Meg",
+      "name": "Little Meg",
+      "location": "Ancient Isle",
+      "source": "Fishing",
+      "page_id": 20085,
+      "event": "Megalodon Hunt"
+    },
+    {
+      "page_name": "Smudge",
+      "name": "Smudge",
+      "location": "The Shady Bazaar",
+      "source": "Purchasing",
+      "page_id": 20848
+    },
+    {
+      "page_name": "Relic Construct",
+      "name": "Relic Construct",
+      "food": "[[Relics]]",
+      "location": "Keepers Altar",
+      "source": "Feeding",
+      "page_id": 21225
+    },
+    {
+      "page_name": "Mosswaddler",
+      "name": "Mosswaddler",
+      "location": "Ocean",
+      "source": "Catching",
+      "page_id": 21229,
+      "event": "Mosslurker Hunt"
+    },
+    {
+      "page_name": "Sunhat Starfish",
+      "is_unob": "",
+      "name": "Sunhat Starfish",
+      "location": "Fischfest 2",
+      "source": "Quest",
+      "page_id": 22417
+    },
+    {
+      "page_name": "Terroscuttler",
+      "name": "Terroscuttler",
+      "location": "Drylands",
+      "source": "Quest",
+      "page_id": 23206
+    },
+    {
+      "page_name": "Ollie Otter",
+      "name": "Ollie Otter",
+      "food": "Small fish",
+      "location": "Terrapin Island",
+      "source": "Feeding",
+      "page_id": 23746
+    },
+    {
+      "page_name": "Scrap-Bot",
+      "name": "Scrap-Bot",
+      "location": "The Deep",
+      "source": "Quest",
+      "page_id": 24998
+    },
+    {
+      "page_name": "Comet",
+      "name": "Comet",
+      "food": "<span class=\"item item-stardust-candy rarity-limited\"><span class=\"item-text\"><span class=\"item-name\">[[Stardust Candy|Stardust Candy]]</span></span></span>",
+      "source": "Feeding",
+      "page_id": 25586,
+      "event": "Fallen Stars"
+    },
+    {
+      "page_name": "Idol Taiga",
+      "name": "Idol Taiga",
+      "food": "Any [[Bait|Skycrest Bait]]",
+      "location": "Skycrest",
+      "source": "Feeding",
+      "page_id": 26411
+    },
+    {
+      "page_name": "Budling",
+      "name": "Budling",
+      "location": "Living Garden",
+      "source": "Quest",
+      "page_id": 26690
+    },
+    {
+      "page_name": "Him (Companion)",
+      "name": "Him",
+      "is_unob": "",
+      "page_id": 27046,
+      "source": "Code"
+    }
+  ],
+  "sources": {
+    "20074": {
+      "revision": 180618,
+      "details": {
+        "description": "A laid-back alligator that lurks nearby and snaps at hooked fish to help reel them in.",
+        "abilities": [
+          {
+            "group": "Fishing support",
+            "text": "33% chance (40% at max level) every 5 seconds to trigger the Mini Bite ability",
+            "details": [
+              "+5% Progress"
+            ],
+            "notes": []
+          },
+          {
+            "group": "Fishing support",
+            "text": "2% chance (4% at max level) every 10 seconds to trigger the Instant Bite ability with a 30 second cooldown period",
+            "details": [
+              "+50% (+60% at max level) Progress"
+            ],
+            "notes": []
+          }
+        ],
+        "notes": "",
+        "obtainment": [
+          "Gary 'Gator can be seen swimming in the Alligator Marsh during Foggy weather at Mushgrove Swamp. To obtain the companion, the player must cast their bobber into the water while using Fish Head bait. Gary 'Gator will slowly move towards the player's bobber — it is recommended to have a low Lure Speed stat to ensure that the player doesn't hook a fish before being able to obtain Gary 'Gator."
+        ],
+        "buffs": [],
+        "gameplayNotes": []
+      }
+    },
+    "20075": {
+      "revision": 175033,
+      "details": {
+        "description": "An observant bird perches on your shoulder, scouts out bait nearby, and flies over water to spot the biggest catches.",
+        "abilities": [
+          {
+            "group": "Fishing support",
+            "text": "60% chance every 2 seconds to grant 1 to 3 (1 to 6 at max level) of a random bait with a 5-second cooldown while line is cast",
+            "details": [
+              "Fishing in the Lost Jungle allows Lost Jungle Bait to be caught.",
+              "Fishing in the Nectar Den allows for Nectar to be caught."
+            ],
+            "notes": []
+          },
+          {
+            "group": "Fishing support",
+            "text": "35% chance every 30 seconds to grant the Scouted Status Effect for 20 seconds (30 seconds at max level) with a 5 second cooldown",
+            "details": [
+              "+25% Luck (+50% Luck at max level)",
+              "+10% Fish Weight (+25% Weight at max level)"
+            ],
+            "notes": []
+          }
+        ],
+        "notes": "",
+        "obtainment": [
+          "Tropical Toucan can be obtained by taming it with Lost Jungle Bait, with higher rarity baits providing better chances to tame one. The companion can be spotted on a random tree throughout the Lost Jungle."
+        ],
+        "buffs": [],
+        "gameplayNotes": []
+      }
+    },
+    "20076": {
+      "revision": 176769,
+      "details": {
+        "description": "A curious little wanderer that never strays too far, sometimes bringing you gifts you didn't ask for.",
+        "abilities": [
+          {
+            "group": "Fishing support",
+            "text": "Every 30 seconds (15 seconds at max level)",
+            "details": [
+              "30% chance (60% chance at max level) to grant a Nico's Nyantics fish (Note: Fishing Rods that possess innate mutation rates are able to alter this passive ability's mutation pool.)"
+            ],
+            "notes": []
+          },
+          {
+            "group": "Other effects",
+            "text": "Every 10 seconds, 2% chance to tug the player",
+            "details": [],
+            "notes": []
+          }
+        ],
+        "notes": "",
+        "obtainment": [
+          "Nico can be obtained as a reward after completing the Crazy Cat Lady's second quest."
+        ],
+        "buffs": [],
+        "gameplayNotes": [
+          "Dying to Nico 10 times awards the >:3 Title.",
+          "When the player is being tugged, jumping will cancel the ability."
+        ]
+      }
+    },
+    "20077": {
+      "revision": 182926,
+      "details": {
+        "description": "Lazy and chaotic, feed 'em well and it might just decide to help... or eat your problem.",
+        "abilities": [
+          {
+            "group": "Fishing support",
+            "text": "Silly Seal has 120 max Hunger",
+            "details": [
+              "Silly Seal can be fed to increase Hunger (Note: Can not be fed Divine Secret Fish.)",
+              "1× Hunger multiplier for fish fed (2× at max level)",
+              "Silly Seal cannot be fed when above 110 Hunger",
+              "Hunger has a maximum time of 420 seconds (1500 seconds at max level)"
+            ],
+            "notes": []
+          },
+          {
+            "group": "Fishing support",
+            "text": "When Hunger is above 60",
+            "details": [
+              "Grants +8% Progress every 1.5-3 seconds. (Note: Can not grant Progress when catching Divine Secret Fish and the Redlip Batfish.)",
+              "10% chance to steal the fish instead of granting Progress and grant double Hunger value, ending the catch. (Note: Can not steal Mythical or rarer fish.)"
+            ],
+            "notes": []
+          }
+        ],
+        "notes": "",
+        "obtainment": [
+          "Silly Seal can be spotted sliding across the large ice blocks at Northern Expedition. There is a chance to tame it by feeding any kind of fish, excluding Exotic and Divine Secret fish, but it must approach the player first."
+        ],
+        "buffs": [],
+        "gameplayNotes": []
+      }
+    },
+    "20078": {
+      "revision": 180711,
+      "details": {
+        "description": "A watchful fisher with perfect timing, swooping in when you (usually) least expect it.",
+        "abilities": [
+          {
+            "group": "Conditional bonuses",
+            "text": "During Rain, multiply bait return chance and swoop chance by 2× and halves the trigger interval",
+            "details": [],
+            "notes": []
+          },
+          {
+            "group": "Fishing support",
+            "text": "Every 45 seconds (20 seconds at max level)",
+            "details": [
+              "25% chance (50% at max level) to return a used bait",
+              "35% chance (65% at max level) to swoop into the water and grant a fish"
+            ],
+            "notes": []
+          }
+        ],
+        "notes": "",
+        "obtainment": [
+          "Beak Bill can be obtained by feeding it any kind of small fish (e.g. Sardine or Anchovies). It can spawn on docks, with increased chances during Rain weather."
+        ],
+        "buffs": [],
+        "gameplayNotes": []
+      }
+    },
+    "20079": {
+      "revision": 180708,
+      "details": {
+        "description": "An eager companion that refuses to sit still, always jumping in when things get slippery.",
+        "abilities": [
+          {
+            "group": "Fishing support",
+            "text": "25% chance (50% at max level) every 3 seconds (1.5 seconds at max level) while fishing to grant",
+            "details": [
+              "+10% Progress Speed (+30% at max level)",
+              "+10% Resilience (+30% at max level)"
+            ],
+            "notes": []
+          }
+        ],
+        "notes": "",
+        "obtainment": [
+          "Flopping Salmon has a 10% to be obtained by catching a Salmon in the Ocean. It is recommended to fish at the Salmon Abundance at The Arch."
+        ],
+        "buffs": [],
+        "gameplayNotes": []
+      }
+    },
+    "20080": {
+      "revision": 180616,
+      "details": {
+        "description": "A loud-mouthed treasure hunter with a nose for riches, and a habit of making every catch feel legendary.",
+        "abilities": [
+          {
+            "group": "Mutations",
+            "text": "10% chance (20% at max level) to apply Golden on fish with a higher rarity than Trash",
+            "details": [],
+            "notes": []
+          },
+          {
+            "group": "Utility",
+            "text": "Increases the chance for rare drops from Treasure Chests and Sunken Chests.",
+            "details": [],
+            "notes": []
+          }
+        ],
+        "notes": "",
+        "obtainment": [
+          "Plunderbeak can only be obtained at Forsaken Shores once the following conditions have been met:",
+          "The player has the entire Forsaken Shores bestiary completed.",
+          "The player has opened at least 10 Treasure Chests in total.",
+          "The player has the Scurvy Rod equipped. Standing on the rock behind the Skin Merchant at Forsaken Shores will summon multiple versions of the Plunderbeak above the player. Eventually, one will fly down, allowing the player to obtain the companion."
+        ],
+        "buffs": [],
+        "gameplayNotes": [
+          "Plunderbeak gains 250 XP when the player opens a Treasure Chest.",
+          "Plunderbeak gains 150 XP when the player opens a Sunken Chest.",
+          "Plunderbeak sometimes perches on the player's shoulder.",
+          "Plunderbeak has a unique dialogue line, \"I Feel a Song Coming On!\", which triggers 3 times consecutively after catching a fish with any of the following rods:"
+        ]
+      }
+    },
+    "20081": {
+      "revision": 180712,
+      "details": {
+        "description": "A cheerful little penguin that waddles at your side and slides across ice. Hops into the water to circle and freeze your catch.",
+        "abilities": [
+          {
+            "group": "Fishing support",
+            "text": "Every 4 seconds while fishing",
+            "details": [
+              "15% chance (20% at max level) to freeze the fish for 4 seconds (6 seconds at max level) with a 6 second cooldown"
+            ],
+            "notes": []
+          }
+        ],
+        "notes": "",
+        "obtainment": [
+          "The Penguin Pal can be obtained by catching a Penguin from a Reinforced Crab Cage with Krill bait inside of Snowburrow's pool of water."
+        ],
+        "buffs": [],
+        "gameplayNotes": []
+      }
+    },
+    "20082": {
+      "revision": 172270,
+      "details": {
+        "description": "Something unstable lurks beneath it, quiet until the water twists in its favor.",
+        "abilities": [
+          {
+            "group": "Mutations",
+            "text": "+15% chance (+30% at max level) to Natural Mutations",
+            "details": [],
+            "notes": []
+          },
+          {
+            "group": "Mutations",
+            "text": "+5% chance (+10% at max level) (Note: The increased mutation chance is multiplicative.) to all Mutations",
+            "details": [],
+            "notes": []
+          },
+          {
+            "group": "Fishing support",
+            "text": "50% chance (100% chance at max level) to spawn a Whirlpool every 150 seconds (90 seconds at max level)",
+            "details": [
+              "15% (20% at max level) chance for Abyssal",
+              "Allows travel to The Depths",
+              "Lasts for 30 seconds (40 seconds at max level)"
+            ],
+            "notes": []
+          },
+          {
+            "group": "Fishing support",
+            "text": "10% (20% chance at max level) every 10 seconds (5 seconds at max level) to bite the bar",
+            "details": [
+              "1.25× bar acceleration (1.75× bar acceleration at max level) for 5 seconds"
+            ],
+            "notes": []
+          }
+        ],
+        "notes": "",
+        "obtainment": [
+          "The Mutated Sharky has a 50% chance to appear during an Absolute Darkness event in The Depths. In order to attract this companion to the player's bobber, the player must fish with a low Lure Speed stat and use the Fish Head bait."
+        ],
+        "buffs": [],
+        "gameplayNotes": []
+      }
+    },
+    "20085": {
+      "revision": 180623,
+      "details": {
+        "description": "A tiny terror that stirs the waters, scarring off the weak and turning every catch into a gamble.",
+        "abilities": [
+          {
+            "group": "Conditional bonuses",
+            "text": "Common fish have their chances reduced by 10×",
+            "details": [],
+            "notes": [
+              "Excludes Non-fish"
+            ]
+          },
+          {
+            "group": "Fishing support",
+            "text": "Every 50 seconds, 4% chance (10% at max level) to ram the player",
+            "details": [],
+            "notes": []
+          },
+          {
+            "group": "Fishing support",
+            "text": "Every 5 seconds while fishing, 10% chance (15% at max level) to bite the fish for 5 seconds (7.5 seconds at max level), granting the following effects:",
+            "details": [
+              "+30% (+60% at max level) Progress Speed",
+              "Fish movement frequency increased by 1.45× (1.25× at max level)",
+              "Bar acceleration rate decreased to 0.45 (0.6 at max level)"
+            ],
+            "notes": []
+          },
+          {
+            "group": "Fishing support",
+            "text": "Every minute there is a 3% chance (10% at max level) to activate the Ancient Power ability:",
+            "details": [
+              "Rarity reduction threshold increased to Rare",
+              "Doubled Progress Speed Increase"
+            ],
+            "notes": []
+          }
+        ],
+        "notes": "",
+        "obtainment": [
+          "The Little Meg has a 10% chance to appear during a Megalodon Hunt event, following behind its grown-up version. In order to obtain this companion, the player must perfect catch the Megalodon, Ancient Megalodon or Phantom Megalodon."
+        ],
+        "buffs": [],
+        "gameplayNotes": []
+      }
+    },
+    "20848": {
+      "revision": 182833,
+      "details": {
+        "description": "hi im smudge",
+        "abilities": [
+          {
+            "group": "Utility",
+            "text": "Every 1-2 minutes (45-90 seconds at max level), grants the player a random Trash fish from the current location, with a chance to be mutated with Sludged",
+            "details": [],
+            "notes": []
+          },
+          {
+            "group": "Utility",
+            "text": "Picks a random time goal between 5,000 and 10,000 seconds. Walking in The Shady Bazaar with the Smudge equipped for that duration rewards the player with S$ 5.",
+            "details": [],
+            "notes": []
+          },
+          {
+            "group": "Conditional bonuses",
+            "text": "During Foggy, grants the player a 10% chance to catch Sludged fish with their fishing rod",
+            "details": [],
+            "notes": []
+          },
+          {
+            "group": "Conditional bonuses",
+            "text": "During Foggy, trigger interval for Trash fish is reduced by 1.25×, time duration for S$ 5 is reduced by 1.5×.",
+            "details": [],
+            "notes": []
+          },
+          {
+            "group": "Fishing support",
+            "text": "Reduces fish movement speed by 20%",
+            "details": [],
+            "notes": []
+          }
+        ],
+        "notes": "",
+        "obtainment": [
+          "Smudge can be obtained via purchasing from the Companion Dealer for S$ 25."
+        ],
+        "buffs": [],
+        "gameplayNotes": [
+          "When fishing with Smudge equipped, the fish on the minigame will be purple",
+          "Unlike other companions, Smudge also gains Companion XP via the player collecting Shady Scrips (S$)",
+          "This excludes any S$ gained from purchasing with C$"
+        ]
+      }
+    },
+    "21225": {
+      "revision": 177577,
+      "details": {
+        "description": "An ancient golem powered by unstable relic energy. It enhances relic discovery, strengthens Keeperbound Rods, and can consume relics to awaken unique enchantments as its glowing core shifts with newfound power.",
+        "abilities": [
+          {
+            "group": "Utility",
+            "text": "Doubled catch rates for Enchant Relic, Exalted Relic and Sovereign Relic.",
+            "details": [],
+            "notes": []
+          },
+          {
+            "group": "Utility",
+            "text": "Reduces Keeperbound power loss by half the rate",
+            "details": [],
+            "notes": []
+          },
+          {
+            "group": "Utility",
+            "text": "Grants a unique buff depending on which relic it was last fed.",
+            "details": [],
+            "notes": []
+          }
+        ],
+        "notes": "Only one buff from each category can be activated at the same time.",
+        "obtainment": [
+          "The Relic Construct can be rarely found wandering at the Keepers Altar. It is more commonly found during Sovereign Weathers and Power Bursts. To obtain this companion, the player must feed it a Relic for a chance to tame it. The chances of taming it are as follows:",
+          "Enchant Relic at 10% chance",
+          "Exalted Relic at 25% chance",
+          "Cosmic Relic, Twisted Relic or Invincible Relic at 40% chance",
+          "Song of the Deep at 50% chance",
+          "Sovereign Relic at 100% chance",
+          "Unsuccessfully taming the Relic Construct after feeding it a relic prompts a notification displaying the following message: Relic Construct needs more power..."
+        ],
+        "buffs": [
+          {
+            "food": "Enchant Relic",
+            "category": "Normal",
+            "effect": "+20% XP",
+            "level": "1+",
+            "type": "Primary"
+          },
+          {
+            "food": "Exalted Relic",
+            "category": "Normal",
+            "effect": "+10% Resilience, Luck and Fish Weight",
+            "level": "3+",
+            "type": "Primary"
+          },
+          {
+            "food": "Cosmic Relic",
+            "category": "Normal",
+            "effect": "+3% Shiny/Sparkling Chance +3% Forced Progress Speed",
+            "level": "5+",
+            "type": "Primary"
+          },
+          {
+            "food": "Twisted Relic",
+            "category": "Normal",
+            "effect": "50% chance every 2 seconds to grant +3% Progress",
+            "level": "8+",
+            "type": "Primary"
+          },
+          {
+            "food": "Sovereign Relic",
+            "category": "Normal",
+            "effect": "10% chance for Sovereign +1% Shiny/Sparkling Chance +5% Resilience, Luck and Fish Weight +1% Forced Progress Speed +10% XP 25% chance every 3 seconds to grant +3% Progress",
+            "level": "10+",
+            "type": "Primary"
+          },
+          {
+            "food": "Invincible Relic",
+            "category": "Quest",
+            "effect": "+100 Durability",
+            "level": "6+",
+            "type": "Secondary"
+          },
+          {
+            "food": "Song of the Deep",
+            "category": "Quest",
+            "effect": "+5% True Progress Speed",
+            "level": "9+",
+            "type": "Secondary"
+          }
+        ],
+        "gameplayNotes": [
+          "Failing to tame the Relic Construct won't take away your relic.",
+          "The effects obtained from feeding this companion are permanent as long as it is equipped and will be restored/removed upon equipping/unequipping it.",
+          "The Relic Construct has a unique appearance for each normal category effect, changing its color based on the relic provided."
+        ]
+      }
+    },
+    "21229": {
+      "revision": 180709,
+      "details": {
+        "description": "A mossy little ocean waddler known for its playful energy. It distracts hooked fish with frantic hopping and splashing, then proudly celebrates successful catches with excited bounces of its own.",
+        "abilities": [
+          {
+            "group": "Fishing support",
+            "text": "Every 5 seconds while fishing, 20% chance (40% at max level) to freeze the fish for 3 seconds (7 seconds at max level) with a 6 second cooldown",
+            "details": [],
+            "notes": []
+          }
+        ],
+        "notes": "",
+        "obtainment": [
+          "Mosswaddlers can be found swimming in the Ocean after a Mosslurker Hunt ends. It is recommended to use a small boat (e.g. the Jetski) to avoid scaring them away. Once a Mosswaddler approaches the players boat, the player can successfully obtain the companion by interacting with it."
+        ],
+        "buffs": [],
+        "gameplayNotes": []
+      }
+    },
+    "22417": {
+      "revision": 180619,
+      "details": {
+        "description": "A cheerful, sun-loving beachcomber bursting with island energy. Each catch charges its arms with a radiant glow that stacks your fortune, while its tropical aura coaxes vibrant sun-kissed mutations from the depths.",
+        "abilities": [
+          {
+            "group": "Mutations",
+            "text": "+20% (+35% at max level) for Mutations from the Tropical Sun Weather.",
+            "details": [],
+            "notes": []
+          },
+          {
+            "group": "Utility",
+            "text": "Every catch of a fish below Legendary rarity lights up one of Sunhat Starfish's 5 arms, each lit arm increases the players luck by 20% (30% at max level).",
+            "details": [],
+            "notes": []
+          }
+        ],
+        "notes": "After catching a fish with a rarity of Legendary or higher, the Sunhat Starfish’s arms will reset. This does not apply to extra fish caught from passive abilities.",
+        "obtainment": [
+          "The Sunhat Starfish is Obtained after completing Captain Conch's final questline."
+        ],
+        "buffs": [],
+        "gameplayNotes": []
+      }
+    },
+    "23206": {
+      "revision": 184279,
+      "details": {
+        "description": "A loyal desert friend with remarkably sharp instincts. It can sniff out valuable resources, sense movement before it happens, and never hesitates to lend a claw when fishing through the shifting sands!",
+        "abilities": [
+          {
+            "group": "Conditional bonuses",
+            "text": "While the Terroscuttler is on sand, gain 2% Progress (3% at max level) every 2-4 seconds (1.5-3 seconds at max level)",
+            "details": [],
+            "notes": []
+          },
+          {
+            "group": "Utility",
+            "text": "After catching a fish, gain 1× Cacti Pulp every 1-10 seconds of walking (1-5 seconds at max level)",
+            "details": [],
+            "notes": [
+              "Max of 10 Cacti Pulp per catch (15 at max level)"
+            ]
+          },
+          {
+            "group": "Utility",
+            "text": "Reveals where the fish is currently moving to",
+            "details": [],
+            "notes": []
+          }
+        ],
+        "notes": "",
+        "obtainment": [
+          "Terroscuttler can be obtained as a reward after completing Paleontologist Petri's last quest and waiting 7 in-game days."
+        ],
+        "buffs": [],
+        "gameplayNotes": []
+      }
+    },
+    "23746": {
+      "revision": 183231,
+      "details": {
+        "description": "A curious little otter with a knack for uncovering hidden treasures, always eager to lend a paw... in his own mischievous way.",
+        "abilities": [
+          {
+            "group": "Fishing support",
+            "text": "35% chance (55% at max level) every 2-9 seconds to gain +4% Progress (6% at max level)",
+            "details": [
+              "Attack chance is doubled when the fish is below 100 kg"
+            ],
+            "notes": []
+          },
+          {
+            "group": "Fishing support",
+            "text": "30% chance (40% at max level) at the beginning of reeling a fish to get a random trash fish to appear on the fishing bar with a 5% chance of that fish being a special item or fish (15% at max level)",
+            "details": [
+              "Filling up the bar on top of the new item or fish rewards the player it"
+            ],
+            "notes": []
+          },
+          {
+            "group": "Other effects",
+            "text": "5% chance (8% at max level) every 60 seconds to attack a player other than the owner within 20 studs, dealing 5 damage",
+            "details": [],
+            "notes": [
+              "There is a 2 minute cooldown"
+            ]
+          },
+          {
+            "group": "Other effects",
+            "text": "2× chance (3× chance at max level) for Rare Finds",
+            "details": [],
+            "notes": []
+          }
+        ],
+        "notes": "",
+        "obtainment": [
+          "Ollie Otter can be obtained at Terrapin Island by holding out a small fish and moving around him. Eventually, it will approach the player and consume the fish, automatically granting the companion without the need to interact."
+        ],
+        "buffs": [],
+        "gameplayNotes": []
+      }
+    },
+    "24998": {
+      "revision": 183235,
+      "details": {
+        "description": "A diligent little robot that scours the depths for useful materials, occasionally putting its machinery to work on nearby fish.",
+        "abilities": [
+          {
+            "group": "Mutations",
+            "text": "Every 15 seconds, grants Refined mutation to nearby roamer school or fish (5 at max level), on a radius of 40 studs (60 at max level).",
+            "details": [],
+            "notes": []
+          },
+          {
+            "group": "Fishing support",
+            "text": "Every 30-90 seconds (15-30 seconds at max level), catches a roamer fish on a radius of 128 studs, with a max weight of 500kg. (Note: Fishing Rods that possess innate mutation rates are able to alter its mutation's chance.)",
+            "details": [],
+            "notes": []
+          },
+          {
+            "group": "Other effects",
+            "text": "Every 60-90 seconds (40-60 seconds at max level), scours the environment to find an item on a watery radius of 60 studs.",
+            "details": [],
+            "notes": []
+          }
+        ],
+        "notes": "",
+        "obtainment": [
+          "The Scrap-Bot is obtained after completing Tinkerer Orik's final quest."
+        ],
+        "buffs": [],
+        "gameplayNotes": []
+      }
+    },
+    "25586": {
+      "revision": 183224,
+      "details": {
+        "description": "A luminous celestial spirit that hovers overhead, calling down shooting stars to steady your line and pulling rare cosmic treasures from the sky.",
+        "abilities": [
+          {
+            "group": "Utility",
+            "text": "While equipped, Comet boosts chances through a weighted system, chances given by: • Cosmic Relic from Fallen Stars: [20+(Boosted Value)]/[100+(Boosted Value)] • Boosted Value: 22 (30 at max level) • Moonstone from Meteors: [1.4+(Boosted Value)]/[100+(Boosted Value)] • Boosted Value: 2 (5 at max level)",
+            "details": [],
+            "notes": []
+          },
+          {
+            "group": "Utility",
+            "text": "For every Comet equipped in the server: • Cosmic Relic boosted value +0 (+4 at max level) • Server Cap of 50 boosted value • Moonstone chances increase by +0 (+1 at max level) • Server Cap of 10 boosted value",
+            "details": [],
+            "notes": []
+          },
+          {
+            "group": "Fishing support",
+            "text": "Every 3 seconds, 40% chance (60% at max level) for a shooting star that affects minigame for 3 seconds (4.5 seconds at max), with a cooldown of 5 seconds:",
+            "details": [
+              "-0.12 Control",
+              "+10% Progress Speed",
+              "+5% Resilience"
+            ],
+            "notes": []
+          }
+        ],
+        "notes": "",
+        "obtainment": [
+          "Comet has a 20% chance to spawn around a Fallen Star, and can be obtained by feeding it a Stardust Candy."
+        ],
+        "buffs": [],
+        "gameplayNotes": []
+      }
+    },
+    "26411": {
+      "revision": 183547,
+      "details": {
+        "description": "A stone-carved guardian of the Ancient Idols that favors those who feed the flame.",
+        "abilities": [
+          {
+            "group": "XP / progression",
+            "text": "+5% Idol Favor from fish. (+25% at max level)",
+            "details": [],
+            "notes": []
+          },
+          {
+            "group": "Fishing support",
+            "text": "Increase all equipped charms stat boosts by 20%.",
+            "details": [],
+            "notes": []
+          },
+          {
+            "group": "Fishing support",
+            "text": "20% chance to sacrifice a hooked fish in exchange for Idol Favor. (Note: Can be disabled through the Companion Satchel)",
+            "details": [],
+            "notes": []
+          },
+          {
+            "group": "Fishing support",
+            "text": "Every 60 seconds, 30% chance (50% at max level) to spear a fish within a radius of 80 studs. (Note: Only can spear fish below passive-block level 1)",
+            "details": [
+              "If spear-fishing fails, there is a 20 second cooldown."
+            ],
+            "notes": []
+          }
+        ],
+        "notes": "",
+        "obtainment": [
+          "Idol Taiga is obtained through feeding it Fireflies bait, with a higher rarity providing better chances to tame it. The companion can be spotted near any Ancient Idol during either a Tropical Squall or a Raging Squall."
+        ],
+        "buffs": [],
+        "gameplayNotes": []
+      }
+    },
+    "26690": {
+      "revision": 184060,
+      "details": {
+        "description": "A sleepy sprout with a nose for nectar, happiest when the garden's in bloom and the night is kind.",
+        "abilities": [
+          {
+            "group": "Utility",
+            "text": "Trash fish have their chances reduced by 12% (16% at max level) for each level of Charge: • Perfect Catches increase the Charge Level by 1. • Non Perfect Catches decrease the Charge Level by 1. • The maximum level of charge is capped at 5. • At this level, Trash fish have their chances reduced by 60% (80% at max level).",
+            "details": [],
+            "notes": []
+          },
+          {
+            "group": "Conditional bonuses",
+            "text": "During Night, the time preference penalty for Day preferring fish is decreased by 40% (70% at max level).",
+            "details": [],
+            "notes": []
+          },
+          {
+            "group": "Other effects",
+            "text": "Decreases nearby flowers' bloom cooldown by half.",
+            "details": [],
+            "notes": []
+          }
+        ],
+        "notes": "",
+        "obtainment": [
+          "Budling is obtained after being escorted to the Gardener's zone without touching the water."
+        ],
+        "buffs": [],
+        "gameplayNotes": []
+      }
+    },
+    "27046": {
+      "revision": 181819,
+      "details": {
+        "description": "wat da heck",
+        "abilities": [
+          {
+            "group": "Fishing support",
+            "text": "Every 60 minutes (30 minutes at max level):",
+            "details": [
+              "1% chance to catch a fish from the current pool (Note: The granted fish will be untradeable.) : • 50% chance for Putrid • 50% chance for Aether"
+            ],
+            "notes": []
+          },
+          {
+            "group": "Other effects",
+            "text": "Every 10 seconds, 2% chance to tug the player.",
+            "details": [],
+            "notes": []
+          }
+        ],
+        "notes": "",
+        "obtainment": [
+          "Him could be obtained by redeeming the MarianaIsGoingCrazy Code."
+        ],
+        "buffs": [],
+        "gameplayNotes": []
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+.companion-database .companion-table{min-width:720px;table-layout:fixed}
+.companion-database .companion-table :is(th,td){min-width:0;max-width:none;white-space:normal;overflow-wrap:anywhere}
+.companion-database .companion-table :is(th,td):nth-child(1){width:20%}
+.companion-database .companion-table :is(th,td):nth-child(2){width:20%}
+.companion-database .companion-table :is(th,td):nth-child(3){width:14%}
+.companion-database .companion-table :is(th,td):nth-child(4){width:16%}
+.companion-database .companion-table :is(th,td):nth-child(5){width:30%}
+.companion-database .fish-sort select{width:170px;max-width:100%}
+.companion-ability-types{display:block;font-weight:500;font-size:.78rem;line-height:1.5;overflow-wrap:anywhere}
+.companion-description{font-size:.85rem;line-height:1.6;color:var(--color-ink-soft);margin-bottom:20px;overflow-wrap:anywhere}
+.companion-note{font-size:.78rem;line-height:1.6;color:var(--color-mute);overflow-wrap:anywhere}
+.companion-abilities{display:grid;gap:16px;margin-top:16px;min-width:0}
+.companion-abilities section{min-width:0;border-bottom:1px solid var(--color-rule);padding-bottom:14px}
+.companion-abilities section:last-child{border:0;padding:0}
+.companion-abilities h4,.companion-buffs h4{font-size:.78rem;font-weight:650;color:var(--color-accent);margin-bottom:6px}
+.companion-abilities p,.companion-obtainment p,.companion-gameplay li,.companion-buffs li{font-size:.82rem;line-height:1.6;overflow-wrap:anywhere}
+.companion-abilities ul,.companion-gameplay ul{padding-left:18px;list-style:disc;display:grid;gap:6px;margin-top:8px;font-size:.82rem;line-height:1.6;overflow-wrap:anywhere}
+.companion-abilities .companion-note{font-size:.78rem;margin-top:6px}
+.companion-global-note{margin-top:16px;border-left:3px solid var(--color-accent);padding-left:12px}
+.companion-obtainment{display:grid;gap:10px;margin-top:16px}
+.companion-buffs,.companion-gameplay{margin-top:24px}
+.companion-buffs ul{display:grid;gap:12px;margin-top:12px;padding:0;list-style:none}
+.companion-buffs li{min-width:0;padding:12px;border:1px solid var(--color-rule);border-radius:var(--radius-md);background:var(--color-paper-warm)}
+.companion-buffs li>p:last-child{margin-top:6px}
+@media(max-width:767px){
+ .companion-ability-types{font-size:.84rem}
+ .companion-database .fish-card-bait .fish-row-note{font-size:.8rem;line-height:1.6}
+ .companion-description,.companion-abilities p,.companion-abilities ul,.companion-obtainment p,.companion-gameplay ul,.companion-gameplay li,.companion-buffs li{font-size:.94rem}
+ .companion-note,.companion-abilities .companion-note{font-size:.88rem}
+ .companion-abilities h4,.companion-buffs h4{font-size:.9rem}
+}
+@media(max-width:359px){.companion-database .fish-sort select{width:150px}}

@@ -2,7 +2,7 @@
 
 https://fisch-finder-moonke1-0c07.wix-site-host.com/
 
-A Fisch companion for fish and rod search on desktop and mobile. The search bar matches fish names, bestiary regions, and listed sublocations, with partial and case-insensitive matching. The interface offers desktop tables, mobile cards, responsive details, and light or dark mode.
+A Fisch companion for fish, rod, and companion search on desktop and mobile. The search bar matches fish names, bestiary regions, and listed sublocations, with partial and case-insensitive matching. The interface offers desktop tables, mobile cards, responsive details, and light or dark mode.
 
 ## Source and data updates
 
@@ -16,9 +16,15 @@ MediaWiki serializes true Boolean fields as existing empty-string properties and
 
 ## Rod Finder
 
-The `/rods` page searches rods by name, journal region, obtainment method, and recommended enchantment. Filters include all listed stages (including Stage 0 / exclusive and missing stages), region, obtainment, enchantment, and availability. Sort by name, stage, lure speed, or luck. Rows and mobile cards open full stats, source information, and grouped enchant recommendations with mastery and relic conditions preserved. Search and filters can be shared through the URL. Desktop navigation shows both pages; the mobile hamburger opens the same links.
+The `/rods` page searches rods by name, journal region, obtainment method, and recommended enchantment. Filters include all listed stages (including Stage 0 / exclusive and missing stages), region, obtainment, enchantment, and availability. Sort by name, stage, lure speed, or luck. Rows and mobile cards open full stats, source information, and grouped enchant recommendations with mastery and relic conditions preserved. Search and filters can be shared through the URL. Desktop navigation shows all three pages; the mobile hamburger opens the same links.
 
 `src/lib/rods.ts` reads the Fischipedia `rods` bucket and checks individual page revision IDs. Only changed pages need their recommendation text downloaded. Advice comes from each page’s Enchanting template; absent advice is labeled “No recommendation listed.” A bundled snapshot keeps the page usable during source outages. Automatic checks use a 30 minute server cache, and manual checks are limited to once per minute per server instance. New rods and changed stages or recommendations become searchable after a successful refresh.
+
+## Companions
+
+The `/companions` page searches companion names, locations, food, abilities, and obtainment requirements. Filter by location, event, obtainment method, ability type, and All / Available / Unavailable. Sort by name, location, or obtainment. Desktop rows and mobile cards open full abilities with cooldowns, base and max-level values, feeding requirements, gameplay notes, and Relic Construct's level-dependent buffs. Search, filters, and the selected companion are shareable through the URL.
+
+`src/lib/companions.ts` reads Fischipedia's `companions` bucket and checks page revision IDs. Only changed companion pages need their ability and obtainment text downloaded. Automatic checks use a 30 minute server cache, and manual checks are limited to once a minute per server instance. A bundled snapshot and the last successful server result preserve search and details during outages; the source timestamp advances only after a complete successful check. New wiki companions and locations appear in search and filters after refresh. Availability reflects wiki flags, rather than active event conditions in a game server.
 
 ## Schedule Cards
 
@@ -30,7 +36,7 @@ Schedules refresh on opening, every 15 minutes, and with Refresh data. Countdown
 
 ## Appearance
 
-The always-visible navigation switch offers dark mode. Light remains the initial default. A user's choice is stored locally, restored before first paint, preserved across Astro navigation, and synchronized across tabs. If storage is unavailable the switch still changes the current page. All surfaces and text use shared semantic palette tokens, including native form controls, focus rings, table selection, warnings, status badges, and the footer. Disabled database controls retain readable text rather than lowering the opacity of the entire control.
+The always-visible navigation switch offers dark mode. Light remains the initial default. A user's choice is stored locally, restored before first paint, preserved across Astro navigation, and synchronized across tabs. The same light/dark choice applies to Fish Finder, Rod Finder, and Companions. If storage is unavailable, the choice remains in memory across navigation. All surfaces and text use shared semantic palette tokens, including native form controls, focus rings, table selection, warnings, status badges, and the footer. Disabled database controls retain readable text rather than lowering the opacity of the entire control.
 
 ![Fisch Finder screenshot](images/fisch-finder-1.png)
 

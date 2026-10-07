@@ -1,0 +1,8 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CompanionDatabase from '../components/CompanionDatabase';
+import { companionFallback } from '../lib/companions';
+---
+<Layout title="Companions" description="Search Fisch companions, compare their abilities and level bonuses, and find their food, locations, and obtainment requirements.">
+  <CompanionDatabase client:load initialData={companionFallback} />
+</Layout>

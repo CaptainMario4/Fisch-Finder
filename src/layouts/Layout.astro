@@ -17,11 +17,56 @@ const { title, description, hasSeoTags = false } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script is:inline>
-      // Restore before first paint so a saved dark preference doesn't flash light.
-      try {
-        if (localStorage.getItem('fisch-finder-theme') === 'dark') document.documentElement.dataset.theme = 'dark';
-      } catch { /* The switch still works when browser storage is unavailable. */ }
+    <script is:inline data-astro-rerun>
+      (() => {
+        // One controller survives Astro navigation, including when storage is
+        // unavailable. Rerunning this bootstrap only restores the current choice.
+        const existing = window.__fischFinderTheme;
+        if (existing) { existing.restore(); return; }
+        const storageKey = 'fisch-finder-theme';
+        const readStored = () => {
+          try {
+            const value = localStorage.getItem(storageKey);
+            return value === 'dark' || value === 'light' ? value : null;
+          } catch { return null; }
+        };
+        let theme = readStored() || (document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
+        let storageWriteFailed = false;
+        const restore = () => {
+          document.documentElement.dataset.theme = theme;
+          document.querySelectorAll('[data-theme-toggle]').forEach(button => {
+            button.setAttribute('aria-checked', String(theme === 'dark'));
+            button.title = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+          });
+        };
+        window.__fischFinderTheme = { restore };
+        document.addEventListener('click', event => {
+          if (!(event.target instanceof Element) || !event.target.closest('[data-theme-toggle]')) return;
+          // Capture the click once, including when an older cached page still
+          // has the previous theme listener registered during a deployment.
+          event.stopImmediatePropagation();
+          theme = theme === 'dark' ? 'light' : 'dark';
+          try { localStorage.setItem(storageKey, theme); storageWriteFailed = false; }
+          catch { storageWriteFailed = true; }
+          restore();
+        }, true);
+        document.addEventListener('astro:before-swap', event => {
+          event.newDocument.documentElement.dataset.theme = theme;
+        });
+        document.addEventListener('astro:after-swap', restore);
+        document.addEventListener('astro:page-load', restore);
+        window.addEventListener('pageshow', () => {
+          if (!storageWriteFailed) theme = readStored() || theme;
+          restore();
+        });
+        window.addEventListener('storage', event => {
+          if (event.key !== storageKey && event.key !== null) return;
+          theme = event.newValue === 'dark' ? 'dark' : 'light';
+          restore();
+        });
+        // Apply in the head, before paint, and sync the switch once it exists.
+        restore();
+      })();
     </script>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -41,30 +86,6 @@ const { title, description, hasSeoTags = false } = Astro.props;
     <main><slot /></main>
     <Footer />
     <script>
-      function syncThemeSwitch() {
-        const dark = document.documentElement.dataset.theme === 'dark';
-        document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach(button => {
-          button.setAttribute('aria-checked', String(dark));
-          button.title = dark ? 'Switch to light mode' : 'Switch to dark mode';
-        });
-      }
-      document.addEventListener('click', event => {
-        if (!(event.target instanceof Element) || !event.target.closest('[data-theme-toggle]')) return;
-        const theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-        document.documentElement.dataset.theme = theme;
-        try { localStorage.setItem('fisch-finder-theme', theme); } catch { /* Keep the current page choice. */ }
-        syncThemeSwitch();
-      });
-      document.addEventListener('astro:before-swap', (event: any) => {
-        event.newDocument.documentElement.dataset.theme = document.documentElement.dataset.theme || 'light';
-      });
-      document.addEventListener('astro:page-load', syncThemeSwitch);
-      window.addEventListener('storage', event => {
-        if (event.key !== 'fisch-finder-theme') return;
-        document.documentElement.dataset.theme = event.newValue === 'dark' ? 'dark' : 'light';
-        syncThemeSwitch();
-      });
-      syncThemeSwitch();
       // Persisted rail aria-current sync + top loading bar + rail-anchored
       // scroll across listing-to-listing navigation. Stores pack relies on
       // all three; do not split into separate scripts.

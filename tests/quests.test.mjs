@@ -47,6 +47,7 @@ Requires Level 500 and a [[Prior Quest]].
 
 test('search combines objectives and location filters, capacity suggestions exclude unavailable rods, and progress is safe and stable',async()=>{
  const {questFallback:data}=await fresh();const defaults=search.questFilterDefaults;
+ assert.equal(search.fishMatch(data,''),undefined);assert.equal(search.fishMatch(data,'🎣'),undefined);assert.equal(search.fishMatch(data,'🔭'),undefined);assert.equal(search.rodMatch(data,'↗'),undefined);assert.equal(search.fishMatch(data,'Bull Shark').page,'Bull Shark');
  const results=search.findQuests(data.quests,'sunken',{...defaults},'name-asc');assert.ok(results.some(q=>q.npc==='Fabulous Deity'));assert.ok(results.every(q=>q.status==='available'));
  assert.ok(search.findQuests(data.quests,'Aurora Rod',{...defaults,location:'Boreal Hollow'},'name-asc').some(q=>q.npc==='Lyren'));
  assert.ok(search.findQuests(data.quests,'',{...defaults,status:'unavailable'},'name-asc').every(q=>q.status==='unavailable'));

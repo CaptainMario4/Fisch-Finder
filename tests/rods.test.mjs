@@ -24,6 +24,9 @@ test('wiki recommendations retain nested links, mastery conditions, alternatives
   assert.deepEqual(advice[1].enchants, ['Herculean', 'Unbreakable']);
   assert.equal(advice[2].group, 'Keeperbound');
   assert.deepEqual(mod.extractRecommendations('No advice here'), []);
+  const paired = mod.extractRecommendations('{{Enchanting|optimal1={{Enchantment|Blessed Song, Cryogenic}} for grinding.}}');
+  assert.deepEqual(paired[0].enchants, ['Blessed Song', 'Cryogenic']);
+  assert.equal(paired[0].text, 'Blessed Song, Cryogenic for grinding.');
   const trident = mod.rodFallback.rods.find(rod => rod.page === 'Trident Rod');
   assert.equal(trident.stage, 'Stage 5'); assert.equal(trident.lure, '35%');
   assert.equal(trident.control, '0.05'); assert.equal(trident.resilience, '0%');

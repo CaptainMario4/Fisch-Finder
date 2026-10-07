@@ -69,7 +69,7 @@ export function extractRecommendations(wikitext: string): Recommendation[] {
     for (let i = 1; i <= 5; i++) {
       const raw = args[prefix + i]; if (!raw) continue;
       const text = wikiText(raw), note = wikiText(args[prefix + 'note' + i]);
-      const enchants = [...(raw + ' ' + (args[prefix + 'note' + i] ?? '')).matchAll(/\{\{Enchantment\s*\|\s*([^|}]+)/gi)].map(match => wikiText(match[1]));
+      const enchants = [...(raw + ' ' + (args[prefix + 'note' + i] ?? '')).matchAll(/\{\{Enchantment\s*\|\s*([^|}]+)/gi)].flatMap(match => match[1].split(',').map(wikiText));
       if (text) recommendations.push({ group, text, note, enchants: [...new Set(enchants.filter(Boolean))] });
     }
   }
@@ -81,7 +81,8 @@ export function normalizeRods(raw: RawRod[], sources: Sources): Rod[] {
     const value = (key: string) => wikiText(rod[key]);
     const percent = (key: string) => value(key) ? `${value(key)}${/%|inf|∞/i.test(value(key)) ? '' : '%'}` : '';
     const stage = value('stage');
-    const price = value('price');
+    const rawPrice = value('price');
+    const price = /^[\d,]+(?:\.\d+)?$/.test(rawPrice) ? Number(rawPrice.replace(/,/g, '')).toLocaleString('en-US', { maximumFractionDigits: 10 }) : rawPrice;
     return {
       id: Number(rod.page_id), page: String(rod.page_name), name: value('page_name'),
       url: 'https://fischipedia.org/wiki/' + encodeURIComponent(String(rod.page_name).replace(/ /g, '_')),

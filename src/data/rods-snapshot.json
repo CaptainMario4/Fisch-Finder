@@ -4649,7 +4649,8 @@
           "text": "Blessed, Glittered to increase the chances of catching a Shiny/Sparkling fish.",
           "note": "",
           "enchants": [
-            "Blessed, Glittered"
+            "Blessed",
+            "Glittered"
           ]
         },
         {
@@ -4665,7 +4666,8 @@
           "text": "Glimmering Crown, Twisted to increase Progress Speed and Shiny/Sparkling chances.",
           "note": "",
           "enchants": [
-            "Glimmering Crown, Twisted"
+            "Glimmering Crown",
+            "Twisted"
           ]
         }
       ]
@@ -5047,7 +5049,8 @@
           "text": "Abyssal, Sea Prince to maximize C$ income.",
           "note": "",
           "enchants": [
-            "Abyssal, Sea Prince"
+            "Abyssal",
+            "Sea Prince"
           ]
         },
         {
@@ -5301,7 +5304,8 @@
           "text": "Clever, Wise to maximize XP gain.",
           "note": "",
           "enchants": [
-            "Clever, Wise"
+            "Clever",
+            "Wise"
           ]
         },
         {
@@ -5424,7 +5428,8 @@
           "text": "Divine, Tenacity to increase Lure Speed, Luck, Resilience, and synergize with the rod's passive.",
           "note": "",
           "enchants": [
-            "Divine, Tenacity"
+            "Divine",
+            "Tenacity"
           ]
         },
         {
@@ -5445,7 +5450,8 @@
           "text": "Sea Overlord, Tryhard to drastically increase Progress Speed and Fish Weight.",
           "note": "Sea King if Exalted Relic is not available.",
           "enchants": [
-            "Sea Overlord, Tryhard",
+            "Sea Overlord",
+            "Tryhard",
             "Sea King"
           ]
         },
@@ -5899,7 +5905,8 @@
           "text": "Sea Overlord, Tryhard to drastically increase Fish Weight and Progress Speed.",
           "note": "Sea King if Exalted Relic is not available.",
           "enchants": [
-            "Sea Overlord, Tryhard",
+            "Sea Overlord",
+            "Tryhard",
             "Sea King"
           ]
         },
@@ -5917,7 +5924,8 @@
           "text": "Blessed, Glittered if Mastery Enhancement is unlocked, to increase the chances of catching a Shiny/Sparkling fish.",
           "note": "",
           "enchants": [
-            "Blessed, Glittered"
+            "Blessed",
+            "Glittered"
           ]
         }
       ]
@@ -5939,7 +5947,8 @@
           "text": "Sea Overlord, Sea Prince to drastically increase Fish Weight.",
           "note": "Sea King if Exalted Relic is not available.",
           "enchants": [
-            "Sea Overlord, Sea Prince",
+            "Sea Overlord",
+            "Sea Prince",
             "Sea King"
           ]
         }
@@ -6104,7 +6113,8 @@
           "text": "Blessed Song, Tenacity to drastically increase Progress Speed and True Progress Speed.",
           "note": "Immortal or Steady if Song of the Deep is not available.",
           "enchants": [
-            "Blessed Song, Tenacity",
+            "Blessed Song",
+            "Tenacity",
             "Immortal",
             "Steady"
           ]
@@ -6132,7 +6142,8 @@
           "text": "Herculean, Sea Prince to increase Control, Max Kg, Progress Speed, and Fish Weight.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Sea Prince",
+            "Herculean",
+            "Sea Prince",
             "Controlled"
           ]
         }
@@ -6146,7 +6157,8 @@
           "text": "Momentum, Sea Prince to gradually increase Lure Speed, Resilience, Progress Speed, and increase Fish Weight.",
           "note": "",
           "enchants": [
-            "Momentum, Sea Prince"
+            "Momentum",
+            "Sea Prince"
           ]
         }
       ]
@@ -6434,7 +6446,8 @@
           "text": "Herculean, Cryogenic for a chance to completely stop fish movement and to increase Control and Progress Speed.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Cryogenic",
+            "Herculean",
+            "Cryogenic",
             "Controlled"
           ]
         },
@@ -6443,7 +6456,8 @@
           "text": "Herculean, Sea Prince to increase Control, Progress Speed, and Fish Weight.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Sea Prince",
+            "Herculean",
+            "Sea Prince",
             "Controlled"
           ]
         },
@@ -6452,7 +6466,9 @@
           "text": "Magnitude Might, Sanctified, Crested to slow down fish movement and to increase Fish Weight, Progress Speed, True Progress Speed, and Control.",
           "note": "",
           "enchants": [
-            "Magnitude Might, Sanctified, Crested"
+            "Magnitude Might",
+            "Sanctified",
+            "Crested"
           ]
         }
       ]
@@ -6487,7 +6503,8 @@
           "text": "Herculean, Cryogenic for a chance to completely stop fish movement and to increase Control, Max Kg, and Progress Speed.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Cryogenic",
+            "Herculean",
+            "Cryogenic",
             "Controlled"
           ]
         },
@@ -6496,7 +6513,8 @@
           "text": "Herculean, Sea Prince to increase Control, Max Kg, Progress Speed, and Fish Weight.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Sea Prince",
+            "Herculean",
+            "Sea Prince",
             "Controlled"
           ]
         }
@@ -6519,7 +6537,8 @@
           "text": "Blessed Song, Cryogenic for a chance to completely stop fish movement and an increase to Progress Speed and True Progress Speed.",
           "note": "",
           "enchants": [
-            "Blessed Song, Cryogenic"
+            "Blessed Song",
+            "Cryogenic"
           ]
         }
       ]
@@ -6532,7 +6551,8 @@
           "text": "Clever, Wise to maximize XP gain.",
           "note": "",
           "enchants": [
-            "Clever, Wise"
+            "Clever",
+            "Wise"
           ]
         }
       ]
@@ -6644,7 +6664,8 @@
           "text": "Greed, Sea Prince to maximize Fish Weight.",
           "note": "Sea Overlord or Sea King if Twisted Relic is not available.",
           "enchants": [
-            "Greed, Sea Prince",
+            "Greed",
+            "Sea Prince",
             "Sea Overlord",
             "Sea King"
           ]
@@ -6654,7 +6675,8 @@
           "text": "Blessed, Glittered to increase the chances of catching a Shiny/Sparkling fish.",
           "note": "",
           "enchants": [
-            "Blessed, Glittered"
+            "Blessed",
+            "Glittered"
           ]
         }
       ]
@@ -6750,7 +6772,8 @@
           "text": "Piercing, Sea Prince for a stab passive ability and an increase to Progress Speed and Fish Weight.",
           "note": "Rage or Chaotic if Exalted Relic is not available.",
           "enchants": [
-            "Piercing, Sea Prince",
+            "Piercing",
+            "Sea Prince",
             "Rage",
             "Chaotic"
           ]
@@ -6760,7 +6783,8 @@
           "text": "Herculean, Cryogenic for Perfect Catches to complete Mastery quests easier.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Cryogenic",
+            "Herculean",
+            "Cryogenic",
             "Controlled"
           ]
         }
@@ -6816,7 +6840,8 @@
           "text": "Sea Overlord, Sea Prince to drastically increase Fish Weight.",
           "note": "Sea King if Exalted Relic is not available.",
           "enchants": [
-            "Sea Overlord, Sea Prince",
+            "Sea Overlord",
+            "Sea Prince",
             "Sea King"
           ]
         },
@@ -6847,7 +6872,8 @@
           "text": "Sea Overlord, Sea Prince to drastically increase Fish Weight.",
           "note": "Sea King if Exalted Relic is not available.",
           "enchants": [
-            "Sea Overlord, Sea Prince",
+            "Sea Overlord",
+            "Sea Prince",
             "Sea King"
           ]
         },
@@ -6856,7 +6882,8 @@
           "text": "Rage, Sea Prince for a powerful stab passive ability and to increase Fish Weight.",
           "note": "Piercing or Chaotic if Twisted Relic is not available.",
           "enchants": [
-            "Rage, Sea Prince",
+            "Rage",
+            "Sea Prince",
             "Piercing",
             "Chaotic"
           ]
@@ -6871,7 +6898,8 @@
           "text": "Immortal, Sea Prince to drastically increase Luck, Progress Speed, and increase Fish Weight.",
           "note": "Flashline if Exalted Relic is not available.",
           "enchants": [
-            "Immortal, Sea Prince",
+            "Immortal",
+            "Sea Prince",
             "Flashline"
           ]
         },
@@ -6894,7 +6922,8 @@
           "text": "Herculean, Invincible to increase Control, Max Kg, and Progress Speed.",
           "note": "Steady if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Invincible",
+            "Herculean",
+            "Invincible",
             "Steady"
           ]
         },
@@ -6903,7 +6932,8 @@
           "text": "Momentum, Invincible if Rod Improvement is 20% or higher, to gradually increase Lure Speed, Resilience, and Progress Speed.",
           "note": "",
           "enchants": [
-            "Momentum, Invincible"
+            "Momentum",
+            "Invincible"
           ]
         }
       ]
@@ -6938,7 +6968,8 @@
           "text": "Herculean, Sea Prince to increase Control, Progress Speed, and Fish Weight.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Sea Prince",
+            "Herculean",
+            "Sea Prince",
             "Controlled"
           ]
         }
@@ -6983,7 +7014,8 @@
           "text": "Herculean, Sea Prince to increase Control, Progress Speed, and Fish Weight.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Sea Prince",
+            "Herculean",
+            "Sea Prince",
             "Controlled"
           ]
         }
@@ -7054,7 +7086,8 @@
           "text": "Piercing, Overclocked to increase Progress Speed, Stab Frequency, and Forced Progress Speed.",
           "note": "Chaotic if Exalted Relic is not available.",
           "enchants": [
-            "Piercing, Overclocked",
+            "Piercing",
+            "Overclocked",
             "Chaotic"
           ]
         },
@@ -7063,7 +7096,8 @@
           "text": "Blessed Song, Tryhard to drastically increase Progress Speed and True Progress Speed.",
           "note": "Steady if Song of the Deep is not available.",
           "enchants": [
-            "Blessed Song, Tryhard",
+            "Blessed Song",
+            "Tryhard",
             "Steady"
           ]
         },
@@ -7072,7 +7106,8 @@
           "text": "Sea Overlord, Sea Prince to maximize Fish Weight.",
           "note": "Sea King if Exalted Relic is not available.",
           "enchants": [
-            "Sea Overlord, Sea Prince",
+            "Sea Overlord",
+            "Sea Prince",
             "Sea King"
           ]
         }
@@ -7261,7 +7296,8 @@
           "text": "Blessed Song, Tryhard to drastically increase Progress Speed and True Progress Speed.",
           "note": "Fractured, Immortal or Steady if Song of the Deep is not available.",
           "enchants": [
-            "Blessed Song, Tryhard",
+            "Blessed Song",
+            "Tryhard",
             "Fractured",
             "Immortal",
             "Steady"
@@ -7316,7 +7352,8 @@
           "text": "Ferocious, Vicious to maximize Disturbance increase.",
           "note": "Hunter if Exalted Relic is not available.",
           "enchants": [
-            "Ferocious, Vicious",
+            "Ferocious",
+            "Vicious",
             "Hunter"
           ]
         },
@@ -7325,7 +7362,8 @@
           "text": "Menacing Spirit, Sanctified + Twisted for an additional slash passive ability and an increase to Disturbance, Progress Speed, and True Progress Speed.",
           "note": "",
           "enchants": [
-            "Menacing Spirit, Sanctified",
+            "Menacing Spirit",
+            "Sanctified",
             "Twisted"
           ]
         }
@@ -7339,7 +7377,8 @@
           "text": "Mystical, Invincible to increase Lure Speed, Luck, Resilience, Progress Speed, and to be able to fish anywhere.",
           "note": "Resilient if Exalted Relic is not available.",
           "enchants": [
-            "Mystical, Invincible",
+            "Mystical",
+            "Invincible",
             "Resilient"
           ]
         },
@@ -7348,7 +7387,8 @@
           "text": "Sea Overlord, Sea Prince to drastically increase Fish Weight.",
           "note": "Sea King if Exalted Relic is not available.",
           "enchants": [
-            "Sea Overlord, Sea Prince",
+            "Sea Overlord",
+            "Sea Prince",
             "Sea King"
           ]
         }
@@ -7362,7 +7402,8 @@
           "text": "Herculean, Overclocked to increase Control, Progress Speed, and Forced Progress Speed.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Overclocked",
+            "Herculean",
+            "Overclocked",
             "Controlled"
           ]
         },
@@ -7371,7 +7412,8 @@
           "text": "Greed, Sea Prince to maximize Fish Weight.",
           "note": "Sea Overlord or Sea King if Twisted Relic is not available.",
           "enchants": [
-            "Greed, Sea Prince",
+            "Greed",
+            "Sea Prince",
             "Sea Overlord",
             "Sea King"
           ]
@@ -7396,7 +7438,8 @@
           "text": "Mystical, Sea Prince to increase Lure Speed, Luck, Resilience, Progress Speed, and Fish Weight.",
           "note": "Resilient if Exalted Relic is not available.",
           "enchants": [
-            "Mystical, Sea Prince",
+            "Mystical",
+            "Sea Prince",
             "Resilient"
           ]
         },
@@ -7405,7 +7448,8 @@
           "text": "Herculean, Cryogenic for a chance to completely stop fish movement and to increase Control and Progress Speed.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Cryogenic",
+            "Herculean",
+            "Cryogenic",
             "Controlled"
           ]
         },
@@ -7414,7 +7458,8 @@
           "text": "Sea Overlord, Sea Prince to drastically increase Fish Weight.",
           "note": "Sea King if Exalted Relic is not available.",
           "enchants": [
-            "Sea Overlord, Sea Prince",
+            "Sea Overlord",
+            "Sea Prince",
             "Sea King"
           ]
         },
@@ -7423,7 +7468,8 @@
           "text": "Starforged Spirit, Sanctified to increase Fish Weight, Resilience, True Progress Speed, Forced Progress Speed, and Progress Speed.",
           "note": "",
           "enchants": [
-            "Starforged Spirit, Sanctified"
+            "Starforged Spirit",
+            "Sanctified"
           ]
         }
       ]
@@ -7466,7 +7512,8 @@
           "text": "Clever, Wise to maximize XP gain.",
           "note": "",
           "enchants": [
-            "Clever, Wise"
+            "Clever",
+            "Wise"
           ]
         },
         {
@@ -7511,7 +7558,8 @@
           "text": "Ferocious, Vicious to maximize Disturbance increase.",
           "note": "Hunter if Exalted Relic is not available.",
           "enchants": [
-            "Ferocious, Vicious",
+            "Ferocious",
+            "Vicious",
             "Hunter"
           ]
         }
@@ -7590,7 +7638,8 @@
           "text": "Sea Overlord, Sea Prince to drastically increase Fish Weight.",
           "note": "Sea King if Exalted Relic is not available.",
           "enchants": [
-            "Sea Overlord, Sea Prince",
+            "Sea Overlord",
+            "Sea Prince",
             "Sea King"
           ]
         },
@@ -7630,7 +7679,8 @@
           "text": "Sea Overlord, Sea Prince to drastically increase Fish Weight.",
           "note": "Sea King if Exalted Relic is not available.",
           "enchants": [
-            "Sea Overlord, Sea Prince",
+            "Sea Overlord",
+            "Sea Prince",
             "Sea King"
           ]
         },
@@ -7647,7 +7697,8 @@
           "text": "Herculean, Cryogenic for easier Perfect Catches to complete Mastery quests.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Cryogenic",
+            "Herculean",
+            "Cryogenic",
             "Controlled"
           ]
         },
@@ -7656,7 +7707,8 @@
           "text": "Starforged Spirit, Sanctified to increase Fish Weight, Resilience, True Progress Speed, Forced Progress Speed, and Progress Speed.",
           "note": "",
           "enchants": [
-            "Starforged Spirit, Sanctified"
+            "Starforged Spirit",
+            "Sanctified"
           ]
         }
       ]
@@ -7749,7 +7801,8 @@
           "text": "Blessed Song, Tenacity to drastically increase Progress Speed and True Progress Speed.",
           "note": "Fractured or Immortal if Song of the Deep is not available.",
           "enchants": [
-            "Blessed Song, Tenacity",
+            "Blessed Song",
+            "Tenacity",
             "Fractured",
             "Immortal"
           ]
@@ -7764,7 +7817,8 @@
           "text": "Herculean, Sea Prince to increase Control, Max Kg, Progress Speed, and Fish Weight.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Sea Prince",
+            "Herculean",
+            "Sea Prince",
             "Controlled"
           ]
         }
@@ -7915,7 +7969,8 @@
           "text": "Anomalous, Tryhard to maximize C$ income.",
           "note": "Abyssal if Exalted Relic is not available.",
           "enchants": [
-            "Anomalous, Tryhard",
+            "Anomalous",
+            "Tryhard",
             "Abyssal"
           ]
         },
@@ -7924,7 +7979,8 @@
           "text": "Greed, Sea Prince to maximize Fish Weight when paired with Mutation baits.",
           "note": "Sea Overlord or Sea King if Twisted Relic is not available.",
           "enchants": [
-            "Greed, Sea Prince",
+            "Greed",
+            "Sea Prince",
             "Sea Overlord",
             "Sea King"
           ]
@@ -7947,7 +8003,8 @@
           "text": "Greed, Sea Prince to drastically increase Fish Weight.",
           "note": "Sea Overlord or Sea King if Twisted Relic is not available.",
           "enchants": [
-            "Greed, Sea Prince",
+            "Greed",
+            "Sea Prince",
             "Sea Overlord",
             "Sea King"
           ]
@@ -7957,7 +8014,8 @@
           "text": "Herculean, Cryogenic for a chance to completely stop fish movement and to increase Control and Progress Speed.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Cryogenic",
+            "Herculean",
+            "Cryogenic",
             "Controlled"
           ]
         },
@@ -7966,7 +8024,8 @@
           "text": "Starforged Spirit, Sanctified to increase Fish Weight, Resilience, True Progress Speed, Forced Progress Speed, and Progress Speed.",
           "note": "",
           "enchants": [
-            "Starforged Spirit, Sanctified"
+            "Starforged Spirit",
+            "Sanctified"
           ]
         }
       ]
@@ -8064,7 +8123,8 @@
           "text": "Greed, Sea Prince to maximize Fish Weight.",
           "note": "Sea Overlord or Sea King if Twisted Relic is not available.",
           "enchants": [
-            "Greed, Sea Prince",
+            "Greed",
+            "Sea Prince",
             "Sea Overlord",
             "Sea King"
           ]
@@ -8074,7 +8134,8 @@
           "text": "Starforged Spirit, Sanctified to increase Fish Weight, Resilience, True Progress Speed, Forced Progress Speed, and Progress Speed.",
           "note": "",
           "enchants": [
-            "Starforged Spirit, Sanctified"
+            "Starforged Spirit",
+            "Sanctified"
           ]
         }
       ]
@@ -8095,7 +8156,8 @@
           "text": "Fractured, Tryhard to drastically decrease Control and synergize with the rod's passive.",
           "note": "",
           "enchants": [
-            "Fractured, Tryhard"
+            "Fractured",
+            "Tryhard"
           ]
         },
         {
@@ -8103,7 +8165,8 @@
           "text": "Mystical, Cryogenic for a chance to completely stop fish movement and an increase to Lure Speed, Luck, Resilience, and Progress Speed.",
           "note": "Divine if Exalted Relic is not available.",
           "enchants": [
-            "Mystical, Cryogenic",
+            "Mystical",
+            "Cryogenic",
             "Divine"
           ]
         }
@@ -8117,7 +8180,8 @@
           "text": "Herculean, Overclocked to increase Control, Max Kg, Progress Speed, and Forced Progress Speed.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Overclocked",
+            "Herculean",
+            "Overclocked",
             "Controlled"
           ]
         }
@@ -8131,7 +8195,8 @@
           "text": "Sea Overlord, Tryhard to drastically increase Fish Weight and Progress Speed.",
           "note": "Sea King if Exalted Relic is not available.",
           "enchants": [
-            "Sea Overlord, Tryhard",
+            "Sea Overlord",
+            "Tryhard",
             "Sea King"
           ]
         },
@@ -8140,7 +8205,8 @@
           "text": "Momentum, Sea Prince to gradually increase Lure Speed, Resilience, Progress Speed, and Fish Weight.",
           "note": "",
           "enchants": [
-            "Momentum, Sea Prince"
+            "Momentum",
+            "Sea Prince"
           ]
         }
       ]
@@ -8167,7 +8233,8 @@
           "text": "Piercing, Sea Prince for a stab passive ability and an increase to Progress Speed and Fish Weight.",
           "note": "Chaotic if Exalted Relic is not available.",
           "enchants": [
-            "Piercing, Sea Prince",
+            "Piercing",
+            "Sea Prince",
             "Chaotic"
           ]
         },
@@ -8176,7 +8243,8 @@
           "text": "Sea Overlord, Sea Prince to drastically increase Fish Weight.",
           "note": "Sea King if Exalted Relic is not available.",
           "enchants": [
-            "Sea Overlord, Sea Prince",
+            "Sea Overlord",
+            "Sea Prince",
             "Sea King"
           ]
         }
@@ -8211,7 +8279,8 @@
           "text": "Piercing, Sea Prince for a stab passive ability and an increase to Progress Speed and Fish Weight.",
           "note": "Rage or Chaotic if Exalted Relic is not available.",
           "enchants": [
-            "Piercing, Sea Prince",
+            "Piercing",
+            "Sea Prince",
             "Rage",
             "Chaotic"
           ]
@@ -8221,7 +8290,8 @@
           "text": "Chronos, Cryogenic to synergize with the rod's passive.",
           "note": "",
           "enchants": [
-            "Chronos, Cryogenic"
+            "Chronos",
+            "Cryogenic"
           ]
         },
         {
@@ -8263,7 +8333,8 @@
           "text": "Herculean, Sea Prince to increase Control, Progress Speed, and Fish Weight.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Sea Prince",
+            "Herculean",
+            "Sea Prince",
             "Controlled"
           ]
         },
@@ -8286,7 +8357,8 @@
           "text": "Greed, Sea Prince to maximize Fish Weight.",
           "note": "Sea Overlord or Sea King if Twisted Relic is not available.",
           "enchants": [
-            "Greed, Sea Prince",
+            "Greed",
+            "Sea Prince",
             "Sea Overlord",
             "Sea King"
           ]
@@ -8353,7 +8425,8 @@
           "text": "Herculean, Sea Prince to increase Control, Progress Speed, and Fish Weight.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Sea Prince",
+            "Herculean",
+            "Sea Prince",
             "Controlled"
           ]
         },
@@ -8362,7 +8435,8 @@
           "text": "Sea Overlord, Sea Prince to maximize Fish Weight.",
           "note": "Sea King if Exalted Relic is not available.",
           "enchants": [
-            "Sea Overlord, Sea Prince",
+            "Sea Overlord",
+            "Sea Prince",
             "Sea King"
           ]
         },
@@ -8385,7 +8459,8 @@
           "text": "Herculean, Sea Prince to increase Control, Max Kg, Progress Speed, and Fish Weight.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Sea Prince",
+            "Herculean",
+            "Sea Prince",
             "Controlled"
           ]
         }
@@ -8399,7 +8474,8 @@
           "text": "Greed, Sea Prince to maximize Fish Weight.",
           "note": "Sea Overlord or Sea King if Twisted Relic is not available.",
           "enchants": [
-            "Greed, Sea Prince",
+            "Greed",
+            "Sea Prince",
             "Sea Overlord",
             "Sea King"
           ]
@@ -8409,7 +8485,8 @@
           "text": "Blessed Song, Tryhard to drastically increase Progress Speed and True Progress Speed.",
           "note": "Immortal if Song of the Deep is not available.",
           "enchants": [
-            "Blessed Song, Tryhard",
+            "Blessed Song",
+            "Tryhard",
             "Immortal"
           ]
         },
@@ -8428,7 +8505,8 @@
           "text": "Starforged Spirit, Sanctified + Twisted to increase Fish Weight, Resilience, True Progress Speed, Forced Progress Speed, and Progress Speed.",
           "note": "",
           "enchants": [
-            "Starforged Spirit, Sanctified",
+            "Starforged Spirit",
+            "Sanctified",
             "Twisted"
           ]
         }
@@ -8548,7 +8626,8 @@
           "text": "Greed, Sea Prince to maximize Fish Weight.",
           "note": "Sea Overlord or Sea King if Twisted Relic is not available.",
           "enchants": [
-            "Greed, Sea Prince",
+            "Greed",
+            "Sea Prince",
             "Sea Overlord",
             "Sea King"
           ]
@@ -8558,7 +8637,8 @@
           "text": "Herculean, Cryogenic for a chance to completely stop fish movement and to increase Control and Progress Speed.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Cryogenic",
+            "Herculean",
+            "Cryogenic",
             "Controlled"
           ]
         },
@@ -8567,7 +8647,8 @@
           "text": "Starforged Spirit, Sanctified to increase Fish Weight, Resilience, True Progress Speed, Forced Progress Speed, and Progress Speed.",
           "note": "",
           "enchants": [
-            "Starforged Spirit, Sanctified"
+            "Starforged Spirit",
+            "Sanctified"
           ]
         }
       ]
@@ -8580,7 +8661,8 @@
           "text": "Herculean, Sea Prince to increase Control, Progress Speed, and Fish Weight.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Sea Prince",
+            "Herculean",
+            "Sea Prince",
             "Controlled"
           ]
         }
@@ -8612,7 +8694,8 @@
           "text": "Greed, Sea Prince to maximize Fish Weight.",
           "note": "Sea Overlord or Sea King if Twisted Relic is not available.",
           "enchants": [
-            "Greed, Sea Prince",
+            "Greed",
+            "Sea Prince",
             "Sea Overlord",
             "Sea King"
           ]
@@ -8622,7 +8705,8 @@
           "text": "Blessed, Glittered to increase the chances of catching a Shiny/Sparkling fish.",
           "note": "",
           "enchants": [
-            "Blessed, Glittered"
+            "Blessed",
+            "Glittered"
           ]
         },
         {
@@ -8630,7 +8714,8 @@
           "text": "Empyrean, Overclocked to add slashes, and to drastically increase Progress Speed, Forced Progress Speed, and True Progress Speed.",
           "note": "Blessed Song if Empyrean Relic is not available.",
           "enchants": [
-            "Empyrean, Overclocked",
+            "Empyrean",
+            "Overclocked",
             "Blessed Song"
           ]
         },
@@ -8639,7 +8724,8 @@
           "text": "Starforged Spirit, Sanctified to increase Fish Weight, Resilience, True Progress Speed, Forced Progress Speed, and Progress Speed.",
           "note": "",
           "enchants": [
-            "Starforged Spirit, Sanctified"
+            "Starforged Spirit",
+            "Sanctified"
           ]
         }
       ]
@@ -8679,7 +8765,8 @@
           "text": "Quantum, Sea Prince to increase Resilience and C$ income.",
           "note": "Resilient if Exalted Relic is not available.",
           "enchants": [
-            "Quantum, Sea Prince",
+            "Quantum",
+            "Sea Prince",
             "Resilient"
           ]
         },
@@ -8688,7 +8775,8 @@
           "text": "Greed, Sea Prince to maximize Fish Weight.",
           "note": "Abyssal if Twisted Relic is not available.",
           "enchants": [
-            "Greed, Sea Prince",
+            "Greed",
+            "Sea Prince",
             "Abyssal"
           ]
         }
@@ -8730,7 +8818,8 @@
           "text": "Herculean, Sea Prince to increase Control, Progress Speed, and Fish Weight.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Sea Prince",
+            "Herculean",
+            "Sea Prince",
             "Controlled"
           ]
         },
@@ -8753,7 +8842,8 @@
           "text": "Ferocious, Vicious to maximize Disturbance increase.",
           "note": "Hunter if Exalted Relic is not available.",
           "enchants": [
-            "Ferocious, Vicious",
+            "Ferocious",
+            "Vicious",
             "Hunter"
           ]
         },
@@ -8770,7 +8860,9 @@
           "text": "Menacing Spirit, Sanctified, Twisted for an additional slash passive ability and an increase to Disturbance, Progress Speed, and True Progress Speed.",
           "note": "",
           "enchants": [
-            "Menacing Spirit, Sanctified, Twisted"
+            "Menacing Spirit",
+            "Sanctified",
+            "Twisted"
           ]
         }
       ]
@@ -8783,7 +8875,8 @@
           "text": "Blessed, Glittered to greatly increase the chance of catching a Shiny fish.",
           "note": "",
           "enchants": [
-            "Blessed, Glittered"
+            "Blessed",
+            "Glittered"
           ]
         },
         {
@@ -8791,7 +8884,8 @@
           "text": "Clever, Wise to maximize XP gain.",
           "note": "",
           "enchants": [
-            "Clever, Wise"
+            "Clever",
+            "Wise"
           ]
         },
         {
@@ -8808,7 +8902,9 @@
           "text": "Glimmering Crown, Sanctified, Crested to slow down fish movement, maximize the chance of catching a Shiny fish, and to increase Progress Speed and True Progress Speed.",
           "note": "",
           "enchants": [
-            "Glimmering Crown, Sanctified, Crested"
+            "Glimmering Crown",
+            "Sanctified",
+            "Crested"
           ]
         }
       ]
@@ -8821,7 +8917,8 @@
           "text": "Piercing, Invincible to synergize with the rod's passive, increase Max Kg, and to be able to fish anywhere.",
           "note": "Chaotic if Exalted Relic is not available.",
           "enchants": [
-            "Piercing, Invincible",
+            "Piercing",
+            "Invincible",
             "Chaotic"
           ]
         }
@@ -8835,7 +8932,8 @@
           "text": "Ferocious, Vicious to maximize Disturbance increase.",
           "note": "Hunter if Exalted Relic is not available.",
           "enchants": [
-            "Ferocious, Vicious",
+            "Ferocious",
+            "Vicious",
             "Hunter"
           ]
         }
@@ -8849,7 +8947,8 @@
           "text": "Greed, Sea Prince to maximize Fish Weight.",
           "note": "Sea Overlord or Sea King if Twisted Relic is not available.",
           "enchants": [
-            "Greed, Sea Prince",
+            "Greed",
+            "Sea Prince",
             "Sea Overlord",
             "Sea King"
           ]
@@ -8868,7 +8967,8 @@
           "text": "Starforged Spirit, Sanctified + Twisted to increase Fish Weight, Resilience, True Progress Speed, Forced Progress Speed, and Progress Speed.",
           "note": "",
           "enchants": [
-            "Starforged Spirit, Sanctified",
+            "Starforged Spirit",
+            "Sanctified",
             "Twisted"
           ]
         }
@@ -8900,7 +9000,8 @@
           "text": "Abyssal, Sea Prince to maximize C$ income.",
           "note": "",
           "enchants": [
-            "Abyssal, Sea Prince"
+            "Abyssal",
+            "Sea Prince"
           ]
         },
         {
@@ -8921,7 +9022,8 @@
           "text": "Ferocious, Vicious to maximize Disturbance increase.",
           "note": "Hunter if Exalted Relic is not available.",
           "enchants": [
-            "Ferocious, Vicious",
+            "Ferocious",
+            "Vicious",
             "Hunter"
           ]
         },
@@ -8938,7 +9040,8 @@
           "text": "Blessed Song, Tryhard to drastically increase Progress Speed and True Progress Speed.",
           "note": "Momentum if Song of the Deep is not available.",
           "enchants": [
-            "Blessed Song, Tryhard",
+            "Blessed Song",
+            "Tryhard",
             "Momentum"
           ]
         },
@@ -8947,7 +9050,9 @@
           "text": "Menacing Spirit, Sanctified, Twisted for an additional slash passive ability and an increase to Disturbance, Progress Speed, and True Progress Speed.",
           "note": "",
           "enchants": [
-            "Menacing Spirit, Sanctified, Twisted"
+            "Menacing Spirit",
+            "Sanctified",
+            "Twisted"
           ]
         }
       ]
@@ -8960,7 +9065,8 @@
           "text": "Blessed, Glittered to help with Shiny/Sparkling Bestiary completion.",
           "note": "",
           "enchants": [
-            "Blessed, Glittered"
+            "Blessed",
+            "Glittered"
           ]
         },
         {
@@ -9027,7 +9133,8 @@
           "text": "Greed, Sea Prince to maximize Fish Weight.",
           "note": "Sea Overlord or Sea King if Twisted Relic is not available.",
           "enchants": [
-            "Greed, Sea Prince",
+            "Greed",
+            "Sea Prince",
             "Sea Overlord",
             "Sea King"
           ]
@@ -9051,7 +9158,8 @@
           "text": "Sea Overlord, Sea Prince to drastically increase Fish Weight.",
           "note": "Sea King if Exalted Relic is not available.",
           "enchants": [
-            "Sea Overlord, Sea Prince",
+            "Sea Overlord",
+            "Sea Prince",
             "Sea King"
           ]
         },
@@ -9100,7 +9208,8 @@
           "text": "Long, Tenacity to increase Line Distance, Progress Speed, and Resilience, while granting more Progress Speed from snapped reels.",
           "note": "",
           "enchants": [
-            "Long, Tenacity"
+            "Long",
+            "Tenacity"
           ]
         },
         {
@@ -9135,7 +9244,8 @@
           "text": "Scavenger, Tryhard to synergize with the rod's passive and increase Progress Speed.",
           "note": "",
           "enchants": [
-            "Scavenger, Tryhard"
+            "Scavenger",
+            "Tryhard"
           ]
         },
         {
@@ -9151,7 +9261,8 @@
           "text": "Blessed Song, Tryhard to drastically increase Progress Speed and True Progress Speed.",
           "note": "",
           "enchants": [
-            "Blessed Song, Tryhard"
+            "Blessed Song",
+            "Tryhard"
           ]
         },
         {
@@ -9159,7 +9270,9 @@
           "text": "Starforged Spirit, Sanctified, Twisted if Mastery Enhancement is unlocked, to increase Fish Weight, Resilience, True Progress Speed, Forced Progress Speed, and Progress Speed.",
           "note": "",
           "enchants": [
-            "Starforged Spirit, Sanctified, Twisted"
+            "Starforged Spirit",
+            "Sanctified",
+            "Twisted"
           ]
         }
       ]
@@ -9186,7 +9299,8 @@
           "text": "Herculean, Cryogenic for a chance to completely stop fish movement and an increase to Control and Progress Speed.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Cryogenic",
+            "Herculean",
+            "Cryogenic",
             "Controlled"
           ]
         },
@@ -9195,7 +9309,8 @@
           "text": "Blessed Song, Vicious to drastically increase Progress Speed and True Progress Speed.",
           "note": "Immortal if Song of the Deep is not available.",
           "enchants": [
-            "Blessed Song, Vicious",
+            "Blessed Song",
+            "Vicious",
             "Immortal"
           ]
         }
@@ -9209,7 +9324,8 @@
           "text": "Mystical, Overclocked to increase Lure Speed, Luck, Resilience, Forced Progress Speed, and Progress Speed.",
           "note": "Divine if Exalted Relic is not available.",
           "enchants": [
-            "Mystical, Overclocked",
+            "Mystical",
+            "Overclocked",
             "Divine"
           ]
         },
@@ -9232,7 +9348,8 @@
           "text": "Greed, Sea Prince to maximize Fish Weight.",
           "note": "Sea Overlord or Sea King if Twisted Relic is not available.",
           "enchants": [
-            "Greed, Sea Prince",
+            "Greed",
+            "Sea Prince",
             "Sea Overlord",
             "Sea King"
           ]
@@ -9251,7 +9368,9 @@
           "text": "Starforged Spirit, Sanctified, Crested to slow down fish movement and to increase Fish Weight, Resilience, True Progress Speed, Forced Progress Speed, and Progress Speed.",
           "note": "",
           "enchants": [
-            "Starforged Spirit, Sanctified, Crested"
+            "Starforged Spirit",
+            "Sanctified",
+            "Crested"
           ]
         }
       ]
@@ -9264,7 +9383,8 @@
           "text": "Storming, Sea Prince to increase Lure Speed, Luck, and C$ income.",
           "note": "",
           "enchants": [
-            "Storming, Sea Prince"
+            "Storming",
+            "Sea Prince"
           ]
         },
         {
@@ -9286,7 +9406,8 @@
           "text": "Greed, Sea Prince to maximize Fish Weight.",
           "note": "Sea Overlord or Sea King if Twisted Relic is not available.",
           "enchants": [
-            "Greed, Sea Prince",
+            "Greed",
+            "Sea Prince",
             "Sea Overlord",
             "Sea King"
           ]
@@ -9296,7 +9417,8 @@
           "text": "Herculean, Cryogenic for a chance to completely stop fish movement and an increase to Control and Progress Speed.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Cryogenic",
+            "Herculean",
+            "Cryogenic",
             "Controlled"
           ]
         },
@@ -9305,7 +9427,9 @@
           "text": "Starforged Spirit, Sanctified, Crested to slow down fish movement and to increase Fish Weight, Resilience, True Progress Speed, Forced Progress Speed, and Progress Speed.",
           "note": "",
           "enchants": [
-            "Starforged Spirit, Sanctified, Crested"
+            "Starforged Spirit",
+            "Sanctified",
+            "Crested"
           ]
         }
       ]
@@ -9318,7 +9442,8 @@
           "text": "Mystical, Tryhard to synergize with the rod's passive and drastically increase Progress Speed.",
           "note": "Divine if Exalted Relic is not available.",
           "enchants": [
-            "Mystical, Tryhard",
+            "Mystical",
+            "Tryhard",
             "Divine"
           ]
         },
@@ -9354,7 +9479,8 @@
           "text": "Ferocious, Vicious to maximize Disturbance increase.",
           "note": "Hunter if Exalted Relic is not available.",
           "enchants": [
-            "Ferocious, Vicious",
+            "Ferocious",
+            "Vicious",
             "Hunter"
           ]
         }
@@ -9368,7 +9494,8 @@
           "text": "Blessed Song, Vicious to drastically increase Progress Speed and True Progress Speed.",
           "note": "Momentum if Song of the Deep is not available.",
           "enchants": [
-            "Blessed Song, Vicious",
+            "Blessed Song",
+            "Vicious",
             "Momentum"
           ]
         },
@@ -9391,7 +9518,8 @@
           "text": "Mystical, Cryogenic for a chance to completely stop fish movement and an increase to Luck, Resilience, and Progress Speed.",
           "note": "Long or Resilient if Exalted Relic is not available.",
           "enchants": [
-            "Mystical, Cryogenic",
+            "Mystical",
+            "Cryogenic",
             "Long",
             "Resilient"
           ]
@@ -9410,7 +9538,8 @@
           "text": "Greed, Sea Prince to maximize Fish Weight.",
           "note": "Sea Overlord or Sea King if Twisted Relic is not available.",
           "enchants": [
-            "Greed, Sea Prince",
+            "Greed",
+            "Sea Prince",
             "Sea Overlord",
             "Sea King"
           ]
@@ -9420,7 +9549,9 @@
           "text": "Magnitude Might, Sanctified, Crested to slow down fish movement and to increase Fish Weight, Control, Resilience, True Progress Speed, and Forced Progress Speed.",
           "note": "",
           "enchants": [
-            "Magnitude Might, Sanctified, Crested"
+            "Magnitude Might",
+            "Sanctified",
+            "Crested"
           ]
         }
       ]
@@ -9448,7 +9579,8 @@
           "text": "Greed, Sea Prince to maximize Fish Weight.",
           "note": "Sea Overlord or Sea King if Twisted Relic is not available.",
           "enchants": [
-            "Greed, Sea Prince",
+            "Greed",
+            "Sea Prince",
             "Sea Overlord",
             "Sea King"
           ]
@@ -9458,7 +9590,8 @@
           "text": "Blessed, Glittered to increase the chances of catching a Shiny/Sparkling fish.",
           "note": "",
           "enchants": [
-            "Blessed, Glittered"
+            "Blessed",
+            "Glittered"
           ]
         },
         {
@@ -9466,7 +9599,8 @@
           "text": "Starforged Spirit, Sanctified + Twisted to increase Fish Weight, Resilience, True Progress Speed, Forced Progress Speed, and Progress Speed.",
           "note": "",
           "enchants": [
-            "Starforged Spirit, Sanctified",
+            "Starforged Spirit",
+            "Sanctified",
             "Twisted"
           ]
         }
@@ -9480,7 +9614,8 @@
           "text": "Blessed Song, Tryhard to drastically increase Progress Speed and True Progress Speed.",
           "note": "Immortal if Song of the Deep is not available.",
           "enchants": [
-            "Blessed Song, Tryhard",
+            "Blessed Song",
+            "Tryhard",
             "Immortal"
           ]
         }
@@ -9494,7 +9629,8 @@
           "text": "Herculean, Cryogenic for a chance to completely stop fish movement and to increase Control and Progress Speed.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Cryogenic",
+            "Herculean",
+            "Cryogenic",
             "Controlled"
           ]
         },
@@ -9503,7 +9639,8 @@
           "text": "Magnitude Might, Crested to slow down fish movement and to increase Fish Weight, Control, and Resilience.",
           "note": "",
           "enchants": [
-            "Magnitude Might, Crested"
+            "Magnitude Might",
+            "Crested"
           ]
         }
       ]
@@ -9520,7 +9657,8 @@
           "text": "Greed, Sea Prince to drastically increase Fish Weight.",
           "note": "Sea King if Twisted Relic is not available.",
           "enchants": [
-            "Greed, Sea Prince",
+            "Greed",
+            "Sea Prince",
             "Sea King"
           ]
         },
@@ -9529,7 +9667,8 @@
           "text": "Herculean, Cryogenic for a chance to completely stop fish movement and to increase Control and Progress Speed.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Cryogenic",
+            "Herculean",
+            "Cryogenic",
             "Controlled"
           ]
         },
@@ -9538,7 +9677,8 @@
           "text": "Starforged Spirit, Sanctified to increase Fish Weight, Resilience, True Progress Speed, Forced Progress Speed, and Progress Speed.",
           "note": "",
           "enchants": [
-            "Starforged Spirit, Sanctified"
+            "Starforged Spirit",
+            "Sanctified"
           ]
         }
       ]
@@ -9589,7 +9729,8 @@
           "text": "Greed, Sea Prince to maximize Fish Weight.",
           "note": "Sea Overlord or Sea King if Twisted Relic is not available.",
           "enchants": [
-            "Greed, Sea Prince",
+            "Greed",
+            "Sea Prince",
             "Sea Overlord",
             "Sea King"
           ]
@@ -9599,7 +9740,9 @@
           "text": "Starforged Spirit, Sanctified, Crested to slow down fish movement and to increase Fish Weight, Resilience, True Progress Speed, Forced Progress Speed, and Progress Speed.",
           "note": "",
           "enchants": [
-            "Starforged Spirit, Sanctified, Crested"
+            "Starforged Spirit",
+            "Sanctified",
+            "Crested"
           ]
         }
       ]
@@ -9612,7 +9755,8 @@
           "text": "Herculean, Sea Prince to increase Control, Progress Speed, and Fish Weight.",
           "note": "Controlled if Exalted Relic is not available.",
           "enchants": [
-            "Herculean, Sea Prince",
+            "Herculean",
+            "Sea Prince",
             "Controlled"
           ]
         }
@@ -9670,7 +9814,8 @@
           "text": "Blessed Song, Tryhard to drastically increase Progress Speed and True Progress Speed.",
           "note": "Momentum if Song of the Deep is not available.",
           "enchants": [
-            "Blessed Song, Tryhard",
+            "Blessed Song",
+            "Tryhard",
             "Momentum"
           ]
         },
@@ -9732,7 +9877,8 @@
           "text": "Sea Overlord, Sea Prince to drastically increase Fish Weight.",
           "note": "Abyssal if Exalted Relic is not available.",
           "enchants": [
-            "Sea Overlord, Sea Prince",
+            "Sea Overlord",
+            "Sea Prince",
             "Abyssal"
           ]
         },
@@ -9741,7 +9887,8 @@
           "text": "Starforged Spirit, Sanctified to increase Fish Weight, Resilience, True Progress Speed, Forced Progress Speed, and Progress Speed.",
           "note": "",
           "enchants": [
-            "Starforged Spirit, Sanctified"
+            "Starforged Spirit",
+            "Sanctified"
           ]
         }
       ]
@@ -9754,7 +9901,8 @@
           "text": "Blessed Song, Vicious to drastically increase Progress Speed, and True Progress Speed.",
           "note": "Momentum if Song of the Deep is not available.",
           "enchants": [
-            "Blessed Song, Vicious",
+            "Blessed Song",
+            "Vicious",
             "Momentum"
           ]
         }
@@ -9789,7 +9937,8 @@
           "text": "Blessed Song, Tryhard to drastically increase Progress Speed, and True Progress Speed.",
           "note": "Momentum if Song of the Deep is not available.",
           "enchants": [
-            "Blessed Song, Tryhard",
+            "Blessed Song",
+            "Tryhard",
             "Momentum"
           ]
         },
@@ -9798,7 +9947,8 @@
           "text": "Starforged Spirit, Sanctified + Twisted to increase Fish Weight, Resilience, True Progress Speed, Forced Progress Speed, and Progress Speed.",
           "note": "",
           "enchants": [
-            "Starforged Spirit, Sanctified",
+            "Starforged Spirit",
+            "Sanctified",
             "Twisted"
           ]
         }
@@ -9824,7 +9974,8 @@
           "text": "Greed, Sea Prince to maximize Fish Weight.",
           "note": "Sea Overlord or Sea King if Twisted Relic is not available.",
           "enchants": [
-            "Greed, Sea Prince",
+            "Greed",
+            "Sea Prince",
             "Sea Overlord",
             "Sea King"
           ]
@@ -9861,7 +10012,8 @@
           "text": "Ferocious, Vicious to maximize Disturbance increase.",
           "note": "Hunter if Exalted Relic is not available.",
           "enchants": [
-            "Ferocious, Vicious",
+            "Ferocious",
+            "Vicious",
             "Hunter"
           ]
         },
@@ -9870,7 +10022,8 @@
           "text": "Menacing Spirit, Sanctified for an additional slash passive ability and an increase to Disturbance, Progress Speed, and True Progress Speed.",
           "note": "",
           "enchants": [
-            "Menacing Spirit, Sanctified"
+            "Menacing Spirit",
+            "Sanctified"
           ]
         }
       ]
@@ -9883,7 +10036,8 @@
           "text": "Greed, Sea Prince to maximize Fish Weight.",
           "note": "Sea Overlord or Sea King if Twisted Relic is not available.",
           "enchants": [
-            "Greed, Sea Prince",
+            "Greed",
+            "Sea Prince",
             "Sea Overlord",
             "Sea King"
           ]
@@ -9901,7 +10055,9 @@
           "text": "Starforged Spirit, Sanctified, Crested to slow down fish movement and to increase Fish Weight, Resilience, Forced Progress Speed, True Progress Speed and Progress Speed.",
           "note": "",
           "enchants": [
-            "Starforged Spirit, Sanctified, Crested"
+            "Starforged Spirit",
+            "Sanctified",
+            "Crested"
           ]
         }
       ]
@@ -9927,7 +10083,8 @@
           "text": "Mystical, Tryhard to increase Lure Speed, Luck, Resilience, and Progress Speed.",
           "note": "Divine if Exalted Relic is not available.",
           "enchants": [
-            "Mystical, Tryhard",
+            "Mystical",
+            "Tryhard",
             "Divine"
           ]
         }
@@ -9945,7 +10102,8 @@
           "text": "Greed, Sea Prince to maximize Fish Weight.",
           "note": "Sea Overlord or Sea King if Twisted Relic is not available.",
           "enchants": [
-            "Greed, Sea Prince",
+            "Greed",
+            "Sea Prince",
             "Sea Overlord",
             "Sea King"
           ]
@@ -9989,7 +10147,8 @@
           "text": "Greed, Sea Prince to maximize Fish Weight.",
           "note": "Sea Overlord if Twisted Relic is not available.",
           "enchants": [
-            "Greed, Sea Prince",
+            "Greed",
+            "Sea Prince",
             "Sea Overlord"
           ]
         },
@@ -10007,7 +10166,8 @@
           "text": "Starforged Spirit, Sanctified + Twisted to increase Fish Weight, Resilience, True Progress Speed, Forced Progress Speed, and Progress Speed.",
           "note": "",
           "enchants": [
-            "Starforged Spirit, Sanctified",
+            "Starforged Spirit",
+            "Sanctified",
             "Twisted"
           ]
         }

@@ -147,3 +147,9 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Wix generated files
+.wix/
+
+# VS Code settings
+.vscode/

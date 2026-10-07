@@ -30,6 +30,7 @@ Requires Level 500 and a [[Prior Quest]].
 ;(Rewards {{Rod|Reward Rod}})
 == Navigation ==
 {{NPC Navbox}}`);
+ assert.equal(wiki.questText('{{Mutation|Celestial,Nova,Aurora|sep=,|ls=or}}'),'Celestial, Nova or Aurora');assert.equal(wiki.questText('{{Mutation|Shiny,Sparkling|sep=or}}'),'Shiny or Sparkling');
  assert.equal(parsed.gps,'-100, 50, 300');assert.equal(parsed.stages[0].steps[0].tasks[0].text,'Catch 2 × Shiny + Sparkling Handfish with Aurora Rod');
  assert.equal(parsed.stages[0].steps[0].tasks[0].fish[0].quantity,'2');assert.equal(parsed.stages[0].steps[0].tasks[0].rods[0].name,'Aurora Rod');
  assert.match(parsed.stages[0].steps[0].tasks[1].text,/Moby or Humpback Whale/);assert.match(parsed.stages[0].steps[0].tasks[2].text,/\[Mutation\] \[CurrentFish\]/);

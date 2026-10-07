@@ -34,7 +34,7 @@ export function questText(input: unknown): string {
     let text = '';
     if (t.name === 'coordinates') text = t.positional.slice(0,3).map(questText).join(', ');
     else if (t.name === 'c$' || t.name === 's$' || t.name === 'e$') text = `${t.name.toUpperCase()} ${questText(first)}`;
-    else if (names.includes(t.name)) { const quantity = /^\d+(?:,\d{3})*(?:\.\d+)?$/.test(t.positional[1] ?? '') ? t.positional[1] + ' × ' : ''; const attrs = t.args.attrs ? questText(t.args.attrs).replace(/\s*,\s*/g, ' + ') + ' ' : ''; text = quantity + attrs + questText(t.args.text ?? first); if (t.name === 'mutation') text = text.replace(/\s*,\s*/g, t.args.sep === 'or' ? ' or ' : ' + '); }
+    else if (names.includes(t.name)) { const quantity = /^\d+(?:,\d{3})*(?:\.\d+)?$/.test(t.positional[1] ?? '') ? t.positional[1] + ' × ' : ''; const attrs = t.args.attrs ? questText(t.args.attrs).replace(/\s*,\s*/g, ' + ') + ' ' : ''; text = quantity + attrs + questText(t.args.text ?? first); if (t.name === 'mutation') { const parts=text.split(/\s*,\s*/);text=t.args.sep==='or'?parts.join(' or '):t.args.ls==='or'&&parts.length>1?parts.slice(0,-1).join(', ')+' or '+parts.at(-1):parts.join(' + '); } }
     else if (t.name === 'column') text = questText(t.positional.slice(1).join('|'));
     else if (t.name === 'ref') text = first ? ` (Note: ${questText(first)}) ` : '';
     else if (!t.name.startsWith('#') && !['stub','removed','unobtainable','background','main','distinguish','npcinfobox','change history','npc navbox','quest','dialogue start','dialogue end','reflist','clr'].includes(t.name)) text = questText(t.args.content ?? t.args.text ?? first);

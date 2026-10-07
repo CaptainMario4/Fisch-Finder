@@ -7,7 +7,7 @@
 .finder-menu-toggle{display:none;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid var(--color-rule);border-radius:var(--radius-md);background:var(--color-paper-warm);color:var(--color-ink)}
 .finder-menu-toggle:hover,.finder-menu-toggle[aria-expanded=true]{border-color:var(--color-accent);color:var(--color-accent)}
 .finder-nav :is(a,button):focus-visible{outline:3px solid var(--color-focus);outline-offset:3px}
-@media(max-width:767px){
+@media(max-width:959px){
   .site-nav .finder-nav{gap:12px;padding:12px 16px;min-height:68px}
   .site-nav .finder-brand{font-size:1rem}
   .finder-menu-toggle{display:flex}

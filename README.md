@@ -2,7 +2,7 @@
 
 https://fisch-finder-moonke1-0c07.wix-site-host.com/
 
-A Fisch companion for fish, rod, and companion search on desktop and mobile. The search bar matches fish names, bestiary regions, and listed sublocations, with partial and case-insensitive matching. The interface offers desktop tables, mobile cards, responsive details, and light or dark mode.
+A Fisch companion for fish, rod, companion, and quest search on desktop and mobile. The search bar matches fish names, bestiary regions, and listed sublocations, with partial and case-insensitive matching. The interface offers desktop tables, mobile cards, responsive details, and light or dark mode.
 
 ## Source and data updates
 
@@ -26,6 +26,14 @@ The `/companions` page searches companion names, locations, food, abilities, and
 
 `src/lib/companions.ts` reads Fischipedia's `companions` bucket and checks page revision IDs. Only changed companion pages need their ability and obtainment text downloaded. Automatic checks use a 30 minute server cache, and manual checks are limited to once a minute per server instance. A bundled snapshot and the last successful server result preserve search and details during outages; the source timestamp advances only after a complete successful check. New wiki companions and locations appear in search and filters after refresh. Availability reflects wiki flags, rather than active event conditions in a game server.
 
+## Quest Helper
+
+Search wiki-documented quests by name, NPC, fish, objective, reward, and location. Available guides show first, with location, quest type, and availability filters. Quests are grouped by NPC. Each row opens an expanded desktop guide or full-screen mobile menu with Overview, Step-by-step guide, Fish & rod checklist, and Rewards sections. Source steps preserve quantities, alternatives, mutations, prerequisite notes, GPS coordinates, and riddle/solution tables. Missing or variable details are labeled.
+
+Fish objectives link to Fish Finder with catch preferences. Specific objective rods and mutation-method rods link to Rod Finder. General rod suggestions are labeled capacity options, with limits and level gates; mandatory equipment and mutation conditions take priority. Objective checkboxes save on the current device, with a memory fallback when storage is blocked, a reset for each guide, and shareable guide links. Progress does not sync with Roblox.
+
+The backend discovers quests through the NPC bucket and Quest NPCs category, checks page revisions, and refreshes guides, catch data, and mutation methods with a 30-minute cache. Manual refresh is throttled to once a minute per server instance. New wiki quest NPCs become searchable automatically. Failed checks retain the last complete data and timestamp. Availability uses wiki removal flags; event access and player prerequisites still apply, and wiki coverage may be incomplete.
+
 ## Schedule Cards
 
 Three responsive cards above search show scheduled global hunt spawns, the wiki-derived current season, and current/future event dates. `src/lib/schedules.ts` reads MediaWiki revisions for `Template:Main page settings/events`, `Template:Main page settings/seasonal events`, and `MediaWiki:Countdowns.js`. Only supported values are parsed; source JavaScript is never executed. The bundled raw response records its actual source-check time. Failed or incompatible refreshes keep the previous schedules and timestamp with a saved-schedules notice.
@@ -36,7 +44,7 @@ Schedules refresh on opening, every 15 minutes, and with Refresh data. Countdown
 
 ## Appearance
 
-The always-visible navigation switch offers dark mode. Light remains the initial default. A user's choice is stored locally, restored before first paint, preserved across Astro navigation, and synchronized across tabs. The same light/dark choice applies to Fish Finder, Rod Finder, and Companions. If storage is unavailable, the choice remains in memory across navigation. All surfaces and text use shared semantic palette tokens, including native form controls, focus rings, table selection, warnings, status badges, and the footer. Disabled database controls retain readable text rather than lowering the opacity of the entire control.
+The always-visible navigation switch offers dark mode. Light remains the initial default. A user's choice is stored locally, restored before first paint, preserved across Astro navigation, and synchronized across tabs. The same light/dark choice applies to Fish Finder, Rod Finder, Companions, and Quest Helper. If storage is unavailable, the choice remains in memory across navigation. All surfaces and text use shared semantic palette tokens, including native form controls, focus rings, table selection, warnings, status badges, and the footer. Disabled database controls retain readable text rather than lowering the opacity of the entire control.
 
 ![Fisch Finder screenshot](images/fisch-finder-1.png)
 

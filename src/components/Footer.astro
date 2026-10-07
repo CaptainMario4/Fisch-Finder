@@ -2,7 +2,7 @@
 // ── Composer skeleton: src/components/Footer.astro ────────────────────────────
 // Substitutions (see COMPOSE.md § "5. Footer.astro"):
 //   Fisch Finder — brand name for the wordmark + copyright.
-//   Fish, rod, and companion information sourced from Fischipedia. — short brand-voice tagline from data.shell.
+//   Fish, rod, companion, and quest information sourced from Fischipedia. — short brand-voice tagline from data.shell.
 //    — same inlined Navigation links array (mirror/subset);
 //        one <a href={href}>{label}</a> per entry, labels VERBATIM. No cart,
 //        login, or account links.
@@ -13,7 +13,7 @@ const year = new Date().getFullYear();
   <div class="max-w-6xl mx-auto px-lg py-3xl flex flex-col md:flex-row md:items-start md:justify-between gap-xl">
     <div class="flex flex-col gap-sm max-w-prose">
       <span class="font-display text-lg text-ink">Fisch Finder</span>
-      <p class="text-sm">Fish, rod, and companion information sourced from Fischipedia.</p>
+      <p class="text-sm">Fish, rod, companion, and quest information sourced from Fischipedia.</p>
       <p class="text-sm">Source: <a href="https://fischipedia.org/wiki/Fisch_Wiki" class="text-accent underline">Fischipedia</a>. Wiki data is shared under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="text-accent underline">CC BY-NC-SA 4.0</a>.</p>
     </div>
     <nav aria-label="Footer navigation">
@@ -21,6 +21,7 @@ const year = new Date().getFullYear();
         <li><a href="/" class="text-accent">Fish Finder</a></li>
         <li><a href="/rods" class="text-accent">Rod Finder</a></li>
         <li><a href="/companions" class="text-accent">Companions</a></li>
+        <li><a href="/quests" class="text-accent">Quest Helper</a></li>
       </ul>
     </nav>
   </div>

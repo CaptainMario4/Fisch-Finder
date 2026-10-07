@@ -1,6 +1,6 @@
 ---
 import '../styles/navigation.css';
-const links = [{ href: '/', label: 'Fish Finder' }, { href: '/rods', label: 'Rod Finder' }, { href: '/companions', label: 'Companions' }];
+const links = [{ href: '/', label: 'Fish Finder' }, { href: '/rods', label: 'Rod Finder' }, { href: '/companions', label: 'Companions' }, { href: '/quests', label: 'Quest Helper' }];
 const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
 <header class="site-nav" transition:persist="site-nav">
@@ -47,7 +47,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
       setMenu(false); document.querySelector<HTMLButtonElement>('[data-finder-menu-toggle]')?.focus();
     }
   });
-  window.matchMedia('(min-width: 768px)').addEventListener('change', () => setMenu(false));
+  window.matchMedia('(min-width: 960px)').addEventListener('change', () => setMenu(false));
   document.addEventListener('astro:page-load', syncNavigation);
   syncNavigation();
 </script>

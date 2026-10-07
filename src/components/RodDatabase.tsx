@@ -55,7 +55,9 @@ export default function RodDatabase({ initialData }: { initialData: RodDataset }
     const timeout = window.setTimeout(() => controller.abort(), 45000);
     setLoading(true); setError('');
     try {
-      const response = await fetch('/api/rods.json', { method: force ? 'POST' : 'GET', cache: 'no-store', signal: controller.signal });
+      // Keep an older edge-cached parsing format from replacing this snapshot
+      // after a release. Bump this key when the normalized data format changes.
+      const response = await fetch('/api/rods.json?schema=1', { method: force ? 'POST' : 'GET', cache: 'no-store', signal: controller.signal });
       if (!response.ok) throw new Error('Refresh failed'); const next = await response.json() as RodDataset;
       if (!Array.isArray(next.rods) || !next.rods.length || !Number.isFinite(Date.parse(next.fetchedAt))) throw new Error('Invalid rod data');
       setData(current => Date.parse(next.fetchedAt) < Date.parse(current.fetchedAt) ? { ...current, mode: next.mode, notice: next.notice } : next);

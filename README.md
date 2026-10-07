@@ -1,5 +1,7 @@
 # Fisch Finder
 
+https://fisch-finder-moonke1-0c07.wix-site-host.com/
+
 A separate site for fish search. The search bar matches fish names, bestiary regions, and listed sublocations, with partial and case-insensitive matching. The interface uses a light table and detail panel.
 
 ## Source and data updates

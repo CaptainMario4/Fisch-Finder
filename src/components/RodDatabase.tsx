@@ -1,3 +1,4 @@
+import { fetchDataset, pollDataset } from '../lib/browser-dataset-cache';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Rod, RodDataset } from '../lib/rods';
 import RodDetails from './RodDetails';
@@ -37,9 +38,7 @@ export default function RodDatabase({ initialData }: { initialData: RodDataset }
     try {
       // Keep an older edge-cached parsing format from replacing this snapshot
       // after a release. Bump this key when the normalized data format changes.
-      const response = await fetch('/api/rods.json?schema=2', { method: force ? 'POST' : 'GET', cache: 'no-store', signal: controller.signal });
-      if (!response.ok) throw new Error('Refresh failed'); const next = await response.json() as RodDataset;
-      if (!Array.isArray(next.rods) || !next.rods.length || next.rods.some(rod => !Array.isArray(rod.abilities) || !Array.isArray(rod.mastery) || !Array.isArray(rod.recommendations)) || !Number.isFinite(Date.parse(next.fetchedAt))) throw new Error('Invalid rod data');
+      const next = await fetchDataset<RodDataset>('/api/rods.json?schema=2', { force: force, signal: controller.signal, maxAge: 30 * 60 * 1000 }, next => Array.isArray(next.rods) && next.rods.length > 0 && next.rods.every(rod => Array.isArray(rod.abilities) && Array.isArray(rod.mastery) && Array.isArray(rod.recommendations)));
       setData(current => Date.parse(next.fetchedAt) < Date.parse(current.fetchedAt) ? { ...current, mode: next.mode, notice: next.notice } : next);
     } catch { if (refreshController.current === controller) setError('Refresh unavailable. The saved rods remain searchable with their original source timestamp.'); }
     finally { window.clearTimeout(timeout); if (refreshController.current === controller) setLoading(false); }
@@ -52,9 +51,9 @@ export default function RodDatabase({ initialData }: { initialData: RodDataset }
       const requestedPage = Number(params.get('page')); setPage(Number.isFinite(requestedPage) ? Math.max(1, Math.floor(requestedPage)) : 1);
       keys.forEach(key => restored[key] = params.get(key) ?? ''); setFilters(restored); setUrlReady(true);
     };
-    readUrl(); void refresh(); const interval = window.setInterval(() => void refresh(), 30 * 60 * 1000);
+    readUrl(); const stopRefresh = pollDataset('/api/rods.json?schema=2', () => refresh(), 30 * 60 * 1000);
     window.addEventListener('popstate', readUrl);
-    return () => { window.removeEventListener('popstate', readUrl); window.clearInterval(interval); refreshController.current?.abort(); };
+    return () => { window.removeEventListener('popstate', readUrl); stopRefresh(); refreshController.current?.abort(); };
   }, []);
   useEffect(() => {
     if (!urlReady) return; const params = new URLSearchParams();

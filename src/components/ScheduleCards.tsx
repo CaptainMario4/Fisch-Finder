@@ -1,3 +1,4 @@
+import { fetchDataset, pollDataset } from '../lib/browser-dataset-cache';
 import { useEffect, useState } from 'react';
 import type { ScheduleData } from '../lib/schedules';
 import { countdown, eventAt, nextHunt, seasonAt } from '../lib/schedules';
@@ -19,17 +20,13 @@ export default function ScheduleCards({ initialData, refreshSequence, onSeason }
     async function refresh(force = false) {
       if (alive) setChecking(true);
       try {
-        const response = await fetch('/api/schedules.json', { method: force ? 'POST' : 'GET', cache: 'no-store', signal: AbortSignal.timeout(22000) });
-        if (!response.ok) throw new Error('Unavailable');
-        const next = await response.json() as ScheduleData;
-        if (!next.hunts?.length || next.seasons?.length !== 4 || !next.seasonDuration || !Number.isFinite(Date.parse(next.fetchedAt))) throw new Error('Invalid schedules');
+        const next = await fetchDataset<ScheduleData>('/api/schedules.json', { force: force, signal: AbortSignal.timeout(22000), maxAge: 15 * 60 * 1000 }, next => !!next.hunts?.length && next.seasons?.length === 4 && !!next.seasonDuration);
         if (alive) setData(current => Date.parse(next.fetchedAt) < Date.parse(current.fetchedAt) ? { ...current, mode: next.mode } : next);
       } catch { if (alive) setData(current => ({ ...current, mode: 'snapshot' })); }
       finally { if (alive) setChecking(false); }
     }
-    void refresh(refreshSequence > 0);
-    const interval = window.setInterval(() => void refresh(), 15 * 60 * 1000);
-    return () => { alive = false; window.clearInterval(interval); };
+    const stopRefresh = pollDataset('/api/schedules.json', () => refresh(), 15 * 60 * 1000, () => refresh(refreshSequence > 0));
+    return () => { alive = false; stopRefresh(); };
   }, [refreshSequence]);
   useEffect(() => {
     const tick = () => setNow(Date.now()); tick();

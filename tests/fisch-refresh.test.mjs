@@ -18,6 +18,20 @@ class TestDate extends RealDate {
 }
 const success = (url) => ({ ok: true, json: async () => ({ bucket: new URL(url).searchParams.get('query').includes('fish_availability') ? snapshot.availability : snapshot.fish }) });
 
+test('admin events display separately with their original percentages', async () => {
+  const mod = await freshModule();
+  const raw = [{ page_id: 1, page_name: 'Test fish' }];
+  const fish = mod.normalize(raw, [{ page_id: 1, admin_events: 'EMOJIS!\\1%;; MADNESS\\3%;;\nDivine Dream\\0.067%;; Plain event' }])[0];
+  assert.deepEqual(fish.adminEvents, ['EMOJIS! — 1%', 'MADNESS — 3%', 'Divine Dream — 0.067%', 'Plain event']);
+  assert.deepEqual(mod.normalize(raw, [])[0].adminEvents, []);
+  const emoji = mod.fallback.fish.find(f => f.page === '🐟');
+  assert.equal(emoji.adminEvents.length, 10);
+  assert.equal(emoji.adminEvents[0], 'EMOJIS! — 1%');
+  assert.equal(emoji.adminEvents[7], '🐟 (Admin Event) — 1%');
+  assert.equal(emoji.adminEvents[9], 'Gurt Dream — 7%');
+  assert.ok(mod.fallback.fish.every(f => f.adminEvents.every(event => !event.includes(';;') && !event.includes('\\'))));
+});
+
 test('automatic cache, explicit refresh, and source timestamps', async t => {
   globalThis.Date = TestDate;
   try {
@@ -28,13 +42,16 @@ test('automatic cache, explicit refresh, and source timestamps', async t => {
       clock += 10_000;
       const cached = await mod.getDataset();
       assert.equal(requests, 2); assert.equal(cached.fetchedAt, first.fetchedAt);
+      const throttled = await mod.getDataset({ forceRefresh: true });
+      assert.equal(requests, 2); assert.equal(throttled.fetchedAt, first.fetchedAt);
+      clock += 60_000;
       const refreshed = await mod.getDataset({ forceRefresh: true });
       assert.equal(requests, 4); assert.equal(refreshed.fetchedAt, new RealDate(clock).toISOString());
       assert.notEqual(refreshed.fetchedAt, first.fetchedAt); assert.equal(refreshed.mode, 'api');
     });
     await t.test('failed refresh retains the last successful timestamp and fish data', async () => {
       const mod = await freshModule(); globalThis.fetch = async url => success(url);
-      const first = await mod.getDataset(); clock += 10_000;
+      const first = await mod.getDataset(); clock += 61_000;
       globalThis.fetch = async () => { throw new Error('Wiki unavailable'); };
       const failed = await mod.getDataset({ forceRefresh: true });
       assert.equal(failed.fetchedAt, first.fetchedAt); assert.deepEqual(failed.fish, first.fish);

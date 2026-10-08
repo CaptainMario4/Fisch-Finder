@@ -1,3 +1,4 @@
+import { fetchDataset, pollDataset } from '../lib/browser-dataset-cache';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { Companion, CompanionDataset } from '../lib/companions';
@@ -51,9 +52,7 @@ export default function CompanionDatabase({ initialData }: { initialData: Compan
     try {
       // Keep an older edge-cached parsing format from replacing this snapshot
       // after a release. Bump this key when the normalized data format changes.
-      const response = await fetch('/api/companions.json?schema=1', { method: force ? 'POST' : 'GET', cache: 'no-store', signal: controller.signal });
-      if (!response.ok) throw new Error('Refresh failed'); const next = await response.json() as CompanionDataset;
-      if (!Array.isArray(next.companions) || !next.companions.length || next.companions.some(item => !item || typeof item.name !== 'string' || !Array.isArray(item.abilities) || !Array.isArray(item.buffs) || !Array.isArray(item.obtainment) || !Array.isArray(item.gameplayNotes)) || !Number.isFinite(Date.parse(next.fetchedAt))) throw new Error('Invalid companion data');
+      const next = await fetchDataset<CompanionDataset>('/api/companions.json?schema=1', { force: force, signal: controller.signal, maxAge: 30 * 60 * 1000 }, next => Array.isArray(next.companions) && next.companions.length > 0 && next.companions.every(item => !!item && typeof item.name === 'string' && Array.isArray(item.abilities) && Array.isArray(item.buffs) && Array.isArray(item.obtainment) && Array.isArray(item.gameplayNotes)));
       setData(current => Date.parse(next.fetchedAt) < Date.parse(current.fetchedAt) ? { ...current, mode: next.mode, notice: next.notice } : next);
     } catch { if (refreshController.current === controller) setError('Refresh unavailable. The saved companions and abilities remain searchable with their original source timestamp.'); }
     finally { window.clearTimeout(timeout); if (refreshController.current === controller) setLoading(false); }
@@ -66,9 +65,9 @@ export default function CompanionDatabase({ initialData }: { initialData: Compan
       const requestedPage = Number(params.get('page')); setPage(Number.isFinite(requestedPage) ? Math.max(1, Math.floor(requestedPage)) : 1);
       keys.forEach(key => restored[key] = params.get(key) ?? ''); setFilters(restored); setUrlReady(true);
     };
-    readUrl(); void refresh(); const interval = window.setInterval(() => void refresh(), 30 * 60 * 1000);
+    readUrl(); const stopRefresh = pollDataset('/api/companions.json?schema=1', () => refresh(), 30 * 60 * 1000);
     window.addEventListener('popstate', readUrl);
-    return () => { window.removeEventListener('popstate', readUrl); window.clearInterval(interval); refreshController.current?.abort(); };
+    return () => { window.removeEventListener('popstate', readUrl); stopRefresh(); refreshController.current?.abort(); };
   }, []);
   useEffect(() => {
     if (!urlReady) return; const params = new URLSearchParams();

@@ -72,10 +72,11 @@ export function countdown(target: number, now: number) {
   const minutes = Math.floor(remaining / 60), secs = remaining % 60;
   return `${days ? days + 'd ' : ''}${hours}h ${String(minutes).padStart(2, '0')}m ${String(secs).padStart(2, '0')}s`;
 }
-let cached: ScheduleData | undefined, expires = 0, pending: Promise<ScheduleData> | undefined;
+let cached: ScheduleData | undefined, expires = 0, lastAttempt = 0, pending: Promise<ScheduleData> | undefined;
 export async function getSchedules(force = false): Promise<ScheduleData> {
   if (pending) return pending;
-  if (!force && cached && Date.now() < expires) return cached;
+  if (cached && (Date.now() < lastAttempt + 60 * 1000 || (!force && Date.now() < expires))) return cached;
+  lastAttempt = Date.now();
   pending = (async () => {
     try {
       const url = new URL(API);

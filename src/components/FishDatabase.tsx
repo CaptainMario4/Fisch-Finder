@@ -1,3 +1,4 @@
+import { fetchDataset, pollDataset } from '../lib/browser-dataset-cache';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { Dataset, Fish } from '../lib/fisch';
@@ -56,10 +57,7 @@ export default function FishDatabase({ initialData, initialSchedules }: { initia
     if (forceRefresh) setRefreshSequence(current => current + 1);
     setLoading(true); setError('');
     try {
-      const response = await fetch('/api/fish.json', { method: forceRefresh ? 'POST' : 'GET', cache: 'no-store', signal: AbortSignal.timeout(22000) });
-      if (!response.ok) throw new Error('Fetch failed');
-      const next = await response.json() as Dataset;
-      if (!Array.isArray(next.fish) || !next.fish.length || !next.fetchedAt) throw new Error('Invalid dataset');
+      const next = await fetchDataset<Dataset>('/api/fish.json', { force: forceRefresh, signal: AbortSignal.timeout(22000), maxAge: 30 * 60 * 1000 }, next => Array.isArray(next.fish) && next.fish.length > 0);
       setData(current => {
         // A different server instance may only have the bundled snapshot on
         // failure. Keep the newer data already visible in this browser.
@@ -85,9 +83,9 @@ export default function FishDatabase({ initialData, initialSchedules }: { initia
       restored.status = status === 'available' || status === 'unmarked' ? 'available' : ['unavailable', 'removed', 'unobtainable'].includes(status) ? 'unavailable' : '';
       setFilters(restored); setUrlReady(true);
     };
-    readUrl(); void refresh(); const interval = window.setInterval(() => void refresh(), 30 * 60 * 1000);
+    readUrl(); const stopRefresh = pollDataset('/api/fish.json', () => refresh(), 30 * 60 * 1000);
     window.addEventListener('popstate', readUrl);
-    return () => { window.removeEventListener('popstate', readUrl); window.clearInterval(interval); };
+    return () => { window.removeEventListener('popstate', readUrl); stopRefresh(); };
   }, []);
   useEffect(() => {
     if (!urlReady) return; const params = new URLSearchParams();
@@ -146,7 +144,7 @@ export default function FishDatabase({ initialData, initialSchedules }: { initia
     <div className="fish-filter-panel" id="fish-filter-panel" hidden={mobile && !filtersOpen}>
     <div className="flex items-center justify-between gap-md mt-lg mb-sm"><h2 className="text-sm font-semibold">Filter catch preferences</h2><button className="fish-clear" onClick={clearFilters} disabled={!activeFilters && !query}>Clear search & filters{activeFilters > 0 ? ` (${activeFilters})` : ''}</button></div>
     <div className="fish-filters">{filterSelect('region', 'Bestiary / region')}{filterSelect('location', 'Location')}{filterSelect('bait', 'Preferred bait')}{filterSelect('time', 'Time of day')}{filterSelect('weather', 'Weather')}{filterSelect('season', 'Season')}{filterSelect('rarity', 'Rarity')}<label className="fish-filter"><span>Availability status</span><select value={filters.status} onChange={event => updateFilter('status', event.target.value)}><option value="">All</option><option value="available">Available</option><option value="unavailable">Unavailable</option></select></label></div>
-    <details className="fish-data-legend"><summary>How to read this data</summary><p><strong>Preferences are not guarantees.</strong> “No listed preference” means the wiki's preference field is empty (displayed as “None” on the wiki); it does not mean there are no special requirements. “Not listed” means the source field is empty. “Unavailable” means the wiki marks the entry as removed or unobtainable. “Available” means neither flag is set; it does not confirm that every event or catch requirement is active in your server.</p><p>Bestiary / region and location are separate wiki fields. Slash-separated locations show the source's location path. API data is checked on opening this page and every 30 minutes while it stays open, with a server cache of up to 30 minutes. The Refresh data button checks the wiki again immediately; the source time changes only after a successful check. This is wiki data, not live game or server state.</p></details><button className="fish-filter-done" onClick={() => {
+    <details className="fish-data-legend"><summary>How to read this data</summary><p><strong>Preferences are not guarantees.</strong> “No listed preference” means the wiki's preference field is empty (displayed as “None” on the wiki); it does not mean there are no special requirements. “Not listed” means the source field is empty. “Unavailable” means the wiki marks the entry as removed or unobtainable. “Available” means neither flag is set; it does not confirm that every event or catch requirement is active in your server.</p><p>Bestiary / region and location are separate wiki fields. Slash-separated locations show the source's location path. API data is checked when its 30-minute cache expires while this page stays open. Recent data is reused when switching pages. The Refresh data button requests a new wiki check, limited to once per minute; the source time changes only after a successful check. This is wiki data, not live game or server state.</p></details><button className="fish-filter-done" onClick={() => {
       setFiltersOpen(false);
       filterToggle.current?.focus({ preventScroll: true });
       window.requestAnimationFrame(() => document.getElementById('fish-search-controls')?.scrollIntoView({ block: 'start' }));

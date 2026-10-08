@@ -46,6 +46,7 @@ export const fallback: Dataset = {
 };
 let cache: Dataset | undefined;
 let expires = 0;
+let lastAttempt = 0;
 let pending: Promise<Dataset> | undefined;
 async function query(query: string) {
   const url = new URL(API);
@@ -58,7 +59,8 @@ async function query(query: string) {
 }
 export async function getDataset({ forceRefresh = false }: { forceRefresh?: boolean } = {}): Promise<Dataset> {
   if (pending) return pending;
-  if (!forceRefresh && cache && Date.now() < expires) return cache;
+  if (cache && (Date.now() < lastAttempt + 60 * 1000 || (!forceRefresh && Date.now() < expires))) return cache;
+  lastAttempt = Date.now();
   pending = (async () => {
     try {
       const [raw, available] = await Promise.all([query(FISH_QUERY), query(AVAILABILITY_QUERY)]);

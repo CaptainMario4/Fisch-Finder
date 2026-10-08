@@ -1,4 +1,4 @@
-name: Check Fandom access
+name: Check Fandom content access
 on:
   push:
     branches: [diagnostics/fandom-access]
@@ -7,35 +7,35 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 4
     steps:
-      - name: Test public wiki access without credentials
+      - name: Read bounded wiki samples without credentials
         run: |
           python3 - <<'PY'
-          import urllib.request, urllib.error, json
-          urls = [
-            ("robots", "https://fisch.fandom.com/robots.txt"),
-            ("api", "https://fisch.fandom.com/api.php?action=query&meta=siteinfo&format=json"),
-            ("page", "https://fisch.fandom.com/wiki/Fisch_Wiki"),
-          ]
-          for label, url in urls:
-              req = urllib.request.Request(url, headers={"User-Agent": "FischFinderConnectivityCheck/1.0 (https://github.com/CaptainMario4/Fisch-Finder)"})
+          import urllib.request, urllib.parse, json, re
+          def query(host, params):
+              url = "https://" + host + "/api.php?" + urllib.parse.urlencode(dict(action="query", format="json", formatversion="2", **params))
+              if host == "fischipedia.org":
+                  url = url.replace("/api.php?", "/w/api.php?")
+              req = urllib.request.Request(url, headers={"User-Agent": "FischFinderDataCheck/1.0 (https://github.com/CaptainMario4/Fisch-Finder)"})
               try:
-                  with urllib.request.urlopen(req, timeout=20) as res:
-                      body = res.read(65536).decode("utf-8", "replace")
-                      print(label, "HTTP", res.status, "type", res.headers.get("Content-Type"), "url", res.url)
-                      if label == "api":
-                          try:
-                              data = json.loads(body)
-                              print("API valid siteinfo:", bool(data.get("query", {}).get("general")), "error:", data.get("error"))
-                          except ValueError:
-                              print("API did not return JSON")
-                      elif label == "robots":
-                          print(body[:12000])
-                      else:
-                          print("Wiki content marker:", "mw-parser-output" in body, "challenge marker:", any(s in body.lower() for s in ["captcha", "just a moment", "access denied"]))
-              except urllib.error.HTTPError as err:
-                  print(label, "HTTP", err.code)
-              except Exception as err:
-                  print(label, type(err).__name__, str(err))
+                  with urllib.request.urlopen(req, timeout=25) as res:
+                      data = json.load(res)
+                  if "error" in data: print("API_ERROR", host, data["error"])
+                  return data
+              except Exception as e:
+                  print("REQUEST_ERROR", host, str(e))
+                  return {}
+          titles = ["Abaia", "Sunken Rod", "BeakBill", "Mysterious Shadow", "Companions", "Quests"]
+          for host in ["fisch.fandom.com", "fischipedia.org"]:
+              data = query(host, {"prop":"revisions|categories", "rvprop":"timestamp|content", "rvslots":"main", "titles":"|".join(titles), "redirects":"1", "cllimit":"20"})
+              print("SOURCE", host, "redirects", data.get("query",{}).get("redirects",[]))
+              for page in data.get("query",{}).get("pages",[]):
+                  rev = (page.get("revisions") or [{}])[0]
+                  text = rev.get("slots",{}).get("main",{}).get("content","")
+                  print(json.dumps({"title":page.get("title"),"missing":page.get("missing",False),"timestamp":rev.get("timestamp"),"chars":len(text),"templates":list(dict.fromkeys(re.findall(r"{{\s*([^|{}\n]+)",text)))[:30],"headings":re.findall(r"^==+\s*(.*?)\s*==+\s*$",text,re.M)[:25],"fields":list(dict.fromkeys(re.findall(r"^\s*\|\s*([^=\n|]+)=",text,re.M)))[:45],"categories":[c["title"] for c in page.get("categories",[])]}))
+          for category in ["Fish","Rods","Companions","Quests"]:
+              data = query("fisch.fandom.com", {"list":"categorymembers","cmtitle":"Category:"+category,"cmlimit":"5","cmnamespace":"0"})
+              print("DISCOVERY",category,json.dumps(data.get("query",{}).get("categorymembers",[])), "has_more",bool(data.get("continue")))
+          
           PY

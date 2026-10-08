@@ -38,7 +38,7 @@ function MutationRodOverview({quest,data}:{quest:Quest;data:QuestDataset}) {
  })}</div><p className="quest-hint">Listed mutation rods are alternatives, not a requirement to own every rod. Objective-specific conditions take priority.</p></section>;
 }
 function Guide({quest,data,progress,toggle,storageAvailable,share,shareStatus}:{quest:Quest;data:QuestDataset;progress:Record<string,true>;toggle:(task:QuestTask)=>void;storageAvailable:boolean;share:()=>void;shareStatus:string}) {
- const [view,setView]=useState('guide');const tasks=questTasks(quest),done=tasks.filter(t=>progress[taskProgressKey(quest,t)]).length;
+ const [view,setView]=useState('overview');const tasks=questTasks(quest),done=tasks.filter(t=>progress[taskProgressKey(quest,t)]).length;
  const checklist=tasks,archived=quest.stages.filter(s=>s.archived);
  const stages=quest.stages.filter(s=>!s.archived);
  return <><div className="quest-guide-layout"><aside className="quest-guide-sidebar"><nav aria-label="Quest guide sections">{[['overview','Overview'],['guide','Step-by-step guide'],['checklist','Fish & rod checklist'],['rewards','Rewards']].map(([value,label])=><button key={value} aria-pressed={view===value} onClick={()=>setView(value)}>{label}</button>)}</nav><div className="quest-progress"><strong>Your progress</strong><p>{done} of {tasks.length} objectives complete</p><progress aria-label="Quest checklist progress" value={done} max={Math.max(1,tasks.length)}/><p className="quest-hint">{storageAvailable?'Saved on this device.':'Storage unavailable; kept for this visit.'} This checklist does not sync with Roblox.</p></div><button className="quest-share" onClick={share}>Copy guide link</button>{shareStatus&&<p className="quest-hint" role="status">{shareStatus}</p>}</aside>

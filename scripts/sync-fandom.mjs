@@ -36,15 +36,16 @@ export async function collect(previous = {}, request = apiRequest) {
       }
       for (const p of pages) {
         const key = kind + ':' + p.pageid, record = parsed.get(p.pageid) ?? previous.records[key];
-        records[key] = record;
-        if (record.entry) (kind === 'fish' ? fish : rods).push(record.entry);
+        const entry = parsed.has(p.pageid) ? record.entry : (previous[kind === 'fish' ? 'fish' : 'rods'] ?? []).find(e => e.id === -p.pageid);
+        records[key] = { revision: record.revision, title: record.title, accepted: !!entry };
+        if (entry) (kind === 'fish' ? fish : rods).push(entry);
       }
     }
   }
   if (fish.length < 50 || rods.length < 10) throw new Error('Too few valid secondary entries');
   const sort = (a, b) => a.name.localeCompare(b.name, 'en'); fish.sort(sort); rods.sort(sort);
   return { schema: 1, parserVersion: PARSER_VERSION, checkedAt: new Date().toISOString(), license, fish, rods, records,
-    stats: { discovered: Object.keys(records).length, accepted: fish.length + rods.length, skipped: Object.values(records).filter(r => !r.entry).length, requests: calls } };
+    stats: { discovered: Object.keys(records).length, accepted: fish.length + rods.length, skipped: Object.values(records).filter(r => !r.accepted).length, requests: calls } };
 }
 async function apiRequest(params) {
   // Sequential, bounded requests; only changed revisions download article text.

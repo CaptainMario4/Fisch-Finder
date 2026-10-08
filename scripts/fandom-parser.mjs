@@ -1,6 +1,6 @@
 // Read-only secondary import. Unknown templates are rejected in structured fields;
 // we never guess stats, preferences, stages, or catch methods from prose.
-export const PARSER_VERSION = 1;
+export const PARSER_VERSION = 2;
 export function templates(value) {
   const result = []; let depth = 0, start = 0;
   for (let i = 0; i < value.length - 1; i++) {
@@ -38,8 +38,8 @@ export function cleanText(input, title = '') {
     if (t.name === 'pagename') replacement = title;
     else if (t.name === 'none') replacement = 'None';
     else if (['c$', 's$', 'e$'].includes(t.name)) replacement = t.name.toUpperCase() + (first ? ' ' + cleanText(first, title) : '');
-    else if (['fish','rod','bait','mutation','enchantment','locationcolor','rarity','color','title','quote','cost','luck','lure speed','control','resilience','max kg','relic','textstyle'].includes(t.name)) replacement = cleanText(t.args.text ?? first, title);
-    else if (/^(common|uncommon|unusual|rare|legendary|mythical|exotic|limited|event|secret|apex|extinct)f$/.test(t.name)) replacement = t.name.slice(0, -1);
+    else if (['fish','rod','bait','mutation','enchantment','locationcolor','rarity','color','title','quote','cost','luck','lure speed','control','resilience','max kg','maxkg','relic','textstyle'].includes(t.name)) replacement = cleanText(t.args.text ?? first, title);
+    else if (/^(common|uncommon|unusual|rare|legendary|mythical|exotic|limited|event|secret|apex|extinct)f$/.test(t.name)) replacement = t.name[0].toUpperCase() + t.name.slice(1, -1);
     else if (['stub','main','reflist','clear','clr'].includes(t.name)) replacement = '';
     else throw new Error('Unsupported template: ' + t.name);
     value = value.slice(0, t.start) + replacement + value.slice(t.end);
@@ -73,7 +73,7 @@ export function parsePage(kind, page, license) {
   const a = infobox.args, value = key => cleanText(a[key], title);
   const secondary = { source: 'fandom', pageId: page.pageid, revision: rev.revid, revisionAt: rev.timestamp, license: license.text, licenseUrl: license.url };
   const common = { id: -page.pageid, page: title, name: title, url: 'https://fisch.fandom.com/wiki/' + encodeURIComponent(title.replace(/ /g, '_')), secondary };
-  const removed = all.some(t => ['removed','unobtainable'].includes(t.name));
+  const removed = all.some(t => ['removed','unobtainable'].includes(t.name)) || /\[\[Category:(?:Unobtainable|Removed)(?:\||\]\])/i.test(text);
   try {
     if (kind === 'fish') {
       // A field explicitly set to None is valid. An absent field is incomplete.
@@ -85,10 +85,11 @@ export function parsePage(kind, page, license) {
         event: optional(a.event, title), methods: [], radar: [], locations: [], crabCages: [], adminEvents: [], removed, unobtainable: removed, nonfish: false };
     }
     if (!['lure_speed','luck','control','resilience','max_kg'].every(k => Object.hasOwn(a, k))) return null;
-    const stat = key => { const text = value(key); if (!/^[+-]?[\d,.]+\s*%?$|^(?:inf(?:inite|inity)?|∞)$/i.test(text)) throw new Error('Unresolved stat'); return text; };
+    const stat = key => { const text = value(key).replace(/\s*kg\s*$/i, ''); if (!/^[+-]?(?:\d+(?:,\d{3})*(?:\.\d+)?|\.\d+)\s*%?$|^(?:inf(?:inite|inity)?|∞)$/i.test(text)) throw new Error('Unresolved stat'); return text; };
     const percent = key => { const text = stat(key); return /%|inf|∞/i.test(text) ? text : text + '%'; };
-    const abilities = prose(section(text, /^(ability|abilities|passive|passives)$/i), title).map(text => ({ category: 'Passive effects', text, details: [], note: '' }));
-    const recommendations = prose(section(text, /^enchanting$/i), title).map(text => ({ group: 'Miscellaneous', text, note: '', enchants: [] }));
+    const abilityText = section(text, /^(ability|abilities|passive|passives)$/i);
+    const abilities = (abilityText ? prose(abilityText, title) : prose(section(text, /^overview$/i), title).filter(p => /\bpassive\b|for every \d+ catches/i.test(p))).map(text => ({ category: 'Passive effects', text, details: [], note: '' }));
+    const recommendations = prose(section(text, /^(enchanting|enchantments)$/i), title).map(text => ({ group: 'Miscellaneous', text, note: '', enchants: [] }));
     return { ...common, stage: 'Not listed', region: optional(a.location, title), source: '', quest: '', event: optional(a.event, title), price: optional(a.cost, title), level: optional(a.level, title),
       lure: percent('lure_speed'), luck: percent('luck'), control: stat('control'), resilience: percent('resilience'), maxWeight: stat('max_kg'),
       durability: '', disturbance: '', huntFocus: '', lineDistance: '', description: optional(a.quote, title), hint: '', unavailable: removed,

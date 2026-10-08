@@ -8,6 +8,7 @@ export type Recommendation = { group: 'Optimal grinding' | 'Miscellaneous' | 'Ke
 export type RodAbility = { category: string; text: string; details: string[]; note: string };
 export type RodMastery = { name: string; objective: string; reward: string; note: string };
 export type Rod = {
+  secondary?: import('./secondary-source').SecondarySource;
   id: number; page: string; name: string; url: string; stage: string; region: string;
   source: string; quest: string; event: string; price: string; level: string;
   lure: string; luck: string; control: string; resilience: string; maxWeight: string;

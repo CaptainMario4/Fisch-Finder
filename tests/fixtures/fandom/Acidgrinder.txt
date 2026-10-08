@@ -1,0 +1,27 @@
+{{Fishing Rod|title1={{PAGENAME}}|image1=Acidgrinder.png|lure_speed={{Lure Speed|83%}}|luck={{Luck|185%}}|control={{control|-0.02}}|resilience={{resilience|30%}}|max_kg={{Maxkg|infkg}}|quote=🧪|location=[[Underground Music Venue]]|cost=|caption-image1=Acidgrinder render.|progress_speed='''+0-50%'''|disturbance=+3|durability=200 ({{Lava}}, {{Noxious Fluid}}, {{Brine}})|hunt_focus=Brine Storm '''+15'''}}
+
+== '''Overview''' ==
+'''Acidgrinder''' is a rod that was obtained from completing [[Axel]]'s quests at the [[Underground Music Venue]]. It has mediocre stats all round and a very unique passive, somewhat similar to [[Maelstrom Rod|Maelstrom]] with the 'hold input' mechanic. This rod resembles a chainsaw with green and purple glowing effects. These effect resemble paint splatters.
+
+== '''Obtainment''' ==
+Was obtainable by complete [[Axel|Axel's]] Quests:
+
+# Catch {{Mutation|Tainted}} [[Brine Phantom]]
+# Catch {{Mutation|Brined}} [[Brine Sovereign]] (Completing this rewards {{Rarity|Apex|Restricted}} '''Acidgrinder''')
+# Catch and return 1 {{Mutation|Acidic}} [[Caustic Starwyrm]] with Acidgrinder
+Competing all three quests will reward unrestricted '''Acidgrinder'''
+
+== '''Passives''' ==
+
+* '''40%''' chance for {{Mutation|Acidic}} mutation (7.3x)
+* Holding an input will increase charge, with letting go decreasing charge. Charge gives boosts to progress speed (25%) and forced progress speed (25%). '''(50%)'''
+
+== '''Enchantments''' ==
+
+* {{Enchantment|Herculean}} + {{Enchantment|Cryogenic}} to increase Control and a chance to freeze fish.
+* {{Enchantment|Piercing}} + {{Enchantment|Cryogenic}} to have passive Stab ability and a chance to freeze fish.
+* {{Enchantment|Ferocious}} + {{Enchantment|Vicious}} to increase Disturbance to activate server events like '''Brine Storm'''.
+
+[[Category:Fishing Rods with passives]]
+[[Category:Quest Reward]]
+[[Category:Unobtainable]]

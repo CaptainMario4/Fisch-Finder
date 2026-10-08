@@ -4,6 +4,7 @@ export const API = 'https://fischipedia.org/w/api.php';
 const FISH_QUERY = "mw.bucket('fish').select('page_id','page_name','name','rarity','bestiary','location','bait','time','weather','season','event','source','radar','is_unob','is_removed','nonfish').limit(5000):run()";
 const AVAILABILITY_QUERY = "mw.bucket('fish_availability').select('page_id','page_name','locations','crab_cages','admin_events').limit(5000):run()";
 export type Fish = {
+  secondary?: import('./secondary-source').SecondarySource;
   id: number; name: string; page: string; url: string; rarity: string;
   region: string; location: string; bait: string[]; time: string[];
   weather: string[]; season: string[]; event: string; methods: string[];

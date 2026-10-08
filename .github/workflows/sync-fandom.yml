@@ -1,0 +1,45 @@
+name: Refresh Fandom secondary data
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/fandom-parser.mjs'
+      - 'scripts/sync-fandom.mjs'
+      - 'scripts/publish-fandom.mjs'
+      - '.github/workflows/sync-fandom.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fisch-finder-secondary-data
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout existing project
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify parser and failure handling
+        run: node --test tests/fandom-parser.test.mjs
+      - name: Collect validated secondary entries
+        run: node scripts/sync-fandom.mjs
+      - name: Publish only the secondary cache
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          FANDOM_TARGET_BRANCH: main
+        run: node scripts/publish-fandom.mjs

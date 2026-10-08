@@ -1,0 +1,83 @@
+{{Fishing Rod
+|title1={{PAGENAME}}
+|caption-image1={{PAGENAME}} rendered
+|image1=SunkenRodRender.png
+|lure_speed={{Lure Speed|50%}}
+|luck={{Luck|150%}}
+|control={{Control|0.15}}
+|resilience={{Resilience|15%}}
+|max_kg={{Max Kg|25,000 Kg}}
+|cost=Obtainable only from [[Treasure Chest|Treasure Chests]]
+|location=Every 50 different spot of First Sea where [[Treasure Chest]] spawn.
+|quote=An ancient, coral-encrusted rod found in shipwreck depths, radiating faint power to lure rare fish. Every 10 catches, you get 25% Luckier chance to pull up a [[Treasure map]]! All fish have a 8% chance to have the Sunken Mutation.
+}}
+
+=='''Overview'''==
+The '''Sunken Rod''' is a unique mid-game [[Fishing Rods|rod]] with moderate stats, obtained with a 1.6% or 1/62.5 chance from [[Treasure Chest|Treasure Chests]]. It is guaranteed to be obtained if the user have opened 50 or more chests, or opens their 50th chest. 
+
+It functions as a greatly improved means of catching [[Treasure Map|Treasure Maps]]. For every 10 catches, the chances of catching a [[Treasure Map|Treasure map]] increases by 25%. This continues until the player catches one, then the chances are reset. After 230 catches, the chances for a treasure map to be caught are guaranteed.
+
+It isn't particularly recommended for Fishing, rather it is best suited for accumulating [[Treasure Map|Treasure Maps]] to use for Treasure Hunting to collect loot. It does however, have better stats than the [[Mythical Rod]], and can be a decent mid game rod.
+
+It also has a unique passive of having a 8% chance to apply the '''{{Mutation|Sunken}}''' [[mutation]], increasing the value of fish caught by 4.5x (450%).
+
+=='''Enchanting'''==
+The rod's best [[Enchantments|enchants]] are:
+* For faster lure times to pair with the treasure map chance increasing passive, {{Enchantment|Swift}} or preferably '''{{Enchantment|Hasty}}'''. 
+* You can also use a bait like [[Rapid Catcher]] or [[Instant Catcher]], and instead put '''[[Scavenger]]''' on the rod. 
+Other alternatives are:
+*For catching heavier fish, {{Enchantment|Unbreakable}}, or preferably {{Enchantment|Herculean}}.
+**Note that '''{{Enchantment|Herculean}}''' is an [[Enchantments#Exalted Enchantments|exalted enchantment]], and will require {{Relic|Exalted Relics}}, which are better used on late-game [[Fishing Rods|rods]].
+*For [[Fabulous Deity]]'s third and fourth quest, {{Enchantment|Invincible}} (Cosmic) is needed to catch [[Spectral Serpent]] and [[Scylla]], paired with an [[Exalted Relic|Exalted]] or [[Enchant Relic|Normal]] enchant relic. 
+*
+
+==[[Mastery]]==
+<table-progress-tracking table-id="1" header-label="Completed?" unique-column-index="1">
+{| class="fandom-table"
+!Name
+!Requirement
+!Reward
+|-
+|Grand Reward
+|Complete all quests for this prize!
+|Golden Sunken Rod [[Skins|Skin]]
+|-
+|The Drowned
+|Catch 20 fish with the {{Mutation|Sunken}} mutation using the '''Sunken Rod'''
+|{{C$|2,500C$}}
+|-
+|Sunken Rolling
+|[[Appraiser|Appraise]] 50 fish
+|{{Title|Sunken Sailor}} Title
+|-
+|Sunken Perfection
+|Perfect Catch 100 fish with the '''Sunken Rod'''
+| +35% {{Lure Speed|Lure Speed}}, +5% {{Mutation|Sunken}} Rate for '''Sunken Rod'''
+|}
+</table-progress-tracking>
+
+=='''Gallery'''==
+<gallery>
+File:Sunken Rodd.gif|The '''Sunken Rod''' off hand
+File:Sunkenn Rod.gif|The '''Sunken Rod''' in hand
+File:Golden Sunken Rod.jpeg|[[Mastery|Golden]] Sunken Rod
+</gallery>
+
+{{BoxStyle|
+{{BoxStyle|
+=='''Change History'''==
+}}
+{{BoxStyle|
+====[[Changelogs#?1.57.0|Version 1.57.0]]====
+*Introduced its own [[Mastery]]. 
+}}
+{{BoxStyle|
+====[[Changelogs#?1.29.0|Version 1.29.0]]====
+*[[Stats]] buffed.
+}}
+}}
+
+[[Category:Fishing Rods]]
+[[Category:Fishing Rods with passives]]
+[[Category:Fishing Rods with masteries]]
+[[Category:Treasure Chests]]

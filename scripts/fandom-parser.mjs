@@ -1,6 +1,6 @@
 // Read-only secondary import. Unknown templates are rejected in structured fields;
 // we never guess stats, preferences, stages, or catch methods from prose.
-export const PARSER_VERSION = 2;
+export const PARSER_VERSION = 3;
 export function templates(value) {
   const result = []; let depth = 0, start = 0;
   for (let i = 0; i < value.length - 1; i++) {
@@ -44,6 +44,7 @@ export function cleanText(input, title = '') {
     else throw new Error('Unsupported template: ' + t.name);
     value = value.slice(0, t.start) + replacement + value.slice(t.end);
   }
+  if (/\{\{|\}\}/.test(value)) throw new Error('Unbalanced template');
   return value.replace(/<ref\b[^>]*>[\s\S]*?<\/ref>/gi, '').replace(/<br\s*\/?\s*>/gi, '; ')
     .replace(/\[\[([^\]]+)\]\]/g, (_, body) => /^(file|image|category):/i.test(body) ? '' : body.split('|').at(-1))
     .replace(/\[https?:\/\/\S+\s+([^\]]+)\]/g, '$1').replace(/<[^>]*>/g, '').replace(/'{2,5}/g, '')
@@ -89,7 +90,12 @@ export function parsePage(kind, page, license) {
     const percent = key => { const text = stat(key); return /%|inf|∞/i.test(text) ? text : text + '%'; };
     const abilityText = section(text, /^(ability|abilities|passive|passives)$/i);
     const abilities = (abilityText ? prose(abilityText, title) : prose(section(text, /^overview$/i), title).filter(p => /\bpassive\b|for every \d+ catches/i.test(p))).map(text => ({ category: 'Passive effects', text, details: [], note: '' }));
-    const recommendations = prose(section(text, /^(enchanting|enchantments)$/i), title).map(text => ({ group: 'Miscellaneous', text, note: '', enchants: [] }));
+    const recommendations = section(text, /^(enchanting|enchantments)$/i).replace(/\{\|[\s\S]*?\|\}/g, '').split(/\n\s*\n|\n(?=[*#])/).flatMap(raw => {
+      const text = optional(raw.replace(/^[*#]+\s*/gm, ''), title);
+      if (!text || text.length > 3000) return [];
+      const enchants = [...raw.matchAll(/\{\{Enchantment\s*\|\s*([^|}]+)/gi)].flatMap(m => m[1].split(',').map(e => optional(e, title))).filter(Boolean);
+      return [{ group: 'Miscellaneous', text, note: '', enchants: [...new Set(enchants)] }];
+    });
     return { ...common, stage: 'Not listed', region: optional(a.location, title), source: '', quest: '', event: optional(a.event, title), price: optional(a.cost, title), level: optional(a.level, title),
       lure: percent('lure_speed'), luck: percent('luck'), control: stat('control'), resilience: percent('resilience'), maxWeight: stat('max_kg'),
       durability: '', disturbance: '', huntFocus: '', lineDistance: '', description: optional(a.quote, title), hint: '', unavailable: removed,

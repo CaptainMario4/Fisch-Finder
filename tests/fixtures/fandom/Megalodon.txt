@@ -1,0 +1,65 @@
+{{Fish
+|Fish_name={{PAGENAME}}
+|image1=
+<gallery>
+Megalodon.png|Render
+MegalodonAnimated.gif|Bestiary
+</gallery>
+|rarity={{ExoticF}}
+|location={{LocationColor|Ancient Isle}}
+|bait=
+|time={{None}}
+|weather={{None}}
+|season={{None}}
+|lowest_kg=50,000kg
+|average_kg=58,500kg
+|highest_kg=140,700kg
+|C_kg= 0.466
+|average_C= 28,285
+|base_xp= 15000
+|quote=The Megalodon is a gigantic predatory shark known for its enormous size. It possesses a large mouth with many serrated teeth which can easily rip through anything in its way. They went extinct around 3.6 million years ago, during the early Pliocene epoch. They are one of the apex predators of the Ancient Isle, and will put up an incredible fight when hooked.
+}}
+{{Quote
+|"There has been a {{Color|Red|Megalodon}} spotted past Ancient Isle! Be the first and only to catch it!"
+|- Spawn Notification
+[[File:Megspawn.mp3|110px]]
+}}
+
+=='''Overview'''==
+The '''[https://r.mtdv.me/blog/posts/coralV Megalodon]''' is a [https://r.mtdv.me/blog/posts/coralV exotic] fish that can be caught in an abundance that always spawns behind {{LocationColor|Ancient Isle}} during  [[Server Events#MegalodonHunt|Megalodon Hunts]]. Due to its high rarity, it makes for a challenging catch, moving erratically across the fishing bar. When reeling it in, '''-69% Locked Progress Speed''' is applied.    
+
+
+Click here for more information about Exotic fish. [https://r.mtdv.me/blog/posts/coralV Exotic]
+
+When hooked, a {{Exclamation|Exotic}} will pop above the player's head, and a shimmering sound is played - as with all {{Rarity|Exotic}} fish.
+
+=== '''Recommended Baits''' ===
+Due to its rapid movement combined with its heavy progress rate deduction, [https://r.mtdv.me/blog/posts/coralV][https://r.mtdv.me/blog/posts/coralV] [https://r.mtdv.me/blog/posts/coralV Deep coral] be the ideal [[Baits|bait]] to use whilst trying to lure it as it gives 50 {{Resilience|resilience}}, causing the bar to move much slower and allow for a largely easier catch. Alternatively, the [[Shark Head|{{Rarity|Mythical|Shark Head}}]] is also recommended, as the '''Megalodon''' prefers the [[Baits|bait]], increasing the probability of luring it and additionally gives 10 {{Resilience|resilience}}, therefore making it a superb option for those who can keep up with the '''Megalodon's''' unpredictable movement and want to potentially lure it faster.
+
+==='''Recommended Rods'''===
+It is recommended to use rods with high {{Resilience}} , high {{Control}} or a '''Stab''' ability to catch the '''Megalodon'''. For example: [[No-Life Rod]], [[Trident Rod]], [[Azure Of Lagoon|Azure of Lagoon]], [[Cerulean Fang Rod]], etc.
+
+==='''Recommended Enchantments'''===
+* Use the {{Enchantment|Hasty}} enchant on low {{Lure Speed|lure speed}} rods to speed up fishing.
+* Use {{Enchantment|Immortal}} for higher chance to catch the megalodon.
+**{{Enchantment|Lucky}} or {{Enchantment|Divine}} as an alternative if {{Relic|Exalted Relic}} is not available.
+* Use {{Enchantment|Mystical}} or {{Enchantment|Piercing}} on rods with low {{Resilience}}.
+**{{Enchantment|Resilient}}, {{Enchantment|Long}} or {{Enchantment|Chaotic}} as an alternative if {{Relic|Exalted Relic}} is not available.
+
+=='''Notes'''==
+*The regular Megalodon can be caught in all types of [[Server Events#MegalodonHunt|Megalodon Hunts]] including the {{LimitedF|Phantom Megalodon}} Hunt and also {{ExoticF|Ancient Megalodon}} Hunt.
+
+*The cheapest rod that can catch the '''Megalodon''' is the [[Steady Rod]], only costing {{Cost|7,000C$}}. (Note that if you use this rod, it is recommended to have {{Resilience|Resilience}} boosting [[Enchantments]] or [[Baits]] in order to make the '''Megalodon's''' movement less erratic).
+
+*When caught, the '''Megalodon''' plays a unique catch cutscene; as with other types of '''Megalodons,''' [[The Kraken|Krakens]], and '''[[Scylla|Scyllas]]. The Megaladon''' despawns after 12 minutes if it is not caught.
+
+*[[Server Events#MegalodonHunt|Megalodon Hunts]] can be forced to occur by using the [[Tools|Megalodon Hunt Totem]]. The player can also use [[Sundial Totem]] as the totem skips the current time cycle and can provide opportunities for the '''Megalodon''' to spawn at the start of every day cycle, spawning it at a faster rate. (Spawning a '''Megalodon''' takes around 70 [[Sundial Totem|Sundial Totems]] on average, if nothing happens after 60-70 [[Sundial Totem|Sundial Totems]] or more, try rejoining the server, it might be bugged).
+
+*Rods with weight limits between 25,000 - 40,000 Kg need the {{Enchantment|Herculean}} [[Enchantments|enchantment]] in order to catch the '''Megalodon, s'''uch as [[Crystalized Rod]], [[Rod Of The Depths]], [[Firework Rod]] and [[Luminescent Oath]]. Rods with weight limits between 40,000 - 49,999 Kg can use the {{Enchantment|Unbreakable}} [[Enchantments|enchantment]] instead, in order to catch the '''Megalodon,''' although a rod with these weight limits does not exist. Any rods below 25,000kg have to use the '''Invincible''' Enchant to catch the Megalodon. Rods below the '''Megalodon's''' minimum weight limit are not recommended to catch the '''Megalodon,''' as they tend to have low {{Resilience|resilience}} and {{Control|control}}, and require a specific [[Enchantments|enchant]] to catch the '''Megalodon'''.
+
+'''Catch Cutscene:'''<gallery widths="550px">
+File:Megalodon Cutscene (GIF Format).gif|Catching the '''Megalodon''' (Cutscene, may differ):
+</gallery>
+
+=='''Abilities'''==
+* Has a 12% chance per fish movement to go on a "r

@@ -5,15 +5,18 @@ const fields = ['page_id','page_name','journal','event','source','quest','price'
 const ROD_QUERY = `mw.bucket('rods').select(${fields.map(field => `'${field}'`).join(',')}).limit(5000):run()`;
 type RawRod = Record<string, unknown>;
 export type Recommendation = { group: 'Optimal grinding' | 'Miscellaneous' | 'Keeperbound'; text: string; note: string; enchants: string[] };
+export type RodAbility = { category: string; text: string; details: string[]; note: string };
+export type RodMastery = { name: string; objective: string; reward: string; note: string };
 export type Rod = {
   id: number; page: string; name: string; url: string; stage: string; region: string;
   source: string; quest: string; event: string; price: string; level: string;
   lure: string; luck: string; control: string; resilience: string; maxWeight: string;
   durability: string; disturbance: string; huntFocus: string; lineDistance: string;
   description: string; hint: string; unavailable: boolean; recommendations: Recommendation[];
+  abilities?: RodAbility[]; mastery?: RodMastery[]; masteryLevel?: string;
 };
 export type RodDataset = { rods: Rod[]; fetchedAt: string; mode: 'api' | 'snapshot'; notice: string };
-type RecommendationSource = { revision: number; recommendations: Recommendation[] };
+type RecommendationSource = { revision: number; recommendations: Recommendation[]; abilities?: RodAbility[]; mastery?: RodMastery[]; masteryLevel?: string };
 type Sources = Record<string, RecommendationSource>;
 
 // Split template arguments only at their own nesting level. Enchant advice often
@@ -75,6 +78,66 @@ export function extractRecommendations(wikitext: string): Recommendation[] {
   }
   return recommendations;
 }
+function featureSection(value: string, heading: string) {
+  const start = new RegExp(`^==\\s*(?:${heading})\\s*==\\s*$`, 'im').exec(value);
+  if (!start) return '';
+  const rest = value.slice(start.index + start[0].length), end = rest.search(/^==[^=].*?==\s*$/m);
+  return end < 0 ? rest : rest.slice(0, end);
+}
+function featureArgs(body: string): Record<string,string> {
+  return Object.fromEntries(argumentsOf(body).slice(1).flatMap(part => {
+    const match = part.match(/^\s*([\w.-]+)\s*=([\s\S]*)$/);
+    return match ? [[match[1].toLowerCase(), match[2].trim()]] : [];
+  }));
+}
+function featureText(raw: string = ''): string {
+  let value = raw;
+  // Preserve quantities, conditional notes, and separate bullets in source text.
+  for (const entry of templatesIn(value).reverse()) {
+    const parts = argumentsOf(entry.body), name = parts.shift()?.trim().toLowerCase() ?? '';
+    const args = featureArgs(entry.body), first = parts.find(p => !/^\s*[\w.-]+\s*=/.test(p)) ?? args['1'] ?? '';
+    if (['fish','item','bait','rod'].includes(name)) {
+      const quantity = args.x ?? (/^\d+(?:,\d{3})*$/.test(parts[1] ?? '') ? parts[1] : '');
+      const text = [quantity ? `${quantity} ×` : '', args.attrs ? featureText(args.attrs) : '', featureText(args.text ?? first)].filter(Boolean).join(' ');
+      value = value.slice(0,entry.start) + text + value.slice(entry.end);
+    } else if (name === 'ref') value = value.slice(0,entry.start) + (first ? ` (Note: ${featureText(first)})` : '') + value.slice(entry.end);
+    else if (name === 'reflist') value = value.slice(0,entry.start) + value.slice(entry.end);
+  }
+  return wikiText(value.replace(/^\s*[*#]+\s*/gm, ' • ').replace(/<br\s*\/?\s*>/gi, '; ')).replace(/&times;/g, '×').replace(/&quot;/g, '"');
+}
+export function extractRodFeatures(wikitext: string) {
+  const clean = wikitext.replace(/<!--[\s\S]*?-->/g, '');
+  const abilitySection = featureSection(clean, 'Ability|Abilities|Passive|Passives');
+  const abilityTemplates = templatesIn(abilitySection).filter(t => /^\s*Ability\s*\|/i.test(t.body));
+  const categories: Record<string,string> = { mutation:'Mutations', mechanic:'Fishing mechanics', unique:'Special effects', conditional:'Conditional effects', start:'At the start of a catch', progressspeed:'Progress speed', progress:'Progress', slash:'Slashes', money:'Weight & value', xp:'Experience', control:'Control', stat:'Stat effects', area:'Fishing areas', misc:'Other effects' };
+  const abilities: RodAbility[] = [];
+  for (const template of abilityTemplates) {
+    const args = featureArgs(template.body);
+    for (const [key,raw] of Object.entries(args)) {
+      const match = key.match(/^([a-z]+)(\d+)$/);
+      if (!match || match[1].endsWith('note') || /^(image|icon|color|optimal)$/.test(match[1])) continue;
+      const text = featureText(raw); if (!text) continue;
+      const details = Object.entries(args).filter(([name]) => name.startsWith(key + '.') && /^\d+$/.test(name.slice(key.length + 1))).sort(([a],[b]) => Number(a.slice(key.length + 1))-Number(b.slice(key.length + 1))).map(([,text]) => featureText(text)).filter(Boolean);
+      abilities.push({ category: categories[match[1]] ?? 'Other effects', text, details, note: featureText(args[match[1]+'note'+match[2]]) });
+    }
+    const notes = featureText(args.notes); if (notes) abilities.push({category:'Notes',text:notes,details:[],note:''});
+  }
+  if (!abilityTemplates.length) {
+    const prose = abilitySection.split(/\n\s*\n|\n(?=\s*\*[^*])/).map(featureText).filter(Boolean);
+    for (const text of prose) abilities.push({category:'Passive effects',text,details:[],note:''});
+  }
+  const mastery: RodMastery[] = [];
+  const template = templatesIn(featureSection(clean,'Mastery')).find(t => /^\s*Rod Mastery\s*\|/i.test(t.body));
+  const args = template ? featureArgs(template.body) : {};
+  const indexes = [...new Set(Object.keys(args).flatMap(key => key.match(/^(?:name|desc|reward|note)(\d+)$/)?.[1] ?? []))].sort((a,b)=>Number(a)-Number(b));
+  for (const index of indexes) {
+    const objective=featureText(args['desc'+index]), reward=featureText(args['reward'+index]), note=featureText(args['note'+index]);
+    if (objective || reward || note) mastery.push({name:featureText(args['name'+index]) || `Mastery task ${index}`,objective,reward,note});
+  }
+  const grand = featureText(args.reward_grand), note = featureText(args.note_grand);
+  if (grand || note) mastery.push({name:'Complete mastery',objective:'Complete the rod’s mastery tasks.',reward:grand,note});
+  return { abilities, mastery, masteryLevel: featureText(args.level) };
+}
 const flag = (value: unknown) => value === '' || value === true || value === 1 || value === '1' || value === 'true';
 export function normalizeRods(raw: RawRod[], sources: Sources): Rod[] {
   return raw.filter(rod => rod.page_id && rod.page_name).map(rod => {
@@ -93,6 +156,7 @@ export function normalizeRods(raw: RawRod[], sources: Sources): Rod[] {
       durability: value('durability'), disturbance: value('disturbance'), huntFocus: value('hunt_focus'), lineDistance: value('line_dist'),
       description: value('description'), hint: value('hint'), unavailable: flag(rod.is_unob) || flag(rod.is_removed),
       recommendations: sources[String(rod.page_id)]?.recommendations ?? [],
+      abilities: sources[String(rod.page_id)]?.abilities ?? [], mastery: sources[String(rod.page_id)]?.mastery ?? [], masteryLevel: sources[String(rod.page_id)]?.masteryLevel ?? '',
     };
   }).sort((a, b) => a.name.localeCompare(b.name));
 }
@@ -130,12 +194,12 @@ export async function getRodDataset({ forceRefresh = false }: { forceRefresh?: b
       const raw: RawRod[] = payload.bucket;
       if (!Array.isArray(raw) || raw.length < (cache?.rods.length ?? snapshot.rods.length) * 0.7 || raw.length >= 5000 || raw.some(rod => !rod.page_id || !rod.page_name)) throw new Error('Incomplete rod data');
       const pages = await revisionPages(raw.map(rod => Number(rod.page_id)), false);
-      const changed = pages.filter(page => sources[String(page.pageid)]?.revision !== page.revisions[0].revid);
+      const changed = pages.filter(page => sources[String(page.pageid)]?.revision !== page.revisions[0].revid || !Array.isArray(sources[String(page.pageid)]?.abilities) || !Array.isArray(sources[String(page.pageid)]?.mastery));
       const updated = { ...sources };
       if (changed.length) for (const page of await revisionPages(changed.map(page => page.pageid), true)) {
         const revision = page.revisions[0]; const content = revision.slots?.main?.content;
         if (typeof content !== 'string') throw new Error('Missing recommendation source');
-        updated[String(page.pageid)] = { revision: revision.revid, recommendations: extractRecommendations(content) };
+        updated[String(page.pageid)] = { revision: revision.revid, recommendations: extractRecommendations(content), ...extractRodFeatures(content) };
       }
       sources = updated;
       cache = { rods: normalizeRods(raw, sources), fetchedAt: new Date().toISOString(), mode: 'api', notice: '' };

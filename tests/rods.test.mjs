@@ -50,6 +50,47 @@ test('normalization preserves zero stats, exclusive and new stages, missing advi
   assert.deepEqual(rods.find(r => r.id === 3).recommendations, []);
 });
 
+test('rod abilities preserve nested mechanics, mutation chances, conditions, quantities, and mastery bonuses', async () => {
+  const mod = await fresh();
+  const features = mod.extractRodFeatures(`
+== Ability ==
+{{Ability
+|mutation1='''8%''' chance for {{Mutation|Sunken|val=1}}
+|conditional1=Perfect Catches have a '''100%''' chance for {{Mutation|Verdant}}.
+|conditionalnote1=Requires a fresh catch; appraisal does not count.
+|mechanic1=Random stats every catch:
+|mechanic1.2=Control from '''-0.3''' to '''0.3'''.
+|mechanic1.1=Resilience from '''-80%''' to '''80%'''.
+|unique1=Every '''10''' catches, '''25%''' chance for {{Item|Treasure Map|ni=1}}.
+}}
+== Mastery ==
+{{Rod Mastery
+|level=1
+|name1=Sunken Perfection
+|desc1=Catch {{Fish|Cod|x=20|attrs={{Mutation|Sunken}}}} using {{Rod|Sunken Rod}}.
+|reward1='''+35% Lure Speed''' and '''+5% Sunken Rate''' Enhancement.
+|note1=Only after completing this task.
+|reward_grand={{Item|Golden Sunken Rod|type=Skin}} Skin
+}}
+== Enchanting ==
+This separate section must not appear as an ability.`);
+  assert.equal(features.abilities.length, 4);
+  assert.equal(features.abilities[0].text, '8% chance for Sunken');
+  assert.equal(features.abilities[1].note, 'Requires a fresh catch; appraisal does not count.');
+  assert.deepEqual(features.abilities[2].details, ['Resilience from -80% to 80%.', 'Control from -0.3 to 0.3.']);
+  assert.match(features.abilities[3].text, /10 catches, 25% chance/);
+  assert.equal(features.masteryLevel, '1');
+  assert.equal(features.mastery[0].objective, 'Catch 20 × Sunken Cod using Sunken Rod.');
+  assert.equal(features.mastery[0].reward, '+35% Lure Speed and +5% Sunken Rate Enhancement.');
+  assert.equal(features.mastery[0].note, 'Only after completing this task.');
+  assert.equal(features.mastery[1].reward, 'Golden Sunken Rod Skin');
+  assert.deepEqual(mod.extractRodFeatures('No ability listed. <!-- == Mastery ==\n{{Rod Mastery|reward1=Retired bonus}} -->'), { abilities: [], mastery: [], masteryLevel: '' });
+  assert.ok(mod.rodFallback.rods.every(rod => Array.isArray(rod.abilities) && Array.isArray(rod.mastery)));
+  const sunken = mod.rodFallback.rods.find(rod => rod.page === 'Sunken Rod');
+  assert.ok(sunken.abilities.some(ability => /Treasure Map/.test(ability.text)));
+  assert.ok(sunken.mastery.some(task => /\+5% Sunken Rate/.test(task.reward)));
+});
+
 test('refresh checks revision IDs, fetches only changed advice, caches, and retains data on incomplete failures', async () => {
   const realFetch = globalThis.fetch, RealDate = globalThis.Date;
   let clock = RealDate.parse(snapshot.fetchedAt) + 3600000;
@@ -63,7 +104,7 @@ test('refresh checks revision IDs, fetches only changed advice, caches, and reta
       const content = params.get('rvprop').includes('content'); if (content) contentRequests++;
       return { ok: true, json: async () => ({ query: { pages: params.get('pageids').split('|').map(id => ({
         pageid: Number(id), revisions: [{ revid: id === '999999' ? 42 : snapshot.sources[id].revision,
-          ...(content ? { slots: { main: { content: '{{Enchanting|optimal1={{Enchantment|Hasty}} for speed.}}' } } } : {}),
+          ...(content ? { slots: { main: { content: '{{Enchanting|optimal1={{Enchantment|Hasty}} for speed.}}\n== Ability ==\n{{Ability|mutation1=8% chance for {{Mutation|Sunken}}}}\n== Mastery ==\n{{Rod Mastery|desc1=Catch 20 fish.|reward1=+5% mutation chance.}}' } } } : {}),
         }],
       })) } }) };
     };
@@ -71,6 +112,8 @@ test('refresh checks revision IDs, fetches only changed advice, caches, and reta
     assert.equal(first, concurrent); assert.equal(first.mode, 'api'); assert.equal(first.rods.length, 265);
     assert.equal(first.rods.find(r => r.id === 999999).stage, 'Stage 12');
     assert.deepEqual(first.rods.find(r => r.id === 999999).recommendations[0].enchants, ['Hasty']);
+    assert.equal(first.rods.find(r => r.id === 999999).abilities[0].text, '8% chance for Sunken');
+    assert.equal(first.rods.find(r => r.id === 999999).mastery[0].reward, '+5% mutation chance.');
     assert.equal(contentRequests, 1); const initialRequests = requests;
     clock += 10000; await mod.getRodDataset({ forceRefresh: true }); assert.equal(requests, initialRequests);
     clock += 61000; const refreshed = await mod.getRodDataset({ forceRefresh: true });

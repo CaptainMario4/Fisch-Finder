@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { ReactNode } from 'react';
 import type { Rod, RodDataset } from '../lib/rods';
+import RodDetails from './RodDetails';
 import '../styles/fish-database.css';
 import '../styles/rod-database.css';
 
@@ -16,30 +16,10 @@ const numeric = (value: string) => /inf|∞/i.test(value) ? Infinity : Number(va
 const pageSize = 25;
 function timestamp(value: string) { const date = new Date(value); return Number.isNaN(date.getTime()) ? 'Not recorded' : date.toISOString().replace('T', ' ').replace(/\.\d{3}Z$/, ' UTC'); }
 function SearchIcon() { return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><circle cx="10.8" cy="10.8" r="7.3"/><path d="m16.2 16.2 4.3 4.3"/></svg>; }
-function Field({ label, children }: { label: string; children: ReactNode }) { return <div className="fish-detail-field"><dt>{label}</dt><dd>{children}</dd></div>; }
+
 function EnchantSummary({ rod }: { rod: Rod }) {
   const enchants = names(rod);
   return enchants.length ? <>{enchants.slice(0, 4).join(', ')}{enchants.length > 4 && <span className="fish-row-note">+{enchants.length - 4} more in details</span>}</> : <>No recommendation listed</>;
-}
-function Detail({ rod, close }: { rod: Rod | undefined; close: () => void }) {
-  if (!rod) return <aside className="fish-detail" id="rod-detail" aria-label="Rod details"><div className="fish-detail-empty"><div className="fish-detail-symbol"><SearchIcon /></div><h2>Select a rod</h2><p>Choose a row to see all stats, obtainment information, and recommended enchants.</p><span>Search a rod, region, or enchant. Filter by any listed stage.</span></div></aside>;
-  return <aside className="fish-detail" id="rod-detail" aria-label={`Details for ${rod.name}`}>
-    <div className="fish-detail-heading"><div><p className="text-mute text-xs font-medium uppercase tracking-wide">Fishing rod</p><h2 id="rod-detail-title">{rod.name}</h2><p className="fish-detail-region">{listed(rod.region)}</p></div><button className="fish-close" onClick={close} aria-label="Close rod details">×</button></div>
-    <div className="fish-detail-status"><span className="fish-tag">{rod.stage}</span><span className={`fish-tag ${rod.unavailable ? 'fish-tag-warning' : ''}`}>{rod.unavailable ? 'Unavailable' : 'Available'}</span></div>
-    <div className="fish-detail-body"><h3>Rod stats</h3><dl className="fish-detail-list">
-      <Field label="Lure speed">{listed(rod.lure)}</Field><Field label="Luck">{listed(rod.luck)}</Field><Field label="Control">{listed(rod.control)}</Field><Field label="Resilience">{listed(rod.resilience)}</Field><Field label="Max weight">{rod.maxWeight ? /inf|∞/i.test(rod.maxWeight) ? 'Unlimited' : `${rod.maxWeight} kg` : 'Not listed'}</Field><Field label="Durability">{listed(rod.durability)}</Field><Field label="Disturbance">{listed(rod.disturbance)}</Field><Field label="Hunt focus">{listed(rod.huntFocus)}</Field><Field label="Line distance">{rod.lineDistance ? `${rod.lineDistance} m` : 'Not listed'}</Field>
-    </dl><h3 className="mt-lg">Preferred enchants</h3><p className="rod-advice-note">Fischipedia recommendations are subjective. The best choice depends on your goal, mastery, and available relics.</p>
-    {rod.recommendations.length ? <div className="rod-enchant-groups">{(['Optimal grinding','Miscellaneous','Keeperbound'] as const).map(group => {
-      const recommendations = rod.recommendations.filter(advice => advice.group === group);
-      return recommendations.length ? <section key={group}><h4>{group}</h4><ul>{recommendations.map((advice, index) => <li key={index}><p>{advice.text}</p>{advice.note && <p className="rod-advice-note">{advice.note}</p>}</li>)}</ul></section> : null;
-    })}</div> : <p className="rod-advice-note">No recommendation listed.</p>}
-    <a className="rod-source-link" href={`${rod.url}#Enchanting`} target="_blank" rel="noopener noreferrer">Read enchant recommendations on Fischipedia ↗</a>
-    <h3 className="mt-lg">Obtainment & abilities</h3><dl className="fish-detail-list"><Field label="Source">{listed(rod.source)}</Field><Field label="Price">{listed(rod.price)}</Field><Field label="Level required">{listed(rod.level)}</Field><Field label="Quest">{listed(rod.quest)}</Field><Field label="Event">{listed(rod.event)}</Field></dl>
-    {rod.description && <div className="rod-description"><h4>Listed description</h4><p>{rod.description}</p></div>}
-    {rod.hint && <div className="rod-description"><h4>Journal hint</h4><p>{rod.hint}</p></div>}
-    <div className="fish-requirements"><strong>Check the full requirements</strong><p>Stages describe the wiki’s subjective obtainment difficulty. Availability reflects its removed / unobtainable flags; it does not confirm event availability in your server.</p><a href={`${rod.url}#Obtainment`} target="_blank" rel="noopener noreferrer">Read obtainment requirements ↗</a></div></div>
-    <div className="fish-detail-footer"><a href={rod.url} target="_blank" rel="noopener noreferrer">Open full Fischipedia page ↗</a></div>
-  </aside>;
 }
 
 export default function RodDatabase({ initialData }: { initialData: RodDataset }) {
@@ -57,9 +37,9 @@ export default function RodDatabase({ initialData }: { initialData: RodDataset }
     try {
       // Keep an older edge-cached parsing format from replacing this snapshot
       // after a release. Bump this key when the normalized data format changes.
-      const response = await fetch('/api/rods.json?schema=1', { method: force ? 'POST' : 'GET', cache: 'no-store', signal: controller.signal });
+      const response = await fetch('/api/rods.json?schema=2', { method: force ? 'POST' : 'GET', cache: 'no-store', signal: controller.signal });
       if (!response.ok) throw new Error('Refresh failed'); const next = await response.json() as RodDataset;
-      if (!Array.isArray(next.rods) || !next.rods.length || !Number.isFinite(Date.parse(next.fetchedAt))) throw new Error('Invalid rod data');
+      if (!Array.isArray(next.rods) || !next.rods.length || next.rods.some(rod => !Array.isArray(rod.abilities) || !Array.isArray(rod.mastery) || !Array.isArray(rod.recommendations)) || !Number.isFinite(Date.parse(next.fetchedAt))) throw new Error('Invalid rod data');
       setData(current => Date.parse(next.fetchedAt) < Date.parse(current.fetchedAt) ? { ...current, mode: next.mode, notice: next.notice } : next);
     } catch { if (refreshController.current === controller) setError('Refresh unavailable. The saved rods remain searchable with their original source timestamp.'); }
     finally { window.clearTimeout(timeout); if (refreshController.current === controller) setLoading(false); }
@@ -120,8 +100,8 @@ export default function RodDatabase({ initialData }: { initialData: RodDataset }
     {results.length ? <><div className="fish-table-scroll" tabIndex={0} role="region" aria-label="Rod results table; scroll for more columns"><table className="fish-table rod-table"><caption className="sr-only">Click anywhere in a row for details. Keyboard users can activate the rod name button.</caption><thead><tr>{['Rod','Stage','Lure speed','Luck','Obtainment','Preferred enchants'].map(label => <th key={label} scope="col">{label}</th>)}</tr></thead><tbody>{visible.map(rod => <tr key={rod.id} onClick={event => choose(rod,event.currentTarget.querySelector<HTMLElement>('.fish-name') ?? event.currentTarget)} className={selectedPage === rod.page ? 'fish-row-selected' : ''}><td><button className="fish-name" onClick={event => { event.stopPropagation();choose(rod,event.currentTarget); }} aria-pressed={selectedPage === rod.page} aria-controls="rod-detail">{rod.name}</button><span className="fish-row-note">{listed(rod.region)}</span>{rod.unavailable && <span className="fish-row-status">Unavailable</span>}</td><td>{rod.stage}</td><td>{listed(rod.lure)}</td><td>{listed(rod.luck)}</td><td>{listed(rod.source)}<span className="fish-row-note">{listed(rod.price)}</span></td><td className={rod.recommendations.length ? '' : 'fish-missing'}><EnchantSummary rod={rod}/></td></tr>)}</tbody></table></div>
     <ul className="fish-mobile-cards" aria-label="Rod search results">{visible.map(rod => <li key={rod.id}><button className={`fish-mobile-card ${selectedPage === rod.page ? 'fish-card-selected' : ''}`} onClick={event => choose(rod,event.currentTarget)} aria-label={`View details for ${rod.name}`} aria-haspopup="dialog" aria-controls="rod-detail-dialog"><span className="fish-card-heading"><span className="fish-card-name">{rod.name}</span><span className="fish-card-arrow" aria-hidden="true">↗</span></span><span className="fish-card-region">{listed(rod.region)}</span><span className="fish-card-tags"><span className="fish-tag">{rod.stage}</span><span className={`fish-tag ${rod.unavailable ? 'fish-tag-warning' : ''}`}>{rod.unavailable ? 'Unavailable' : 'Available'}</span></span><span className="rod-card-stats"><span>Lure <strong>{listed(rod.lure)}</strong></span><span>Luck <strong>{listed(rod.luck)}</strong></span></span><span className="fish-card-bait"><span>Enchants</span><span><EnchantSummary rod={rod}/></span></span></button></li>)}</ul>
     <div className="fish-pagination"><p>{(currentPage - 1) * pageSize + 1}–{Math.min(currentPage * pageSize,results.length)} of {results.length.toLocaleString('en-US')}</p><div className="flex items-center gap-sm"><button onClick={() => setPage(currentPage - 1)} disabled={currentPage === 1} aria-label="Previous page">←</button><span>Page {currentPage} of {pageCount}</span><button onClick={() => setPage(currentPage + 1)} disabled={currentPage === pageCount} aria-label="Next page">→</button></div></div></> : <div className="fish-results-empty"><SearchIcon/><h3>No rods match</h3><p>Try part of a rod name or enchant, or remove a filter.</p><button className="btn-primary" onClick={clearFilters}>Clear search & filters</button></div>}
-    <p className="fish-results-note">{mobile ? 'Tap a rod card for details.' : 'Click anywhere in a row for all stats and details.'} Recommendations are sourced from each rod’s wiki page.</p></div><div className="fish-detail-column">{!mobile && <Detail rod={selected} close={() => setSelectedPage('')}/>}{selectedPage && !selected && <p className="fish-data-notice">The linked rod was not found in this dataset.</p>}</div></div>
-    {mobile && <dialog className="fish-detail-dialog" id="rod-detail-dialog" ref={detailDialog} aria-labelledby={selected ? 'rod-detail-title' : undefined} aria-label={selected ? undefined : 'Rod details'} onCancel={() => setSelectedPage('')} onClick={event => { if (event.target === event.currentTarget) setSelectedPage(''); }}><Detail rod={selected} close={() => setSelectedPage('')}/></dialog>}
+    <p className="fish-results-note">{mobile ? 'Tap a rod card for details.' : 'Click anywhere in a row for all stats and details.'} Recommendations are sourced from each rod’s wiki page.</p></div><div className="fish-detail-column">{!mobile && <RodDetails rod={selected} close={() => setSelectedPage('')}/>}{selectedPage && !selected && <p className="fish-data-notice">The linked rod was not found in this dataset.</p>}</div></div>
+    {mobile && <dialog className="fish-detail-dialog" id="rod-detail-dialog" ref={detailDialog} aria-labelledby={selected ? 'rod-detail-title' : undefined} aria-label={selected ? undefined : 'Rod details'} onCancel={() => setSelectedPage('')} onClick={event => { if (event.target === event.currentTarget) setSelectedPage(''); }}><RodDetails rod={selected} close={() => setSelectedPage('')}/></dialog>}
     <noscript><p>Enable JavaScript to search, filter, and open rod details.</p></noscript>
   </section>;
 }

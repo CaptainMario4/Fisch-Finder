@@ -16,11 +16,18 @@
 .rod-description{margin-top:18px;font-size:.82rem;line-height:1.6;color:var(--color-ink-soft);overflow-wrap:anywhere}
 .rod-card-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%;font-size:.82rem;color:var(--color-mute)}
 .rod-card-stats strong{color:var(--color-ink);font-weight:600;overflow-wrap:anywhere}
+.rod-abilities{margin-top:24px;min-width:0}.rod-abilities .rod-enchant-groups ul ul{margin-top:8px;gap:6px}.rod-abilities :is(p,li,h4,summary,a){overflow-wrap:anywhere}
+.rod-mastery{margin-top:18px;border:1px solid var(--color-rule);border-radius:var(--radius-md);padding:12px;min-width:0;font-size:.82rem;line-height:1.6}.rod-mastery summary{cursor:pointer;font-weight:600;color:var(--color-accent);min-height:32px}.rod-mastery p+p{margin-top:8px}.rod-mastery ul{list-style:disc;padding-left:18px;display:grid;gap:6px;margin-top:8px}
+.rod-popup-actions{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 16px;margin-top:10px}.rod-popup-actions :is(a,button){min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:8px 12px;border:1px solid var(--color-accent);border-radius:var(--radius-md);overflow-wrap:anywhere}.rod-popup-actions button{background:var(--color-accent);color:var(--color-paper)}.rod-retry{display:block;color:var(--color-accent);font-weight:600;min-height:44px;padding:8px 0}
+.quest-rod-dialog{position:fixed;inset:0;margin:auto;padding:0;width:min(680px,calc(100% - 40px));height:min(840px,90dvh);max-width:none;max-height:none;border:1px solid var(--color-rule);border-radius:var(--radius-lg);background:var(--color-paper);color:var(--color-ink);overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.45)}.quest-rod-dialog::backdrop{background:rgba(0,0,0,.55)}.quest-rod-dialog[open]{display:flex;flex-direction:column}.quest-rod-dialog .fish-detail{display:flex;flex-direction:column;min-width:0;min-height:0;width:100%;height:100%;border:0;border-radius:0}.quest-rod-dialog .fish-detail-body{flex:1;min-height:0;max-height:none;overflow:auto;overscroll-behavior:contain}.quest-rod-dialog :is(.fish-detail-heading,.fish-detail-status,.fish-detail-footer){flex:none}.quest-rod-dialog .fish-close{min-width:44px;width:44px;min-height:44px}.quest-rod-dialog :is(button,a,summary):focus-visible{outline:3px solid var(--color-focus);outline-offset:3px}
 @media(max-width:767px){
   .rod-database .fish-sort select{width:170px;max-width:100%}
   .rod-enchant-groups h4,.rod-description h4{font-size:.94rem}
   .rod-enchant-groups ul,.rod-description{font-size:.94rem}
   .rod-advice-note{font-size:.88rem}
   .rod-source-link{font-size:.9rem;min-height:44px;padding:8px 0}
+  .rod-mastery{font-size:.94rem}.rod-mastery summary{min-height:44px}
+  .quest-rod-dialog{inset:0;margin:0;width:100%;height:100%;height:100dvh;border:0;border-radius:0;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+  .rod-popup-actions{align-items:stretch}.rod-popup-actions :is(a,button){flex:1;min-width:0;text-align:center;font-size:.85rem}
 }
 @media(max-width:359px){.rod-database .fish-sort select{width:150px}}

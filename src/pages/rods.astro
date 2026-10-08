@@ -5,4 +5,5 @@ import { rodFallback } from '../lib/rods';
 ---
 <Layout title="Rod Finder" description="Search Fisch fishing rods by stage, compare their stats, and read Fischipedia's recommended enchantments.">
   <RodDatabase client:load initialData={rodFallback} />
+  <noscript><p class="max-w-6xl mx-auto px-lg py-lg">Enable JavaScript to search, filter, and open rod details.</p></noscript>
 </Layout>

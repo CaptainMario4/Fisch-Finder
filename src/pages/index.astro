@@ -6,4 +6,5 @@ import { scheduleFallback } from '../lib/schedules';
 ---
 <Layout title="Fisch Database" description="Search Fisch fish by name or region and compare their listed locations, preferred bait, time, weather, and seasons using Fischipedia data.">
   <FishDatabase client:load initialData={fallback} initialSchedules={scheduleFallback} />
+  <noscript><p class="max-w-6xl mx-auto px-lg py-lg">Enable JavaScript to search, filter, and open fish details.</p></noscript>
 </Layout>

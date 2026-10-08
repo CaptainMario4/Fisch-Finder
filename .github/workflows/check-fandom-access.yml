@@ -1,0 +1,41 @@
+name: Check Fandom access
+on:
+  push:
+    branches: [diagnostics/fandom-access]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Test public wiki access without credentials
+        run: |
+          python3 - <<'PY'
+          import urllib.request, urllib.error, json
+          urls = [
+            ("robots", "https://fisch.fandom.com/robots.txt"),
+            ("api", "https://fisch.fandom.com/api.php?action=query&meta=siteinfo&format=json"),
+            ("page", "https://fisch.fandom.com/wiki/Fisch_Wiki"),
+          ]
+          for label, url in urls:
+              req = urllib.request.Request(url, headers={"User-Agent": "FischFinderConnectivityCheck/1.0 (https://github.com/CaptainMario4/Fisch-Finder)"})
+              try:
+                  with urllib.request.urlopen(req, timeout=20) as res:
+                      body = res.read(65536).decode("utf-8", "replace")
+                      print(label, "HTTP", res.status, "type", res.headers.get("Content-Type"), "url", res.url)
+                      if label == "api":
+                          try:
+                              data = json.loads(body)
+                              print("API valid siteinfo:", bool(data.get("query", {}).get("general")), "error:", data.get("error"))
+                          except ValueError:
+                              print("API did not return JSON")
+                      elif label == "robots":
+                          print(body[:12000])
+                      else:
+                          print("Wiki content marker:", "mw-parser-output" in body, "challenge marker:", any(s in body.lower() for s in ["captcha", "just a moment", "access denied"]))
+              except urllib.error.HTTPError as err:
+                  print(label, "HTTP", err.code)
+              except Exception as err:
+                  print(label, type(err).__name__, str(err))
+          PY

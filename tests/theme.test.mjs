@@ -40,7 +40,7 @@ function browser({ saved = null, blocked = false, readOnly = false } = {}) {
 }
 
 test('dark and light choices survive first page navigation, return navigation, and rerun bootstraps', () => {
-  const page = browser(); page.run(); assert.equal(page.document.documentElement.dataset.theme, 'light');
+  const page = browser({ saved: 'light' }); page.run(); assert.equal(page.document.documentElement.dataset.theme, 'light');
   page.click(); assert.equal(page.saved(), 'dark');
   page.navigate(); page.navigate();
   assert.equal(page.document.documentElement.dataset.theme, 'dark');
@@ -63,7 +63,7 @@ test('saved dark preference restores before paint, across browser tabs, and on h
 
 test('navigation keeps the in-memory theme when private browsing blocks reads or writes', () => {
   for (const options of [{ blocked: true }, { saved: 'light', readOnly: true }]) {
-    const page = browser(options); page.run(); page.click();
+    const page = browser(options); page.run(); if (options.saved === 'light') page.click();
     page.navigate(); page.emit('window', 'pageshow'); page.navigate();
     assert.equal(page.document.documentElement.dataset.theme, 'dark');
     assert.equal(page.button.attributes['aria-checked'], 'true');
@@ -71,9 +71,21 @@ test('navigation keeps the in-memory theme when private browsing blocks reads or
 });
 
 test('a legacy cached theme listener cannot double-toggle one click during a deployment', () => {
-  const page = browser(); let legacyCalls = 0;
+  const page = browser({ saved: 'light' }); let legacyCalls = 0;
   page.listeners.set('document:click', [{ capture: false, callback: () => { legacyCalls++; } }]);
   page.run(); page.navigate(); page.click();
   assert.equal(page.document.documentElement.dataset.theme, 'dark');
   assert.equal(legacyCalls, 0);
+});
+
+test('first visits, invalid preferences and cleared storage default to dark', () => {
+  assert.match(layout, /<html lang="en" data-theme="dark">/);
+  for (const options of [{}, { saved: 'invalid' }, { blocked: true }]) {
+    const page = browser(options); page.run(); page.navigate();
+    assert.equal(page.document.documentElement.dataset.theme, 'dark');
+    assert.equal(page.button.attributes['aria-checked'], 'true');
+  }
+  const page = browser({ saved: 'light' }); page.run();
+  page.emit('window', 'storage', { key: 'fisch-finder-theme', newValue: null });
+  assert.equal(page.document.documentElement.dataset.theme, 'dark');
 });

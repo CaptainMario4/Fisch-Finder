@@ -13,7 +13,7 @@ interface Props {
 const { title, description, hasSeoTags = false } = Astro.props;
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -30,7 +30,7 @@ const { title, description, hasSeoTags = false } = Astro.props;
             return value === 'dark' || value === 'light' ? value : null;
           } catch { return null; }
         };
-        let theme = readStored() || (document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
+        let theme = readStored() || 'dark';
         let storageWriteFailed = false;
         const restore = () => {
           document.documentElement.dataset.theme = theme;
@@ -61,7 +61,7 @@ const { title, description, hasSeoTags = false } = Astro.props;
         });
         window.addEventListener('storage', event => {
           if (event.key !== storageKey && event.key !== null) return;
-          theme = event.newValue === 'dark' ? 'dark' : 'light';
+          theme = event.newValue === 'light' ? 'light' : 'dark';
           restore();
         });
         // Apply in the head, before paint, and sync the switch once it exists.

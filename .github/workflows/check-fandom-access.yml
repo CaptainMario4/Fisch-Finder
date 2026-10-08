@@ -1,4 +1,4 @@
-name: Check Fandom content access
+name: Check Fandom source format
 on:
   push:
     branches: [diagnostics/fandom-access]
@@ -7,27 +7,17 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 4
+    timeout-minutes: 3
     steps:
-      - name: Check category names and more content samples
+      - name: Inspect representative source templates
         run: |
           python3 - <<'PY'
-          import urllib.request, urllib.parse, json, re
-          def query(params):
-              url="https://fisch.fandom.com/api.php?"+urllib.parse.urlencode(dict(action="query",format="json",formatversion="2",**params))
-              req=urllib.request.Request(url,headers={"User-Agent":"FischFinderDataCheck/1.0 (https://github.com/CaptainMario4/Fisch-Finder)"})
-              try:
-                  with urllib.request.urlopen(req,timeout=25) as r: return json.load(r)
-              except Exception as e: print("ERROR",str(e)); return {}
-          titles=["Abadhah Chromis","Megalodon","Beakbill","Beak Bill"]
-          for cat in ["Fishing Rods","Companion","Quest","NPCs"]:
-              d=query({"list":"categorymembers","cmtitle":"Category:"+cat,"cmlimit":"5","cmnamespace":"0"})
-              pages=d.get("query",{}).get("categorymembers",[])
-              print("DISCOVERY",cat,json.dumps(pages),"has_more",bool(d.get("continue")))
-              if cat=="Companion": titles.extend(p["title"] for p in pages[:2])
-          d=query({"prop":"revisions","rvprop":"timestamp|content","rvslots":"main","titles":"|".join(titles),"redirects":"1"})
-          for p in d.get("query",{}).get("pages",[]):
-              rev=(p.get("revisions") or [{}])[0]; text=rev.get("slots",{}).get("main",{}).get("content","")
-              print("SAMPLE",json.dumps({"title":p.get("title"),"missing":p.get("missing",False),"timestamp":rev.get("timestamp"),"chars":len(text),"templates":list(dict.fromkeys(re.findall(r"{{\s*([^|{}\n]+)",text)))[:20],"fields":list(dict.fromkeys(re.findall(r"^\s*\|\s*([^=\n|]+)=",text,re.M)))[:30],"headings":re.findall(r"^==+\s*(.*?)\s*==+\s*$",text,re.M)[:15]}))
+          import urllib.request, urllib.parse, json
+          url="https://fisch.fandom.com/api.php?"+urllib.parse.urlencode(dict(action="query",format="json",formatversion="2",prop="revisions",rvprop="ids|timestamp|content",rvslots="main",titles="Megalodon|Sunken Rod|Beak Bill|Angler|Acidgrinder"))
+          req=urllib.request.Request(url,headers={"User-Agent":"FischFinderDataCheck/1.0 (https://github.com/CaptainMario4/Fisch-Finder)"})
+          with urllib.request.urlopen(req,timeout=25) as r: data=json.load(r)
+          for p in data["query"]["pages"]:
+              content=(p.get("revisions") or [{}])[0].get("slots",{}).get("main",{}).get("content","")
+              print("RAW_SAMPLE "+json.dumps({"page":p["title"],"text":content[:7000]}))
           
           PY

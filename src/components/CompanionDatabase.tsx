@@ -1,3 +1,4 @@
+import { replaceFinderUrl, listenForFinderHistory } from '../lib/finder-history';
 import { fetchDataset, pollDataset } from '../lib/browser-dataset-cache';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
@@ -66,14 +67,14 @@ export default function CompanionDatabase({ initialData }: { initialData: Compan
       keys.forEach(key => restored[key] = params.get(key) ?? ''); setFilters(restored); setUrlReady(true);
     };
     readUrl(); const stopRefresh = pollDataset('/api/companions.json?schema=1', () => refresh(), 30 * 60 * 1000);
-    window.addEventListener('popstate', readUrl);
-    return () => { window.removeEventListener('popstate', readUrl); stopRefresh(); refreshController.current?.abort(); };
+    const stopHistory = listenForFinderHistory(readUrl);
+    return () => { stopHistory(); stopRefresh(); refreshController.current?.abort(); };
   }, []);
   useEffect(() => {
     if (!urlReady) return; const params = new URLSearchParams();
     if (query) params.set('q', query); keys.forEach(key => { if (filters[key]) params.set(key, filters[key]); });
     if (selectedPage) params.set('companion', selectedPage); if (sort !== 'name-asc') params.set('sort', sort); if (page > 1) params.set('page', String(page));
-    window.history.replaceState(null, '', `${window.location.pathname}${params.size ? '?' + params.toString() : ''}`);
+    replaceFinderUrl(`${window.location.pathname}${params.size ? '?' + params.toString() : ''}`);
   }, [query, filters, selectedPage, sort, page, urlReady]);
   const options = useMemo(() => companionFilterOptions(data.companions), [data.companions]);
   const results = useMemo(() => findCompanions(data.companions, query, filters, sort), [data.companions, query, filters, sort]);

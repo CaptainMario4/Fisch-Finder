@@ -1,3 +1,4 @@
+import { replaceFinderUrl, listenForFinderHistory } from '../lib/finder-history';
 import { fetchDataset, pollDataset } from '../lib/browser-dataset-cache';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
@@ -84,14 +85,14 @@ export default function FishDatabase({ initialData, initialSchedules }: { initia
       setFilters(restored); setUrlReady(true);
     };
     readUrl(); const stopRefresh = pollDataset('/api/fish.json', () => refresh(), 30 * 60 * 1000);
-    window.addEventListener('popstate', readUrl);
-    return () => { window.removeEventListener('popstate', readUrl); stopRefresh(); };
+    const stopHistory = listenForFinderHistory(readUrl);
+    return () => { stopHistory(); stopRefresh(); };
   }, []);
   useEffect(() => {
     if (!urlReady) return; const params = new URLSearchParams();
     if (query) params.set('q', query); keys.forEach(key => { if (filters[key] !== defaults[key]) params.set(key, filters[key]); });
     if (selectedPage) params.set('fish', selectedPage); if (sort !== 'name-asc') params.set('sort', sort); if (page > 1) params.set('page', String(page));
-    window.history.replaceState(null, '', `${window.location.pathname}${params.size ? '?' + params.toString() : ''}`);
+    replaceFinderUrl(`${window.location.pathname}${params.size ? '?' + params.toString() : ''}`);
   }, [query, filters, selectedPage, sort, page, urlReady]);
   const options = useMemo(() => {
     const values = (key: 'region' | 'location' | 'rarity') => [...new Set(data.fish.map(f => f[key]).filter(Boolean))].sort((a, b) => a.localeCompare(b));

@@ -1,3 +1,4 @@
+import { replaceFinderUrl, listenForFinderHistory } from '../lib/finder-history';
 import { fetchDataset, pollDataset } from '../lib/browser-dataset-cache';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Rod, RodDataset } from '../lib/rods';
@@ -52,14 +53,14 @@ export default function RodDatabase({ initialData }: { initialData: RodDataset }
       keys.forEach(key => restored[key] = params.get(key) ?? ''); setFilters(restored); setUrlReady(true);
     };
     readUrl(); const stopRefresh = pollDataset('/api/rods.json?schema=2', () => refresh(), 30 * 60 * 1000);
-    window.addEventListener('popstate', readUrl);
-    return () => { window.removeEventListener('popstate', readUrl); stopRefresh(); refreshController.current?.abort(); };
+    const stopHistory = listenForFinderHistory(readUrl);
+    return () => { stopHistory(); stopRefresh(); refreshController.current?.abort(); };
   }, []);
   useEffect(() => {
     if (!urlReady) return; const params = new URLSearchParams();
     if (query) params.set('q', query); keys.forEach(key => { if (filters[key]) params.set(key, filters[key]); });
     if (selectedPage) params.set('rod', selectedPage); if (sort !== 'name-asc') params.set('sort', sort); if (page > 1) params.set('page', String(page));
-    window.history.replaceState(null, '', `${window.location.pathname}${params.size ? '?' + params.toString() : ''}`);
+    replaceFinderUrl(`${window.location.pathname}${params.size ? '?' + params.toString() : ''}`);
   }, [query, filters, selectedPage, sort, page, urlReady]);
   const options = useMemo(() => {
     const values = (key: 'stage' | 'region' | 'source') => [...new Set(data.rods.map(rod => rod[key]).filter(Boolean))].sort((a,b) => key === 'stage' ? Number(a.match(/\d+/)?.[0] ?? 999) - Number(b.match(/\d+/)?.[0] ?? 999) : a.localeCompare(b));

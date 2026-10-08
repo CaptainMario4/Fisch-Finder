@@ -29,6 +29,7 @@ test('secondary cache is validated, shared, and retained on failure; primary out
     const data = { fish: [], fetchedAt: stamp(), mode: 'api', notice: '' };
     const [one, two] = await Promise.all([m.withSecondary(data, 'fish', []), m.withSecondary(data, 'fish', [])]);
     assert.equal(requests, 1); assert.equal(one.fish.length, 1); assert.equal(two.fish.length, 1); assert.match(one.notice, /provisional/);
+    assert.deepEqual(one.secondaryData, { source: 'fandom', checkedAt: payload.checkedAt, provisionalCount: 1 });
     const failed = await m.withSecondary({ ...data, mode: 'snapshot', notice: 'Primary unavailable' }, 'fish', []);
     assert.equal(failed.fish.length, 1); assert.equal(failed.fish[0].id, one.fish[0].id); assert.equal(requests, 1);
     const cold = await fresh(); const unchanged = await cold.withSecondary({ ...data, mode: 'snapshot' }, 'fish', []);
@@ -36,6 +37,7 @@ test('secondary cache is validated, shared, and retained on failure; primary out
     const primary = { ...payload.fish[0], id: 100, secondary: undefined, url: 'https://fischipedia.org/wiki/New_Fish' };
     const replaced = await m.withSecondary({ ...data, fish: [primary] }, 'fish', []);
     assert.equal(replaced.fish.length, 1); assert.equal(replaced.fish[0], primary); assert.equal(replaced.notice, '');
+    assert.equal(replaced.secondaryData.provisionalCount, 0);
     Date.now = () => realNow() + 31 * 60 * 1000;
     globalThis.fetch = async () => { requests++; throw new Error('GitHub unavailable'); };
     const retained = await m.withSecondary(data, 'fish', []);

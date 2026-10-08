@@ -2,6 +2,7 @@ import bundled from '../data/fandom-secondary.json';
 import type { Dataset, Fish } from './fisch';
 import type { RodDataset, Rod } from './rods';
 export type SecondarySource = { source: 'fandom'; pageId: number; revision: number; revisionAt: string; checkedAt?: string; license: string; licenseUrl: string };
+export type SecondaryStatus = { source: 'fandom'; checkedAt: string; provisionalCount: number };
 type SecondaryData = { schema: number; checkedAt: string; fish: Fish[]; rods: Rod[] };
 const URL = 'https://raw.githubusercontent.com/CaptainMario4/Fisch-Finder/main/src/data/fandom-secondary.json';
 const CACHE_MS = 30 * 60 * 1000;
@@ -70,6 +71,6 @@ export async function withSecondary<T extends Dataset | RodDataset>(data: T, kin
   const primary = kind === 'fish' ? (data as Dataset).fish : (data as RodDataset).rods;
   const entries = mergeEntries(primary as (Fish | Rod)[], secondary[kind].map(entry => ({ ...entry, secondary: { ...entry.secondary!, checkedAt: secondary.checkedAt } })), knownPrimary);
   const count = entries.length - primary.length;
-  const result = count ? { ...data, [kind]: entries, notice: [data.notice, `${count} provisional Fisch Fandom ${kind === 'fish' ? 'fish entries' : 'rods'}. Secondary source checked: ${secondary.checkedAt.slice(0, 16).replace('T', ' ')} UTC. Fischipedia replaces matching entries when listed; secondary information is unverified.`].filter(Boolean).join(' ') } as T : data;
+  const result = { ...data, [kind]: entries, secondaryData: { source: 'fandom', checkedAt: secondary.checkedAt, provisionalCount: count }, notice: count ? [data.notice, `${count} provisional Fisch Fandom ${kind === 'fish' ? 'fish entries' : 'rods'}. Secondary source checked: ${secondary.checkedAt.slice(0, 16).replace('T', ' ')} UTC. Fischipedia replaces matching entries when listed; secondary information is unverified.`].filter(Boolean).join(' ') : data.notice } as T;
   lastGood.set(kind, result); return result;
 }

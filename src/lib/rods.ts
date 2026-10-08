@@ -16,7 +16,7 @@ export type Rod = {
   description: string; hint: string; unavailable: boolean; recommendations: Recommendation[];
   abilities?: RodAbility[]; mastery?: RodMastery[]; masteryLevel?: string;
 };
-export type RodDataset = { rods: Rod[]; fetchedAt: string; mode: 'api' | 'snapshot'; notice: string };
+export type RodDataset = { rods: Rod[]; fetchedAt: string; mode: 'api' | 'snapshot'; notice: string; secondaryData?: import('./secondary-source').SecondaryStatus };
 type RecommendationSource = { revision: number; recommendations: Recommendation[]; abilities?: RodAbility[]; mastery?: RodMastery[]; masteryLevel?: string };
 type Sources = Record<string, RecommendationSource>;
 

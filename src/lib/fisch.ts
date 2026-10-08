@@ -11,7 +11,7 @@ export type Fish = {
   radar: string[]; locations: string[]; crabCages: string[];
   adminEvents: string[]; removed: boolean; unobtainable: boolean; nonfish: boolean;
 };
-export type Dataset = { fish: Fish[]; fetchedAt: string; mode: 'api' | 'snapshot'; notice: string };
+export type Dataset = { fish: Fish[]; fetchedAt: string; mode: 'api' | 'snapshot'; notice: string; secondaryData?: import('./secondary-source').SecondaryStatus };
 const text = (v: unknown): string => String(v ?? '').replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, '$2').replace(/\[\[([^\]]+)\]\]/g, '$1').replace(/<[^>]*>/g, '').trim();
 const list = (v: unknown): string[] => (Array.isArray(v) ? v : v == null ? [] : String(v).split(';')).map(text).filter(Boolean);
 const lines = (v: unknown): string[] => String(v ?? '').split(/\r?\n/).map(text).filter(Boolean);

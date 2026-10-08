@@ -2,7 +2,7 @@
 
 https://fisch-finder-moonke1-0c07.wix-site-host.com/
 
-A Fisch companion for fish, rod, companion, and quest search on desktop and mobile. The search bar matches fish names, bestiary regions, and listed sublocations, with partial and case-insensitive matching. The interface offers desktop tables, mobile cards, responsive details, and light or dark mode.
+A Fisch database for fish, rod, companion, and quest search on desktop and mobile. The search bar matches fish names, bestiary regions, and listed sublocations, with partial and case-insensitive matching. The interface offers desktop tables, mobile cards, responsive details, and light or dark mode.
 
 ## Source and data updates
 
@@ -52,12 +52,6 @@ The always-visible navigation switch offers dark mode. Light remains the initial
 
 ### Provisional secondary wiki data
 
-Fischipedia remains authoritative. An hourly GitHub Actions workflow reads Fisch Fandom's public MediaWiki API and checks category listings and page revisions. Only changed articles download their text. Validated fish and rod entries are stored in `src/data/fandom-secondary.json`; failed or incomplete runs leave the last successful file intact. The website reads this cache with a 30-minute server cache and never requests Fandom when visitors search, filter, or refresh. Data-only workflow commits do not require a Wix release.
-
-Secondary entries appear only when neither the current nor saved Fischipedia inventory contains a matching entry. Once Fischipedia lists it, its entire entry replaces the Fandom entry, including empty preference fields and unavailable flags. A Fischipedia outage does not count as missing content. No existing primary fields are filled or overridden from Fandom.
-
-Fandom entries are marked provisional and unverified, with original source links, revision dates, and license attribution. Stubs, incomplete preference fields, unresolved stats, and malformed templates are excluded. Import validation checks format and completeness, not factual accuracy. Stages, mastery, or other fields that cannot be imported reliably remain unlisted. Companion and quest imports are deferred; those pages and their guides continue to use Fischipedia exclusively.
+Source data: Fischipedia contributors, https://fischipedia.org/wiki/Fisch_Wiki . Data adaptations shared under CC BY-NC-SA 4.0, https://creativecommons.org/licenses/by-nc-sa/4.0/ . Individual source pages are linked from every result. This unofficial companion is not affiliated with Roblox or Fisch.
 
 Secondary source: Fisch Wiki contributors, https://fisch.fandom.com/wiki/Fisch_Wiki . Fandom-derived adaptations retain the source's CC-BY-SA licensing, https://www.fandom.com/licensing . They are identified separately from the primary source's license below. Test fixtures retain representative source excerpts solely to validate parsing and attribution.
-
-Source data: Fischipedia contributors, https://fischipedia.org/wiki/Fisch_Wiki . Data adaptations shared under CC BY-NC-SA 4.0, https://creativecommons.org/licenses/by-nc-sa/4.0/ . Individual source pages are linked from every result. This unofficial companion is not affiliated with Roblox or Fisch.

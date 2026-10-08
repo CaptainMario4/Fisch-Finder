@@ -1,0 +1,33 @@
+name: Preview secondary wiki import
+on:
+  push:
+    branches: [secondary/fandom]
+permissions:
+  contents: read
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Read representative source formats
+        run: |
+          node --input-type=module <<'NODE'
+          const url = new URL('https://fisch.fandom.com/api.php');
+          url.search = new URLSearchParams({action:'query',format:'json',formatversion:'2',prop:'revisions',rvprop:'ids|timestamp|content',rvslots:'main',titles:'Megalodon|Sunken Rod|Acidgrinder'});
+          const r = await fetch(url);
+          const d = await r.json();
+          for(const p of d.query.pages) console.log('RAW_SAMPLE '+JSON.stringify({page:p.title,text:p.revisions?.[0]?.slots?.main?.content?.slice(0,5500)}));
+          NODE
+      - name: Collect and validate source entries
+        run: node scripts/sync-fandom.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fandom-preview
+          path: src/data/fandom-secondary.json
+          retention-days: 7

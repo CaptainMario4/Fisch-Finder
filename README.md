@@ -50,8 +50,6 @@ The always-visible navigation switch offers dark mode. Light remains the initial
 
 ## Development and Publishing
 
-### Provisional secondary wiki data
-
 Source data: Fischipedia contributors, https://fischipedia.org/wiki/Fisch_Wiki . Data adaptations shared under CC BY-NC-SA 4.0, https://creativecommons.org/licenses/by-nc-sa/4.0/ . Individual source pages are linked from every result. This unofficial companion is not affiliated with Roblox or Fisch.
 
 Secondary source: Fisch Wiki contributors, https://fisch.fandom.com/wiki/Fisch_Wiki . Fandom-derived adaptations retain the source's CC-BY-SA licensing, https://www.fandom.com/licensing . They are identified separately from the primary source's license below. Test fixtures retain representative source excerpts solely to validate parsing and attribution.

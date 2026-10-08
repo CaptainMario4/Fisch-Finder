@@ -57,6 +57,42 @@ test('search combines objectives and location filters, capacity suggestions excl
  const q=data.quests.find(q=>q.npc==='Dr. Crookspine');assert.ok(!search.questTasks(q).some(t=>t.text.includes('50 Sundial')));const task=search.questTasks(q)[0];assert.equal(search.taskProgressKey(q,task),search.taskProgressKey({...q,name:'Renamed'},task));
 });
 
+test('multi-step riddles inherit their own solutions, quantities, mutations and rods without changing progress identities',async()=>{
+ const mod=await fresh();
+ const input=`{{NPCInfobox}}
+== Quests ==
+{{Quest|name=First Trial|step1=Catch a target|tasks1=The blooming terror}}
+{{Quest|name=Second Trial|step1=Catch the target with {{Rod|Aurora Rod}}|tasks1=The wisp hunter}}
+{| class="wikitable"
+! Quest !! Riddle !! Answer
+|-
+| First Trial || The blooming terror || Catch {{Fish|The Kraken|2|attrs=Blossomed}} or {{Fish|Ancient Kraken|attrs=Blossomed}}
+|-
+| Second Trial || The wisp hunter || Catch {{Item|Styx Angler|attrs=Soultouched}} with [[Hades' Soul-Scythe]]
+|}`;
+ const parsed=mod.extractQuestDetails(input),base=mod.extractQuestDetails(input.split('{|')[0]);
+ const tasks=parsed.stages.flatMap(s=>s.steps.flatMap(step=>step.tasks));
+ assert.deepEqual(tasks.map(t=>t.id),base.stages.flatMap(s=>s.steps.flatMap(step=>step.tasks.map(t=>t.id))));
+ assert.deepEqual(tasks[0].fish.map(f=>f.page),['The Kraken','Ancient Kraken']);assert.equal(tasks[0].fish[0].quantity,'2');assert.deepEqual(tasks[0].mutations,['Blossomed']);assert.match(tasks[0].solutions[0],/ or /);
+ assert.equal(tasks[1].fish[0].page,'Styx Angler');assert.equal(tasks[1].fish[0].attributes,'Soultouched');assert.equal(tasks[1].rods[0].page,'Aurora Rod');
+ const data=mod.questFallback,resolved=mod.resolveQuestRequirements([{...data.quests[0],...parsed}],data.fish,data.rods,data.mutations);
+ assert.ok(resolved[0].stages[1].steps[0].tasks[0].rods.some(r=>r.page==="Hades' Soul-Scythe"));
+ const shadow=data.quests.find(q=>q.npc==='Mysterious Shadow'),all=search.questTasks(shadow);
+ assert.equal(all.length,6);assert.ok(all.every(t=>t.fish.length));
+ assert.deepEqual(all.slice(0,5).map(t=>t.mutations),[['Blossomed'],['Sunken'],['Soultouched'],['Jackpot'],['Requies']]);
+ const mutationRods=all.flatMap(t=>t.mutations.flatMap(name=>data.mutations.find(m=>m.name===name)?.rods??[])).map(r=>r.page);
+ for(const rod of ['Verdant Oath',"Dead Man's Rod",'Sunken Rod',"Hades' Soul-Scythe",'Random Rod','Requiem'])assert.ok(mutationRods.includes(rod),rod);
+ assert.deepEqual(all[5].rods.map(r=>r.page),['Duskwire','Tranquility Rod']);
+});
+
+test('repeated riddle objectives resolve by step title and prose is not mistaken for mutation or rod requirements',async()=>{
+ const mod=await fresh(),data=mod.questFallback;
+ const cat=data.quests.find(q=>q.npc==='Crazy Cat Lady'),tasks=search.questTasks(cat);assert.equal(tasks.length,15);assert.ok(tasks.every(t=>t.fish.length===1&&t.solutions.length===1));assert.equal(tasks[0].fish[0].page,'Celestial Koi');assert.deepEqual(tasks[0].mutations,['Shiny']);assert.equal(tasks[1].fish[0].page,'Mosaic Swimmer');
+ const lyren=data.quests.find(q=>q.npc==='Lyren'),lt=search.questTasks(lyren);assert.deepEqual(lt[0].mutations,[]);assert.deepEqual(lt.find(t=>t.text==='Seek the stars across the lands').fish,[]);assert.deepEqual(lt.find(t=>t.text==='Activate each Astral Anomaly once').mutations,[]);assert.ok(lt.find(t=>t.text==='When the moon turns cold...').mutations.includes('Moon-Kissed'));
+ const parsed=mod.extractQuestDetails(`{{NPCInfobox}}\n== Quests ==\n{{Quest|name=First|step1=Find it|tasks1=Shared riddle}}\n{{Quest|name=Second|step1=Find it|tasks1=Shared riddle}}\n{|\n! Riddle !! Answer\n|-\n| Shared riddle || {{Fish|Handfish}}\n|-\n| Shared riddle || {{Fish|Isonade}}\n|}`);assert.ok(parsed.stages.every(s=>!s.steps[0].tasks[0].solutions));
+ const witch=data.quests.find(q=>q.npc==='Awakened Witch');assert.equal(search.questTasks(witch)[1].fish[0].page,'Scylla');
+});
+
 test('quest refresh coalesces calls, caches success, discovers additions and retains complete guides and timestamps after failures',async()=>{
  const mod=await fresh(),originalFetch=globalThis.fetch,originalNow=Date.now;let now=Date.parse('2026-10-07T22:00:00Z'),calls=0,fail=false;const old=mod.questFallback.quests;
  const raw=old.map(q=>({page_id:q.id,page_name:q.page,name:q.npc,location:q.locations,event:q.events,is_removed:q.status==='unavailable',is_quest:true}));

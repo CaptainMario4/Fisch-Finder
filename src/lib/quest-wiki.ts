@@ -56,14 +56,14 @@ export type QuestRef = { page:string; name:string; quantity:string; attributes:s
 export function questReferences(value:string, kind:'fish'|'rod') : QuestRef[] {
   const refs:QuestRef[]=[];
   for (const t of wikiTemplates(value)) {
-    if (t.name===kind && t.positional[0]) refs.push({page:questText(t.positional[0]), name:questText(t.args.text??t.positional[0]),quantity:/^\d+(?:,\d{3})*(?:\.\d+)?$/.test(t.positional[1]??'')?t.positional[1]:'',attributes:questText(t.args.attrs)});
+    if ((t.name===kind || kind==='fish'&&t.name==='item') && t.positional[0]) refs.push({page:questText(t.positional[0]), name:questText(t.args.text??t.positional[0]),quantity:/^\d+(?:,\d{3})*(?:\.\d+)?$/.test(t.positional[1]??'')?t.positional[1]:'',attributes:questText(t.args.attrs)});
     // Wrappers may contain links; named presentation arguments need not be scanned twice.
     else refs.push(...questReferences([...t.positional,...Object.values(t.args)].join('\n'),kind));
   }
   return refs.filter((r,i)=>refs.findIndex(other=>other.page===r.page&&other.attributes===r.attributes&&other.quantity===r.quantity)===i);
 }
 export type QuestTable = { caption:string; headers:string[]; rows:string[][] };
-export function questTables(value:string):QuestTable[] {
+export function questTables(value:string, cellText:(value:string)=>string=questText):QuestTable[] {
   const tables:QuestTable[]=[];
   for (const match of value.matchAll(/\{\|[\s\S]*?\|\}/g)) {
     const text=match[0],caption=questText(text.match(/^\|\+\s*(.+)$/m)?.[1]), headers=splitWiki(text.split('\n').filter(line=>/^!/.test(line)).map(line=>line.replace(/^!\s*/,'')).join('!!'),'!!').map(questText).filter(Boolean);
@@ -78,7 +78,7 @@ export function questTables(value:string):QuestTable[] {
       if(current.trim())cells.push(current); if(!cells.length)continue;
       const row:string[]=[];let column=0;
       const fillSpans=()=> { while(spans.has(column)) {const span=spans.get(column)!;row[column++]=span.text;if(--span.remaining<=0)spans.delete(column-1);} };
-      for (const cell of cells) { fillSpans();const pipe=splitWiki(cell);const decorated=pipe.length>1&&/^\s*(?:rowspan|colspan|style|class|align|width)\s*=/.test(pipe[0]);const content=questText(decorated?pipe.slice(1).join('|'):cell);const rowspan=decorated?Number(pipe[0].match(/rowspan\s*=\s*["']?(\d+)/)?.[1]??1):1;row[column]=content;if(rowspan>1)spans.set(column,{text:content,remaining:rowspan-1});column++; }
+      for (const cell of cells) { fillSpans();const pipe=splitWiki(cell);const decorated=pipe.length>1&&/^\s*(?:rowspan|colspan|style|class|align|width)\s*=/.test(pipe[0]);const content=cellText(decorated?pipe.slice(1).join('|'):cell);const rowspan=decorated?Number(pipe[0].match(/rowspan\s*=\s*["']?(\d+)/)?.[1]??1):1;row[column]=content;if(rowspan>1)spans.set(column,{text:content,remaining:rowspan-1});column++; }
       fillSpans();if(row.some(Boolean))rows.push(row);
     }
     const width=Math.max(headers.length,...rows.map(r=>r.length),1);tables.push({caption,headers:Array.from({length:width},(_,i)=>headers[i]||`Detail ${i+1}`),rows:rows.map(r=>Array.from({length:width},(_,i)=>r[i]??''))});

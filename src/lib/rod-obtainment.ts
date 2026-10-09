@@ -124,6 +124,7 @@ export function rodObtainmentNodes(rod:Rod,rods:Rod[]):ObtainNode[] {
  for(const ref of rod.obtainment?.references??[]){
   if(fold(ref.page)===fold(rod.page)||nodes.some(n=>n.reference&&fold(n.reference.page)===fold(ref.page)&&n.reference.attributes===ref.attributes&&n.reference.quantity===ref.quantity))continue;
   const matchingRod=rods.find(r=>fold(r.page)===fold(ref.page)||fold(r.name)===fold(ref.name));
+  if(matchingRod&&fold(matchingRod.page)===fold(rod.page))continue;
   const kind=matchingRod?'rod':ref.kind;
   nodes.push({id:[kind,ref.page,ref.quantity,ref.attributes].join(':'),kind,title:ref.name,detail:[ref.quantity?'×'+ref.quantity:'',ref.attributes,kind==='rod'?'Referenced rod':kind==='fish'||kind==='item'?'Referenced fish / item':'Referenced unlock or location'].filter(Boolean).join(' · '),reference:matchingRod?{...ref,page:matchingRod.page,kind:'rod'}:ref});
  }

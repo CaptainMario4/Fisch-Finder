@@ -66,12 +66,13 @@ test('quest aliases preserve wiki targets and remove hidden classification text'
  assert.ok(!mod.obtainmentReferences('[[javascript:alert(1)]] [[File:Icon.png]] {{Item|https://bad.test}}').length);
 });
 test('requirements expose metadata and prerequisite rods without conflating mutation variants',()=>{
- const root={...base,questReferences:mod.rodQuestReferences('[[Unlock Quest]]'),obtainment:mod.extractRodObtainment('== Obtainment ==\n* {{Fish|Driftwood|2|attrs=Frozen}}\n* {{Fish|Driftwood|2|attrs=Mythical}}\n* {{Rod|Starter Rod}}\n* {{Rod|Target Rod}}')};
+ const root={...base,name:'Target Display Name',questReferences:mod.rodQuestReferences('[[Unlock Quest]]'),obtainment:mod.extractRodObtainment('== Obtainment ==\n* {{Fish|Driftwood|2|attrs=Frozen}}\n* {{Fish|Driftwood|2|attrs=Mythical}}\n* {{Rod|Starter Rod}}\n* {{Rod|Target Rod}}\n* [[Old Target Page|Target Display Name]]')};
  const nodes=mod.rodObtainmentNodes(root,[root,{...base,page:'Starter Rod',name:'Starter Rod'}]);
  assert.ok(nodes.some(n=>n.kind==='level'));assert.ok(nodes.some(n=>n.kind==='price'));assert.ok(nodes.some(n=>n.kind==='quest'));
  assert.equal(nodes.filter(n=>n.kind==='fish').length,2);
  assert.equal(nodes.filter(n=>n.kind==='rod').length,1);
  assert.ok(nodes.every(n=>n.title!=='Target Rod'));
+ assert.ok(nodes.every(n=>n.title!=='Target Display Name'),'a wiki alias for the selected rod must not become its own prerequisite');
 });
 test('viewer guards cycles, preserves unknown and unavailable warnings, and renders semantic links',async()=>{
  const server=await createServer({configFile:false,server:{middlewareMode:true,hmr:false},esbuild:{jsx:'automatic'}});

@@ -1,6 +1,10 @@
 import snapshot from '../data/rods-snapshot.json';
 import { extractRodObtainment, rodQuestReferences } from './rod-obtainment';
 import type { RodObtainment, ObtainRef } from './rod-obtainment';
+import accessSnapshot from '../data/rod-access-snapshot.json';
+import { attachPurchaseAccess } from './rod-purchase';
+import type { AccessGuides, PurchaseAccess } from './rod-purchase';
+import { withPurchaseAreas } from './rod-access-cache';
 
 const API = 'https://fischipedia.org/w/api.php';
 const fields = ['page_id','page_name','journal','event','source','quest','price','price_type','level','stage','lure','luck','control','resilience','max_weight','durability','disturbance','hunt_focus','pref_disturb','line_dist','is_unob','is_removed','description','hint'];
@@ -18,6 +22,7 @@ export type Rod = {
   description: string; hint: string; unavailable: boolean; recommendations: Recommendation[];
   abilities?: RodAbility[]; mastery?: RodMastery[]; masteryLevel?: string;
   obtainment?: RodObtainment; questReferences?: ObtainRef[];
+  purchaseAccess?: PurchaseAccess;
 };
 export type RodDataset = { rods: Rod[]; fetchedAt: string; mode: 'api' | 'snapshot'; notice: string; secondaryData?: import('./secondary-source').SecondaryStatus };
 type RecommendationSource = { revision: number; recommendations: Recommendation[]; abilities?: RodAbility[]; mastery?: RodMastery[]; masteryLevel?: string; obtainment?: RodObtainment };
@@ -150,7 +155,7 @@ export function normalizeRods(raw: RawRod[], sources: Sources): Rod[] {
     const stage = value('stage');
     const rawPrice = value('price');
     const price = /^[\d,]+(?:\.\d+)?$/.test(rawPrice) ? Number(rawPrice.replace(/,/g, '')).toLocaleString('en-US', { maximumFractionDigits: 10 }) : rawPrice;
-    return {
+    return attachPurchaseAccess({
       id: Number(rod.page_id), page: String(rod.page_name), name: value('page_name'),
       url: 'https://fischipedia.org/wiki/' + encodeURIComponent(String(rod.page_name).replace(/ /g, '_')),
       stage: stage ? stage === '0' ? 'Stage 0 / Exclusive' : `Stage ${stage}` : 'Not listed',
@@ -162,7 +167,7 @@ export function normalizeRods(raw: RawRod[], sources: Sources): Rod[] {
       description: value('description'), hint: value('hint'), unavailable: flag(rod.is_unob) || flag(rod.is_removed),
       recommendations: sources[String(rod.page_id)]?.recommendations ?? [],
       abilities: sources[String(rod.page_id)]?.abilities ?? [], mastery: sources[String(rod.page_id)]?.mastery ?? [], masteryLevel: sources[String(rod.page_id)]?.masteryLevel ?? '',
-    };
+    }, accessSnapshot.guides as AccessGuides);
   }).sort((a, b) => a.name.localeCompare(b.name));
 }
 export const rodFallback: RodDataset = {
@@ -207,7 +212,8 @@ export async function getRodDataset({ forceRefresh = false }: { forceRefresh?: b
         updated[String(page.pageid)] = { revision: revision.revid, recommendations: extractRecommendations(content), ...extractRodFeatures(content), obtainment: extractRodObtainment(content) };
       }
       sources = updated;
-      cache = { rods: normalizeRods(raw, sources), fetchedAt: new Date().toISOString(), mode: 'api', notice: '' };
+      const rods = await withPurchaseAreas(normalizeRods(raw, sources), request);
+      cache = { rods, fetchedAt: new Date().toISOString(), mode: 'api', notice: '' };
       expires = Date.now() + 30 * 60 * 1000; return cache;
     } catch {
       cache = { ...(cache ?? rodFallback), mode: 'snapshot', notice: 'Wiki refresh unavailable. Showing the last successfully retrieved rods and recommendations with their original timestamp.' };

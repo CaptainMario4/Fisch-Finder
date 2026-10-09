@@ -1,0 +1,1693 @@
+{
+  "fetchedAt": "2026-10-09T14:45:34.707Z",
+  "guides": {
+    "abyssal zenith": {
+      "region": "Abyssal Zenith",
+      "page": "Mariana's Veil",
+      "revision": 184479,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "The Abyssal Zenith is located beneath the Challenger's Deep, with the entrance at -5375, -7390, 400; Similarly to other layers, the path below is locked until the player acquires the Anglers Lantern from the Abyssal Zenith.",
+          "references": [
+            {
+              "kind": "fish",
+              "page": "Anglers Lantern",
+              "name": "Anglers Lantern",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "Within this pond are three large Anglerfish, which will kill the player if they come into contact. Holding out an Orca or The Kraken will make the Anglerfish unable to kill the player. Feeding an Orca or Kraken is required to calm the Anglerfish and put them to sleep temporarily, allowing the player to interact with them and take the Anglers Lantern, which is required to descend further.",
+          "references": [
+            {
+              "kind": "fish",
+              "page": "Anglers Lantern",
+              "name": "Anglers Lantern",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "fish",
+              "page": "The Kraken",
+              "name": "The Kraken",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "fish",
+              "page": "Orca",
+              "name": "Orca",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "The player must enter the water while holding either an Orca or a Kraken and wait for the anglerfish to approach, then it must be fed to the anglerfish to cause it to go to sleep for five minutes, allowing the player to take the Anglers Lantern. It is recommended to take at least 2 Orcas/Krakens, using one to make an anglerfish sleep, and holding the other to avoid the player being eaten while collecting the lantern.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Orca",
+              "name": "Orca",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "The Kraken",
+              "name": "Kraken",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Anglers Lantern",
+              "name": "Anglers Lantern",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "Additionally, if the player is at least Level 150, the Rod Of The Zenith can be purchased here (-13625, -11035, 355), for C$ 700,000.",
+          "references": [
+            {
+              "kind": "rod",
+              "page": "Rod Of The Zenith",
+              "name": "Rod Of The Zenith",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Level",
+              "name": "Level",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "ancient isle": {
+      "region": "Ancient Isle",
+      "page": "Ancient Isle",
+      "revision": 181789,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [],
+      "equipment": []
+    },
+    "atlantis": {
+      "region": "Atlantis",
+      "page": "Atlantis",
+      "revision": 181818,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "Atlantis can be entered through the crevice within the Grand Reef central island at -3576, 148, 524.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Grand Reef",
+              "name": "Grand Reef",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "Upon entering the crevice, the player will be teleported to the center area of Atlantis, where there will be an Inn Keeper and a portal back to Moosewood nearby.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Inn Keeper",
+              "name": "Inn Keeper",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Moosewood",
+              "name": "Moosewood",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "boreal pines": {
+      "region": "Boreal Pines",
+      "page": "Boreal Pines",
+      "revision": 182260,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "Boreal Pines is a large snowy pine forest with many icicles protruding from the ground. Wooden cabins are also scattered around the island. The Boreal Pines can be accessed via a portal in the main map, and is located next to the Northern Expedition.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Northern Expedition",
+              "name": "Northern Expedition",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "Being at the Boreal Pines causes the player to lose Warmth, unless the player has a Winter Cloak or Glimmerfin Suit Lvl 2/Glimmerfin Suit Lvl 3 equipped. Getting in contact with the water near the island also damages the player, dealing damage equal to 10% of their health.",
+          "references": [
+            {
+              "kind": "item",
+              "page": "Glimmerfin Suit Lvl 3",
+              "name": "Glimmerfin Suit Lvl 3",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "item",
+              "page": "Glimmerfin Suit Lvl 2",
+              "name": "Glimmerfin Suit Lvl 2",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "item",
+              "page": "Winter Cloak",
+              "name": "Winter Cloak",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Temperature",
+              "name": "Warmth",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "Similar to the Northern Expedition, the Boreal Pines can only be reached by entering the large portal situated in the Southern region of the Ocean at -1750, 130, 3750.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Ocean",
+              "name": "Ocean",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "Entering the portal will teleport the player to a few kilometers out from the Northern Summit at 18100, 130, 2700. A similar portal, labelled 'Exit Of The Expedition', can be found when travelling west from this location. Accordingly, entering this portal teleports the player back to the Ocean.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Ocean",
+              "name": "Ocean",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": [
+        "Glimmerfin Suit Lvl 3",
+        "Glimmerfin Suit Lvl 2",
+        "Winter Cloak"
+      ]
+    },
+    "brine pool": {
+      "region": "Brine Pool",
+      "page": "Desolate Deep",
+      "revision": 179574,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "There are two main ways to access the Brine Pool:",
+          "references": []
+        },
+        {
+          "text": "Glider & Path",
+          "references": []
+        },
+        {
+          "text": "Exit the water at -1710, -235, -3075",
+          "references": []
+        },
+        {
+          "text": "Follow the short path up reaching the wall at the end",
+          "references": []
+        },
+        {
+          "text": "Use the Glider to wrap around the rock to the left and reach a platform",
+          "references": [
+            {
+              "kind": "item",
+              "page": "Glider",
+              "name": "Glider",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "Wrap around the next rock using the Glider again to reach another platform",
+          "references": []
+        },
+        {
+          "text": "Climb the rocks to reach the cave entrance at -1725, -175, -3125",
+          "references": []
+        },
+        {
+          "text": "Glider & Pillar",
+          "references": []
+        },
+        {
+          "text": "Climb the central pillar to its highest point at -1600, -110, -2845",
+          "references": []
+        },
+        {
+          "text": "Glide Between North-east and North towards the rocks leading up to the cave entrance",
+          "references": [
+            {
+              "kind": "item",
+              "page": "Glider",
+              "name": "Glide",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "Once at the cave entrance, the Brine Pool will be at the end of the long tunnel (-1795, -140, -3310)",
+          "references": []
+        },
+        {
+          "text": "The Brine-Infused Rod can be purchased on a high ledge to the right after entering the Brine Pool at -1731, -100, -3345. A skeleton wearing a hat can be found sitting next to it.",
+          "references": [
+            {
+              "kind": "rod",
+              "page": "Brine-Infused Rod",
+              "name": "Brine-Infused Rod",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "calm zone": {
+      "region": "Calm Zone",
+      "page": "Mariana's Veil",
+      "revision": 184479,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "The Calm Zone is located beneath the Abyssal Zenith, and is the fourth layer at the very bottom of the caves, with the entrance at -4145, -11210, 1395; it is the final location of the Cave System and Submarine are not used past this point.",
+          "references": [
+            {
+              "kind": "item",
+              "page": "Submarine",
+              "name": "Submarine",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "carrot garden": {
+      "region": "Carrot Garden",
+      "page": "Mushgrove Swamp",
+      "revision": 182255,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "The Carrot Garden can be accessed through a hole near the Alligator Marsh, where unique fish can be caught, and the Carrot Rod can be purchased for C$ 45,000.",
+          "references": [
+            {
+              "kind": "rod",
+              "page": "Carrot Rod",
+              "name": "Carrot Rod",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "castaway cliffs": {
+      "region": "Castaway Cliffs",
+      "page": "Castaway Cliffs",
+      "revision": 180210,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [],
+      "equipment": []
+    },
+    "challenger's deep": {
+      "region": "Challenger's Deep",
+      "page": "Mariana's Veil",
+      "revision": 184479,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "The Challenger's Deep is located beneath the Volcanic Vents, with the entrance at -2630, -3830, 755; Similarly to the Volcanic Vents, the player is forced to take a tunnel to the North-West to unlock the required equipment to travel further down.",
+          "references": []
+        },
+        {
+          "text": "Within this cave is a Submariner and an Inn Keeper, as well as the upgrade station to acquire the Ice Upgrade for the Submarine, which is required to progress past the Challenger's Deep. Additionally, a portal back to Roslit Bay can be found at -735, -3280, -725, allowing the player to exit the cave system.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Submariner",
+              "name": "Submariner",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Inn Keeper",
+              "name": "Inn Keeper",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Roslit Bay",
+              "name": "Roslit Bay",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "An Ice Tunnel can be accessed through a cave to the North-West, which leads to a pool where the Cryoskin and Polar Prowler may be caught for the Ice Upgrade; as well as the rest of the fish required for the Challenger's Deep Bestiary. Additionally, the Challenger's Rod can be purchased here (740, -3355, -1530), for C$ 400,000.",
+          "references": [
+            {
+              "kind": "rod",
+              "page": "Challenger's Rod",
+              "name": "Challenger's Rod",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "fish",
+              "page": "Polar Prowler",
+              "name": "Polar Prowler",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "fish",
+              "page": "Cryoskin",
+              "name": "Cryoskin",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Bestiary",
+              "name": "Bestiary",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "coral bastion": {
+      "region": "Coral Bastion",
+      "page": "Tidefall",
+      "revision": 182253,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [],
+      "equipment": []
+    },
+    "crimson cavern": {
+      "region": "Crimson Cavern",
+      "page": "Crimson Cavern",
+      "revision": 180206,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "Crimson Cavern is a sublocation of Desolate Deep, unlocked by completing Crimson Guard's quest.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Desolate Deep",
+              "name": "Desolate Deep",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Crimson Guard",
+              "name": "Crimson Guard",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "To enter the Crimson Cavern, the player must open the red gate in Luminescent Cavern, which requires completing Crimson Guard's quest. To complete this quest, the player must bring them a Crimson Colossal Blue Dragon. It is recommended to catch a Colossal Blue Dragon using the Scarlet Spincaster Rod, as it has a 30% chance to apply the Crimson mutation needed to complete this quest.",
+          "references": [
+            {
+              "kind": "rod",
+              "page": "Scarlet Spincaster Rod",
+              "name": "Scarlet Spincaster Rod",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "fish",
+              "page": "Colossal Blue Dragon",
+              "name": "Colossal Blue Dragon",
+              "quantity": "",
+              "attributes": "Crimson"
+            },
+            {
+              "kind": "wiki",
+              "page": "Luminescent Cavern",
+              "name": "Luminescent Cavern",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Crimson Guard",
+              "name": "Crimson Guard",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "mutation",
+              "name": "mutation",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "After opening the gate, the player must swim through an underwater tunnel to reach the Crimson Cavern. The player must use diving gear to avoid drowning in the tunnel.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Items#Diving Equipment",
+              "name": "diving gear",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "cryogenic canal": {
+      "region": "Cryogenic Canal",
+      "page": "Northern Expedition",
+      "revision": 182184,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "One area is located under the bridge at 19937, 636, 5709. A Conception Conch can be purchased here.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Conception Conch",
+              "name": "Conception Conch",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "cultist lair": {
+      "region": "Cultist Lair",
+      "page": "Cultist Lair",
+      "revision": 179948,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "Cultist Lair can only be entered after receiving the Sea Traveler Note from the Sea Traveler's Quest.",
+          "references": [
+            {
+              "kind": "item",
+              "page": "Sea Traveler Note",
+              "name": "Sea Traveler Note",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Sea Traveler#Quests",
+              "name": "Sea Traveler's Quest",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "Using the note, the player is directed to enter the Terrapin Hideaway. During Foggy Nights, a lever with a green outline can be found inside. Interacting with the lever will unlock the entrance to Cultist Lair permanently.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Terrapin Island#Terrapin Hideaway",
+              "name": "Terrapin Hideaway",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Night",
+              "name": "Nights",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "cursed isle": {
+      "region": "Cursed Isle",
+      "page": "Cursed Isle",
+      "revision": 182264,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [],
+      "equipment": []
+    },
+    "desolate deep": {
+      "region": "Desolate Deep",
+      "page": "Desolate Deep",
+      "revision": 179574,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "Much of the Desolate Deep has active sea mines, which explode and kill the player when touched. Many of the game's Diving Equipment are also purchased here.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Items#Diving Equipment",
+              "name": "Diving Equipment",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "A buoy located north of Sunstone Island marks the entrance to the Desolate Deep. (-790, 125, -3100)",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Sunstone Island",
+              "name": "Sunstone Island",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "The Advanced Diving Gear can be purchased here for C$ 15,000.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Items#Advanced Diving Gear",
+              "name": "Advanced Diving Gear",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "everturn forest": {
+      "region": "Everturn Forest",
+      "page": "Everturn Forest",
+      "revision": 180200,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [],
+      "equipment": []
+    },
+    "forsaken shores": {
+      "region": "Forsaken Shores",
+      "page": "Forsaken Shores",
+      "revision": 178829,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [],
+      "equipment": []
+    },
+    "frigid cavern": {
+      "region": "Frigid Cavern",
+      "page": "Northern Expedition",
+      "revision": 182184,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "Frigid Cavern is the third area of the Northern Expedition located at 19737, 426, 5588. There is a camp in which the Summit Rod, Intermediate Oxygen Tank, and a Winter Cloak can be purchased.",
+          "references": [
+            {
+              "kind": "item",
+              "page": "Winter Cloak",
+              "name": "Winter Cloak",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "item",
+              "page": "Intermediate Oxygen Tank",
+              "name": "Intermediate Oxygen Tank",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "rod",
+              "page": "Summit Rod",
+              "name": "Summit Rod",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "At the end of the camp, a sheet of ice can be found blocking a cave. Using a Pickaxe, this ice can be broken to access a Lever.",
+          "references": [
+            {
+              "kind": "item",
+              "page": "Pickaxe",
+              "name": "Pickaxe",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "glacial grotto": {
+      "region": "Glacial Grotto",
+      "page": "Northern Expedition",
+      "revision": 182184,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "Glacial Grotto is the fifth and final area of the Northern Expedition located at the very summit of the island. It features a large camp, where the Advanced Oxygen Tank, Advanced Glider and the Heaven's Rod can be purchased.",
+          "references": [
+            {
+              "kind": "rod",
+              "page": "Heaven's Rod",
+              "name": "Heaven's Rod",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "item",
+              "page": "Advanced Glider",
+              "name": "Advanced Glider",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "item",
+              "page": "Advanced Oxygen Tank",
+              "name": "Advanced Oxygen Tank",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "The entrance to Glacial Grotto's fishing area is located at 20000, 1042, 5717.",
+          "references": []
+        }
+      ],
+      "equipment": []
+    },
+    "keepers altar": {
+      "region": "Keepers Altar",
+      "page": "Statue of Sovereignty",
+      "revision": 178815,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "The Keepers Altar is an underground sublocation known for being the only place for enchanting Fishing Rods. After accepting Cole's deal of C$ 400 for a Token, or C$ 100,000 for unlimited access, he will allow players to use the elevator at the end of the Sovereignty Mines to descend to the Keepers Altar.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Fishing Rods",
+              "name": "Fishing Rods",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Cole (Statue of Sovereignty)",
+              "name": "Cole",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "The Kings Rod can be purchased from the Keepers Altar for C$ 100,000 at 1380, -805, -300",
+          "references": [
+            {
+              "kind": "rod",
+              "page": "Kings Rod",
+              "name": "Kings Rod",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "living garden": {
+      "region": "Living Garden",
+      "page": "Lost Jungle",
+      "revision": 184420,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "The Living Garden is the second area reached upon navigating through the Toxic River; the player is required to use the Toxic-Proof Raft, obtained from completing Olivia's quest, to travel across the Toxic River. The Gas Mask is not required in this area. When entering the area for the first time, a cutscene will play.",
+          "references": [
+            {
+              "kind": "item",
+              "page": "Gas Mask",
+              "name": "Gas Mask",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Olivia",
+              "name": "Olivia's",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "item",
+              "page": "Toxic-Proof Raft",
+              "name": "Toxic-Proof Raft",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": [
+        "Toxic-Proof Raft"
+      ]
+    },
+    "lost jungle": {
+      "region": "Lost Jungle",
+      "page": "Lost Jungle",
+      "revision": 184420,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [],
+      "equipment": []
+    },
+    "luminescent cavern": {
+      "region": "Luminescent Cavern",
+      "page": "Luminescent Cavern",
+      "revision": 183529,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "Luminescent Cavern is a sublocation of the Desolate Deep, unlocked by placing three keystones in the Mysterious Crack.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Desolate Deep",
+              "name": "Desolate Deep",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Mysterious Crack",
+              "name": "Mysterious Crack",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "Upon entering the right tunnel of the Desolate Deep, players will encounter a sublocation known as the Mysterious Crack. This area can be accessed by placing 3 keystones into the keystone pedestal. The specific keystones required differ for each player. However, the locations where they can be obtained are the same. There are 9 fixed keystone locations:",
+          "references": []
+        },
+        {
+          "text": "After placing the required keystones, the player can swim through a small passage revealed by the exploded cave crack. Heading down the Mysterious River will eventually lead to the cavern. The GPS coordinates of the Mysterious River are -1047, -321, -3322.",
+          "references": []
+        }
+      ],
+      "equipment": []
+    },
+    "mineshaft": {
+      "region": "Mineshaft",
+      "page": "Sunstone Island",
+      "revision": 183089,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "Additionally, 3 pedestals are situated near the entrance of the mineshaft, with each requiring a different item to be placed on them.",
+          "references": []
+        },
+        {
+          "text": "The 3 pedestals require the following items:",
+          "references": []
+        },
+        {
+          "text": "The Rough Geode",
+          "references": [
+            {
+              "kind": "item",
+              "page": "The Rough Geode",
+              "name": "The Rough Geode",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "Radiant Crystal",
+          "references": [
+            {
+              "kind": "fish",
+              "page": "Radiant Crystal",
+              "name": "Radiant Crystal",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "The Cut Gem",
+          "references": [
+            {
+              "kind": "item",
+              "page": "The Cut Gem",
+              "name": "The Cut Gem",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "moosewood": {
+      "region": "Moosewood",
+      "page": "Moosewood",
+      "revision": 181829,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "It is where the tutorial quests occur and where most of the early-game Fishing Rods can be bought. Additionally, it is one of the few locations where fish can be Appraised, and one of the only places where Lanterns can be purchased.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Fishing Rods",
+              "name": "Fishing Rods",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Appraiser",
+              "name": "Appraised",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Lantern Keeper",
+              "name": "Lanterns",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "mushgrove swamp": {
+      "region": "Mushgrove Swamp",
+      "page": "Mushgrove Swamp",
+      "revision": 182255,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [],
+      "equipment": []
+    },
+    "nectar den": {
+      "region": "Nectar Den",
+      "page": "Lost Jungle",
+      "revision": 184420,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "The Nectar Den is the third area reached upon navigating through the Verdant Pocket. To stop the bees from stinging and killing the player, it is recommend to use the Pollinated Status Effect from the flowers in the Living Garden. The Gas Mask is not required in this area. When entering the area for the first time, a cutscene will play.",
+          "references": [
+            {
+              "kind": "item",
+              "page": "Gas Mask",
+              "name": "Gas Mask",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Status Effect",
+              "name": "Status Effect",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "northern summit": {
+      "region": "Northern Summit",
+      "page": "Northern Expedition",
+      "revision": 182184,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [],
+      "equipment": []
+    },
+    "ocean": {
+      "region": "Ocean",
+      "page": "Ocean",
+      "revision": 179573,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "The primary means of transport throughout the Ocean is via Boats. While navigating without a boat is possible, it is not recommended.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Boats",
+              "name": "Boats",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "overgrowth caves": {
+      "region": "Overgrowth Caves",
+      "page": "Northern Expedition",
+      "revision": 182184,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "At the end of the camp, a sheet of ice can be found blocking a cave. Using a Pickaxe, this ice can be broken to access a Lever.",
+          "references": [
+            {
+              "kind": "item",
+              "page": "Pickaxe",
+              "name": "Pickaxe",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "roslit bay": {
+      "region": "Roslit Bay",
+      "page": "Roslit Bay",
+      "revision": 184400,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [],
+      "equipment": []
+    },
+    "roslit volcano": {
+      "region": "Roslit Volcano",
+      "page": "Roslit Bay",
+      "revision": 184400,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [],
+      "equipment": []
+    },
+    "scoria reach": {
+      "region": "Scoria Reach",
+      "page": "Scoria Reach",
+      "revision": 180598,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "Scoria Reach is a large area located Northeast of Grand Reef, this location features a large Volcano where the Temperature inside is extremely high.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Grand Reef",
+              "name": "Grand Reef",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "#Inside the Vocano",
+              "name": "Volcano",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Temperature",
+              "name": "Temperature",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "skycrest": {
+      "region": "Skycrest",
+      "page": "Skycrest",
+      "revision": 184540,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [],
+      "equipment": []
+    },
+    "terrapin island": {
+      "region": "Terrapin Island",
+      "page": "Terrapin Island",
+      "revision": 178825,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [],
+      "equipment": []
+    },
+    "the depths": {
+      "region": "The Depths",
+      "page": "The Depths",
+      "revision": 184393,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "The Depths is found past a large gate found at the bottom of Vertigos Dip. It can be opened with a Depths Key only after the player has fully completed Vertigo's bestiary. After meeting such requirements, talking to The Keeper next to the gate will open it.",
+          "references": [
+            {
+              "kind": "fish",
+              "page": "The Depths Key",
+              "name": "Depths Key",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Vertigos Dip",
+              "name": "Vertigos Dip",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Vertigo",
+              "name": "Vertigo",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "The Keeper",
+              "name": "The Keeper",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "The gate will remain open permanently after opening once — keys are no longer needed on each Depths visit as of a recent patch.",
+          "references": []
+        },
+        {
+          "text": "It cannot be opened for other players as it is client-sided. However, the Depths Key can still be traded.",
+          "references": []
+        },
+        {
+          "text": "The user can trade for the fish required in Vertigo's bestiary if the only goal is to unlock The Depths, however, it will not count towards percentage completion unless the user catches the fish themselves.",
+          "references": []
+        },
+        {
+          "text": "Shortly after traversing an obby consisting of floating platforms, The Depths can be entered through a crack in the wall.",
+          "references": []
+        }
+      ],
+      "equipment": []
+    },
+    "tidefall": {
+      "region": "Tidefall",
+      "page": "Tidefall",
+      "revision": 182253,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "Tidefall is a an extensive cave system beneath the Ocean, only accessible through the Underwater Opening.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Ocean",
+              "name": "Ocean",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "#Underwater Opening",
+              "name": "Underwater Opening",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "Tidefall consists of six primary sublocations, with Underwater Opening as the entrance, and Tidefall as the center of the cave system; with each of the area excluding the entrance and the center itself being home to the different Fish Hunts.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "#Underwater Opening",
+              "name": "Underwater Opening",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "#Tidefall",
+              "name": "Tidefall",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "toxic grove": {
+      "region": "Toxic Grove",
+      "page": "Lost Jungle",
+      "revision": 184420,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "The Toxic Grove is the first area reached upon navigating through the Toxic Cave. The player is required to keep the Gas Mask equipped in order to resist the effects of Poison. When entering the area for the first time, a cutscene will play.",
+          "references": [
+            {
+              "kind": "item",
+              "page": "Gas Mask",
+              "name": "Gas Mask",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Poison",
+              "name": "Poison",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": [
+        "Gas Mask"
+      ]
+    },
+    "treasure island": {
+      "region": "Treasure Island",
+      "page": "Treasure Island",
+      "revision": 180203,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "Treasure Island is a Location that can be accessed by using the Traveler’s Whistle. It features a village built on golden hills, surrounded by shimmering, gilded waters.",
+          "references": [
+            {
+              "kind": "item",
+              "page": "Traveler’s Whistle",
+              "name": "Traveler’s Whistle",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Locations",
+              "name": "Location",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "veil of the forsaken": {
+      "region": "Veil of the Forsaken",
+      "page": "Mariana's Veil",
+      "revision": 184479,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "The Veil of the Forsaken is the fifth sub-location of Mariana's Veil, located after completing a puzzle in Calm Zone. The area is home to the Scylla Hunts. It can be accessed after a series of puzzles, beginning in the Calm Zone.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "#Calm Zone",
+              "name": "Calm Zone",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Scylla Hunt",
+              "name": "Scylla Hunts",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "vertigo": {
+      "region": "Vertigo",
+      "page": "Vertigo",
+      "revision": 182949,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "Vertigo is a simple fantasy, hidden under our world! Vertigo, also known as The Abyss, is an underground location accessible via any Strange Whirlpool found in the Ocean.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Synth",
+              "name": "Synth",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "location",
+              "name": "location",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Strange Whirlpool",
+              "name": "Strange Whirlpool",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Ocean",
+              "name": "Ocean",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "volcanic vents": {
+      "region": "Volcanic Vents",
+      "page": "Mariana's Veil",
+      "revision": 184479,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "The Volcanic Vents are the first distinct layer of the Cave System, with the entrance located at -2745, -2325, 865; the Submarine Upgrade in the Volcanic Vents must be unlocked before the player can travel further down, forcing the player to turn South-East and enter the horizontal tunnel to acquire the Submarine Upgrade. Being in the Volcanic Vents causes the player to accumulate heat, unless they are wearing any level of the Glimmerfin Suit or the Scoria Armor.",
+          "references": [
+            {
+              "kind": "item",
+              "page": "Scoria Armor",
+              "name": "Scoria Armor",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "Within this cave is a Submariner and an Inn Keeper, as well as the upgrade station to acquire the Heat Upgrade for the Submarine, which is required to progress past the Volcanic Vents. Additionally, a portal back to Roslit Bay can be found at -3495, -2255, 3825, allowing the player to exit the cave system.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Submariner",
+              "name": "Submariner",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Inn Keeper",
+              "name": "Inn Keeper",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Roslit Bay",
+              "name": "Roslit Bay",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "A lava obby can be accessed through a cave to the South, which features obstacles and lava geysers which will Burn the player, a Glider or Advanced Glider is recommended although not required.",
+          "references": [
+            {
+              "kind": "item",
+              "page": "Advanced Glider",
+              "name": "Advanced Glider",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "item",
+              "page": "Glider",
+              "name": "Glider",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Burn",
+              "name": "Burn",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "At the end of the course is a pool of lava where the Inferno Hide, Blisterback Blenny, and Infernal Iguanafish may be caught for the Heat Upgrade; as well as the rest of the fish required for the Volcanic Vents Bestiary. Additionally, the Volcanic Rod can be purchased here (-3175, -2035, 4020), for C$ 150,000.",
+          "references": [
+            {
+              "kind": "rod",
+              "page": "Volcanic Rod",
+              "name": "Volcanic Rod",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "fish",
+              "page": "Infernal Iguanafish",
+              "name": "Infernal Iguanafish",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "fish",
+              "page": "Blisterback Blenny",
+              "name": "Blisterback Blenny",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "fish",
+              "page": "Inferno Hide",
+              "name": "Inferno Hide",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Bestiary",
+              "name": "Bestiary",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "gas mask": {
+      "region": "Gas Mask",
+      "page": "Gas Mask",
+      "revision": 164941,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "When the Gas Mask is equipped (by holding and clicking the item), the Gas Mask appears on the player's head and provides immunity to Poison.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Poison",
+              "name": "Poison",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "The Gas Mask is purchasable next to Oliver for C$ 75,000 in Lost Jungle after completing 50% of Lost Jungle's Bestiary.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Oliver",
+              "name": "Oliver",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Lost Jungle",
+              "name": "Lost Jungle",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "winter cloak": {
+      "region": "Winter Cloak",
+      "page": "Winter Cloak",
+      "revision": 164923,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "Upon equipping the Winter Cloak, the player's temperature meter will be set to 37°C and the temperature meter will no longer decrease until the Winter Cloak is removed.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "temperature",
+              "name": "temperature",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "The Winter Cloak can be obtained from the following locations:",
+          "references": []
+        }
+      ],
+      "equipment": []
+    },
+    "glimmerfin suit lvl 2": {
+      "region": "Glimmerfin Suit Lvl 2",
+      "page": "Glimmerfin Suit Lvl 2",
+      "revision": 180249,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "Upon equipping the Glimmerfin Suit Lvl 2, the player's temperature meter will be set to 37°C and the temperature meter will no longer increase or decrease until the Glimmerfin Suit Lvl 2 is removed.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "temperature",
+              "name": "temperature",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "The Glimmerfin Suit Lvl 2 is unlocked from the Submarine Upgrade Station in the Challenger's Deep.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Challenger's Deep",
+              "name": "Challenger's Deep",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "glimmerfin suit lvl 3": {
+      "region": "Glimmerfin Suit Lvl 3",
+      "page": "Glimmerfin Suit Lvl 3",
+      "revision": 180254,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "Upon equipping the Glimmerfin Suit Lvl 3, the player's temperature meter will be set to 37°C and the temperature meter will no longer increase or decrease until the Glimmerfin Suit Lvl 3 is removed.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "temperature",
+              "name": "temperature",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "The Glimmerfin Suit Lvl 3 is unlocked from the Submarine Upgrade Station in the Abyssal Zenith.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Abyssal Zenith",
+              "name": "Abyssal Zenith",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "scoria armor": {
+      "region": "Scoria Armor",
+      "page": "Scoria Armor",
+      "revision": 169710,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "Movespeed The Scoria Armor is a suit equipment that prevents the player's temperature bar from increasing quickly. It is a useful item for fishing in the Scoria Reach.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "equipment",
+              "name": "equipment",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "temperature",
+              "name": "temperature",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Scoria Reach",
+              "name": "Scoria Reach",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "Upon equipping the Scoria Armor, the player's temperature meter will be set to 37°C and the temperature meter will slowly increase until it reaches 44°C or until the Scoria Armor is removed.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "temperature",
+              "name": "temperature",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "The Scoria Armor is purchasable for C$ 75,000 in the Ashbrook Town after completing 20% of Scoria Reach's Bestiary.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Ashbrook Town",
+              "name": "Ashbrook Town",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Scoria Reach",
+              "name": "Scoria Reach",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    },
+    "toxic-proof raft": {
+      "region": "Toxic-Proof Raft",
+      "page": "Toxic-Proof Raft",
+      "revision": 154794,
+      "fetchedAt": "2026-10-09T14:45:34.707Z",
+      "steps": [
+        {
+          "text": "The Toxic-Proof Raft is a Boat obtained from completing Olivia's quest.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Boats",
+              "name": "Boat",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Olivia",
+              "name": "Olivia's",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "It has a top speed of 15 S/ps, 40° of steering, and an acceleration of 0.1 S/ps. Additionally, it can accommodate 2 passengers and has a durability of 150, meaning it can travel on the passage between Toxic Grove and the Living Garden.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Toxic Grove",
+              "name": "Toxic Grove",
+              "quantity": "",
+              "attributes": ""
+            },
+            {
+              "kind": "wiki",
+              "page": "Living Garden",
+              "name": "Living Garden",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        }
+      ],
+      "equipment": []
+    }
+  }
+}

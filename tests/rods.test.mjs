@@ -8,10 +8,14 @@ const compileFile=path=>ts.transpileModule(fs.readFileSync(new URL(path,import.m
 const wikiUri=dataUri(compileFile('../src/lib/quest-wiki.ts'));
 const obtainUri=dataUri(compileFile('../src/lib/rod-obtainment.ts').replace("from './quest-wiki'", "from '"+wikiUri+"'"));
 
+const accessSnapshot = JSON.parse(fs.readFileSync(new URL('../src/data/rod-access-snapshot.json', import.meta.url), 'utf8'));
+const purchaseUri=dataUri(compileFile('../src/lib/rod-purchase.ts').replace("from './rod-obtainment'", "from '"+obtainUri+"'").replace("from './quest-wiki'", "from '"+wikiUri+"'"));
+const accessUri=dataUri(compileFile('../src/lib/rod-access-cache.ts').replace("import snapshot from '../data/rod-access-snapshot.json';", `const snapshot = ${JSON.stringify(accessSnapshot)};`).replace("from './rod-purchase'", "from '"+purchaseUri+"'"));
+
 const snapshot = JSON.parse(fs.readFileSync(new URL('../src/data/rods-snapshot.json', import.meta.url), 'utf8'));
 const compiled = ts.transpileModule(fs.readFileSync(new URL('../src/lib/rods.ts', import.meta.url), 'utf8'), {
   compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
-}).outputText.replace("import snapshot from '../data/rods-snapshot.json';", `const snapshot = ${JSON.stringify(snapshot)};`).replace("from './rod-obtainment'", "from '"+obtainUri+"'");
+}).outputText.replace("import snapshot from '../data/rods-snapshot.json';", `const snapshot = ${JSON.stringify(snapshot)};`).replace("from './rod-obtainment'", "from '"+obtainUri+"'").replace("import accessSnapshot from '../data/rod-access-snapshot.json';", `const accessSnapshot = ${JSON.stringify(accessSnapshot)};`).replace("from './rod-purchase'", "from '"+purchaseUri+"'").replace("from './rod-access-cache'", "from '"+accessUri+"'");
 let moduleId = 0;
 const fresh = () => import('data:text/javascript;base64,' + Buffer.from(compiled + `\n// test ${moduleId++}`).toString('base64'));
 
@@ -106,6 +110,7 @@ test('refresh checks revision IDs, fetches only changed advice, caches, and reta
     globalThis.fetch = async url => {
       requests++; const params = new URL(url).searchParams;
       if (params.get('action') === 'bucket') return { ok: true, json: async () => ({ bucket: raw }) };
+      if(params.has('titles')) return { ok:true, json:async()=>({query:{pages:[]}}) };
       const content = params.get('rvprop').includes('content'); if (content) contentRequests++;
       return { ok: true, json: async () => ({ query: { pages: params.get('pageids').split('|').map(id => ({
         pageid: Number(id), revisions: [{ revid: id === '999999' ? 42 : snapshot.sources[id].revision,

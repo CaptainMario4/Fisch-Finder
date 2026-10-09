@@ -48,7 +48,7 @@ jobs:
       - name: TypeScript and tests
         run: |
           npx tsc --noEmit
-          node --test tests/*.test.mjs
+          node --test --test-concurrency=1 tests/*.test.mjs
 
       - name: Authenticate with Wix
         env:

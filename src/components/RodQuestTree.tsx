@@ -3,7 +3,10 @@ import type { Rod } from '../lib/rods';
 import type { QuestDataset } from '../lib/quests';
 import { fold } from '../lib/quest-search';
 import { obtainQuestUrl, obtainWikiUrl } from '../lib/rod-obtainment';
-import { pathReferencedRods, rodQuestPaths } from '../lib/rod-quest-path';
+import { matchPathQuest, pathReferencedRods, rodQuestPaths } from '../lib/rod-quest-path';
+import { purchasePath } from '../lib/rod-purchase';
+import type { AreaAccessGuide } from '../lib/rod-purchase';
+import type { ObtainStep } from '../lib/rod-obtainment';
 import type { PathQuest, PathStage, PathObjective, PathMethod, PathRod } from '../lib/rod-quest-path';
 
 type TreeContext={rods:Rod[];data?:QuestDataset;request:()=>void;loading:boolean;error:string;path:string[];depth:number};
@@ -59,13 +62,48 @@ function QuestBranch({entry,ctx}:{entry:PathQuest;ctx:TreeContext}){
  {stages.length>0&&<><Connector/><ol className="rod-path-children rod-path-stages" data-count={stages.length} aria-label={'Quest stages for '+(quest?.npc??reference.name)}>{stages.map((stage,index)=><Stage key={stage.stage.id} entry={stage} index={index} ctx={ctx}/>)}</ol></>}
  </li>;
 }
+function AccessSteps({steps,ctx}:{steps:ObtainStep[];ctx:TreeContext}){
+ const refs=steps.flatMap(step=>step.references).filter((ref,index,all)=>all.findIndex(r=>fold(r.page)===fold(ref.page))===index);
+ const questRefs=steps.filter(step=>/\bquest\b/i.test(step.text)).flatMap(step=>step.references);
+ const questLinks=ctx.data?refs.filter(ref=>questRefs.some(r=>r.page===ref.page)).flatMap(ref=>{const quest=matchPathQuest(ref,ctx.data!);return quest?[{...ref,page:quest.page,name:quest.npc}]:[];}):[];
+ const rodChoices=refs.flatMap(ref=>{const rod=ctx.rods.find(r=>fold(r.page)===fold(ref.page));const optional=steps.some(step=>step.text.split(/(?<=[.!?])\s+/).some(sentence=>sentence.includes(ref.name)&&/\b(?:recommended|suggested|optional)\b/i.test(sentence)));return rod&&!ctx.path.some(page=>fold(page)===fold(rod.page))?[{rod,role:optional?'suggested' as const:'objective' as const}]:[];});
+ return <><div className="rod-purchase-steps">{steps.map((step,index)=><p key={index}>{step.text}</p>)}</div>
+  {questLinks.length>0&&<div className="rod-obtain-links">{questLinks.map(ref=><a key={ref.page} href={obtainQuestUrl(ref)}>Quest Helper: {ref.name} ↗</a>)}</div>}
+  {rodChoices.length>0&&<><Connector/><div className="rod-path-choice-list">{rodChoices.map(({rod,role})=><RodChoice key={rod.page} choice={{page:rod.page,name:rod.name,role,unavailable:rod.unavailable}} ctx={ctx}/>)}</div></>}
+ </>;
+}
+function AccessGuide({guide,ctx,equipment=false}:{guide:AreaAccessGuide;ctx:TreeContext;equipment?:boolean}){
+ return <article className="rod-path-card rod-path-access"><span className="rod-obtain-kind">{equipment?'Access equipment':'Area access & preparation'}</span><h4>{guide.region}</h4>
+  <AccessSteps steps={guide.steps} ctx={ctx}/>
+  {!guide.steps.length&&<p className="rod-obtain-note">Access requirements not documented in the imported guide. Check the area source before travelling.</p>}
+  <a href={obtainWikiUrl({kind:'wiki',page:guide.page,name:guide.region,quantity:'',attributes:''})+(guide.page!==guide.region?'#'+encodeURIComponent(guide.region.replace(/ /g,'_')):'')} target="_blank" rel="noopener noreferrer">{equipment?'Equipment':'Area'} source ↗</a>
+  {guide.fetchedAt&&<p className="rod-purchase-source-date">Source checked: {guide.fetchedAt.replace('T',' ').replace(/\.\d+Z$/,' UTC')}</p>}
+ </article>;
+}
+function PurchaseBranch({rod,ctx}:{rod:Rod;ctx:TreeContext}){
+ const path=purchasePath(rod)!;const access=rod.purchaseAccess;
+ const guideSteps=[...(access?.area?.steps??[]),...(access?.equipment.flatMap(guide=>guide.steps)??[])];
+ useEffect(()=>{if(guideSteps.some(step=>/\bquest\b/i.test(step.text)&&step.references.length))ctx.request();},[rod.purchaseAccess,ctx.request]);
+ return <li className="rod-path-child rod-purchase-branch"><article className="rod-path-card rod-path-purchase"><span className="rod-obtain-kind">{path.alternative?'Purchase option':'Purchase location'}</span><h4>{path.location?'Buy in '+path.location:'Purchase this rod'}</h4>
+  <dl className="rod-purchase-facts"><div><dt>Location</dt><dd>{path.location||'Not listed by the source'}</dd></div><div><dt>Rod price</dt><dd>{path.price||'Not listed by the source'}</dd></div></dl>
+  {path.steps.length>0&&<AccessSteps steps={path.steps} ctx={ctx}/>}{path.hint&&<p>{path.hint}</p>}
+  {rod.unavailable&&<p className="rod-obtain-warning">Marked unavailable. This purchase route may be historical.</p>}
+  <a href={rod.url+'#Obtainment'} target="_blank" rel="noopener noreferrer">{rod.secondary?'Fisch Fandom':'Fischipedia'} purchase instructions ↗</a>
+ </article><Connector/>
+ {access?.area?<div className="rod-purchase-access"><AccessGuide guide={access.area} ctx={ctx}/>{access.equipment.length>1&&<p className="rod-obtain-note rod-path-none">Equipment mentioned by the area guide is shown below. Follow its stated alternatives; not every option must be purchased.</p>}{access.equipment.map(guide=><div key={guide.region}><Connector/><AccessGuide guide={guide} ctx={ctx} equipment/></div>)}
+  {(access.area.equipment.length>access.equipment.length)&&<p className="rod-obtain-note">Some equipment acquisition steps were not imported. Check the linked area source.</p>}
+ </div>:<p className="rod-obtain-note rod-path-none">Access requirements not documented in the imported guide. Check the purchase source for entrance unlocks and equipment before travelling.</p>}
+ </li>;
+}
 export function TreeRequirements({rod,ctx}:{rod:Rod;ctx:TreeContext}){
  const quests=useMemo(()=>rodQuestPaths(rod,ctx.rods,ctx.data),[rod,ctx.rods,ctx.data]);
  const direct=useMemo(()=>pathReferencedRods(rod,ctx.rods),[rod,ctx.rods]);
  useEffect(()=>{if(quests.length)ctx.request();},[quests.length,ctx.request]);
  const nonQuestRods=direct.filter(r=>!quests.some(q=>q.stages.some(s=>s.objectives.some(o=>o.rods.some(option=>fold(option.page)===fold(r.page))))));
- if(!quests.length&&!nonQuestRods.length)return <p className="rod-obtain-note rod-path-none">No quest or specific rod prerequisite is listed in the imported source. Use the obtainment instructions for purchases, crafting materials, locations and other conditions.</p>;
+ const purchase=purchasePath(rod);
+ if(!quests.length&&!nonQuestRods.length&&!purchase)return <p className="rod-obtain-note rod-path-none">No quest or specific rod prerequisite is listed in the imported source. Use the obtainment instructions for purchases, crafting materials, locations and other conditions.</p>;
  return <ul className="rod-path-children" aria-label={'Quest and rod prerequisites for '+rod.name}>
+  {purchase&&<PurchaseBranch rod={rod} ctx={ctx}/>}
   {quests.map(entry=><QuestBranch key={entry.reference.page} entry={entry} ctx={ctx}/>)}
   {nonQuestRods.map(r=><li className="rod-path-child" key={r.page}><RodChoice choice={{page:r.page,name:r.name,role:'objective',unavailable:r.unavailable}} ctx={ctx}/></li>)}
  </ul>;

@@ -1,4 +1,6 @@
 import snapshot from '../data/rods-snapshot.json';
+import { extractRodObtainment, rodQuestReferences } from './rod-obtainment';
+import type { RodObtainment, ObtainRef } from './rod-obtainment';
 
 const API = 'https://fischipedia.org/w/api.php';
 const fields = ['page_id','page_name','journal','event','source','quest','price','price_type','level','stage','lure','luck','control','resilience','max_weight','durability','disturbance','hunt_focus','pref_disturb','line_dist','is_unob','is_removed','description','hint'];
@@ -15,9 +17,10 @@ export type Rod = {
   durability: string; disturbance: string; huntFocus: string; lineDistance: string;
   description: string; hint: string; unavailable: boolean; recommendations: Recommendation[];
   abilities?: RodAbility[]; mastery?: RodMastery[]; masteryLevel?: string;
+  obtainment?: RodObtainment; questReferences?: ObtainRef[];
 };
 export type RodDataset = { rods: Rod[]; fetchedAt: string; mode: 'api' | 'snapshot'; notice: string; secondaryData?: import('./secondary-source').SecondaryStatus };
-type RecommendationSource = { revision: number; recommendations: Recommendation[]; abilities?: RodAbility[]; mastery?: RodMastery[]; masteryLevel?: string };
+type RecommendationSource = { revision: number; recommendations: Recommendation[]; abilities?: RodAbility[]; mastery?: RodMastery[]; masteryLevel?: string; obtainment?: RodObtainment };
 type Sources = Record<string, RecommendationSource>;
 
 // Split template arguments only at their own nesting level. Enchant advice often
@@ -152,6 +155,7 @@ export function normalizeRods(raw: RawRod[], sources: Sources): Rod[] {
       url: 'https://fischipedia.org/wiki/' + encodeURIComponent(String(rod.page_name).replace(/ /g, '_')),
       stage: stage ? stage === '0' ? 'Stage 0 / Exclusive' : `Stage ${stage}` : 'Not listed',
       region: value('journal'), source: value('source'), quest: value('quest'), event: value('event'),
+      questReferences: rodQuestReferences(rod.quest), obtainment: sources[String(rod.page_id)]?.obtainment,
       price: price ? value('price_type').toLowerCase().includes('robux') ? `${price} Robux` : value('price_type') ? `${price} ${value('price_type')}` : `C$ ${price}` : '',
       level: value('level'), lure: percent('lure'), luck: percent('luck'), control: value('control'), resilience: percent('resilience'), maxWeight: value('max_weight'),
       durability: value('durability'), disturbance: value('disturbance'), huntFocus: value('hunt_focus'), lineDistance: value('line_dist'),
@@ -195,12 +199,12 @@ export async function getRodDataset({ forceRefresh = false }: { forceRefresh?: b
       const raw: RawRod[] = payload.bucket;
       if (!Array.isArray(raw) || raw.length < (cache?.rods.length ?? snapshot.rods.length) * 0.7 || raw.length >= 5000 || raw.some(rod => !rod.page_id || !rod.page_name)) throw new Error('Incomplete rod data');
       const pages = await revisionPages(raw.map(rod => Number(rod.page_id)), false);
-      const changed = pages.filter(page => sources[String(page.pageid)]?.revision !== page.revisions[0].revid || !Array.isArray(sources[String(page.pageid)]?.abilities) || !Array.isArray(sources[String(page.pageid)]?.mastery));
+      const changed = pages.filter(page => sources[String(page.pageid)]?.revision !== page.revisions[0].revid || !Array.isArray(sources[String(page.pageid)]?.abilities) || !Array.isArray(sources[String(page.pageid)]?.mastery) || !sources[String(page.pageid)]?.obtainment);
       const updated = { ...sources };
       if (changed.length) for (const page of await revisionPages(changed.map(page => page.pageid), true)) {
         const revision = page.revisions[0]; const content = revision.slots?.main?.content;
         if (typeof content !== 'string') throw new Error('Missing recommendation source');
-        updated[String(page.pageid)] = { revision: revision.revid, recommendations: extractRecommendations(content), ...extractRodFeatures(content) };
+        updated[String(page.pageid)] = { revision: revision.revid, recommendations: extractRecommendations(content), ...extractRodFeatures(content), obtainment: extractRodObtainment(content) };
       }
       sources = updated;
       cache = { rods: normalizeRods(raw, sources), fetchedAt: new Date().toISOString(), mode: 'api', notice: '' };

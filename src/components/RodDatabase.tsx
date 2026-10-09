@@ -3,6 +3,7 @@ import { fetchDataset, pollDataset } from '../lib/browser-dataset-cache';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Rod, RodDataset } from '../lib/rods';
 import RodDetails from './RodDetails';
+import RodObtainmentViewer from './RodObtainmentViewer';
 import '../styles/fish-database.css';
 import '../styles/rod-database.css';
 
@@ -28,6 +29,7 @@ export default function RodDatabase({ initialData }: { initialData: RodDataset }
   const [data, setData] = useState(initialData), [loading, setLoading] = useState(true), [error, setError] = useState('');
   const [query, setQuery] = useState(''), [filters, setFilters] = useState<Filters>({ ...defaults });
   const [selectedPage, setSelectedPage] = useState(''), [page, setPage] = useState(1), [sort, setSort] = useState('name-asc'), [urlReady, setUrlReady] = useState(false);
+  const [recipePage, setRecipePage] = useState('');
   const [mobile, setMobile] = useState(false), [filtersOpen, setFiltersOpen] = useState(false);
   const detailDialog = useRef<HTMLDialogElement>(null), detailTrigger = useRef<HTMLElement | null>(null), filterToggle = useRef<HTMLButtonElement>(null);
   const refreshController = useRef<AbortController | null>(null);
@@ -39,7 +41,7 @@ export default function RodDatabase({ initialData }: { initialData: RodDataset }
     try {
       // Keep an older edge-cached parsing format from replacing this snapshot
       // after a release. Bump this key when the normalized data format changes.
-      const next = await fetchDataset<RodDataset>('/api/rods.json?schema=3', { force: force, signal: controller.signal, maxAge: 30 * 60 * 1000 }, next => Array.isArray(next.rods) && next.rods.length > 0 && next.rods.every(rod => Array.isArray(rod.abilities) && Array.isArray(rod.mastery) && Array.isArray(rod.recommendations)));
+      const next = await fetchDataset<RodDataset>('/api/rods.json?schema=4', { force: force, signal: controller.signal, maxAge: 30 * 60 * 1000 }, next => Array.isArray(next.rods) && next.rods.length > 0 && next.rods.every(rod => Array.isArray(rod.abilities) && Array.isArray(rod.mastery) && Array.isArray(rod.recommendations) && (rod.secondary || rod.obtainment && Array.isArray(rod.obtainment.sections) && Array.isArray(rod.obtainment.references))));
       setData(current => Date.parse(next.fetchedAt) < Date.parse(current.fetchedAt) ? { ...current, mode: next.mode, notice: next.notice } : next);
     } catch { if (refreshController.current === controller) setError('Refresh unavailable. The saved rods remain searchable with their original source timestamp.'); }
     finally { window.clearTimeout(timeout); if (refreshController.current === controller) setLoading(false); }
@@ -47,7 +49,7 @@ export default function RodDatabase({ initialData }: { initialData: RodDataset }
   useEffect(() => {
     const readUrl = () => {
       const params = new URLSearchParams(window.location.search), restored = { ...defaults };
-      setQuery(params.get('q') || ''); setSelectedPage(params.get('rod') || '');
+      setQuery(params.get('q') || ''); setSelectedPage(params.get('rod') || ''); setRecipePage(params.get('obtain') || params.get('rod') || '');
       setSort(['name-asc','name-desc','stage-asc','lure-desc','luck-desc'].includes(params.get('sort') ?? '') ? params.get('sort')! : 'name-asc');
       const requestedPage = Number(params.get('page')); setPage(Number.isFinite(requestedPage) ? Math.max(1, Math.floor(requestedPage)) : 1);
       keys.forEach(key => restored[key] = params.get(key) ?? ''); setFilters(restored); setUrlReady(true);
@@ -59,9 +61,9 @@ export default function RodDatabase({ initialData }: { initialData: RodDataset }
   useEffect(() => {
     if (!urlReady) return; const params = new URLSearchParams();
     if (query) params.set('q', query); keys.forEach(key => { if (filters[key]) params.set(key, filters[key]); });
-    if (selectedPage) params.set('rod', selectedPage); if (sort !== 'name-asc') params.set('sort', sort); if (page > 1) params.set('page', String(page));
+    if (selectedPage) params.set('rod', selectedPage); if (recipePage) params.set('obtain', recipePage); if (sort !== 'name-asc') params.set('sort', sort); if (page > 1) params.set('page', String(page));
     replaceFinderUrl(`${window.location.pathname}${params.size ? '?' + params.toString() : ''}`);
-  }, [query, filters, selectedPage, sort, page, urlReady]);
+  }, [query, filters, selectedPage, recipePage, sort, page, urlReady]);
   const options = useMemo(() => {
     const values = (key: 'stage' | 'region' | 'source') => [...new Set(data.rods.map(rod => rod[key]).filter(Boolean))].sort((a,b) => key === 'stage' ? Number(a.match(/\d+/)?.[0] ?? 999) - Number(b.match(/\d+/)?.[0] ?? 999) : a.localeCompare(b));
     return { stage: values('stage'), region: values('region'), source: values('source'), enchant: [...new Set(data.rods.flatMap(names))].sort((a,b) => a.localeCompare(b)) };
@@ -85,7 +87,15 @@ export default function RodDatabase({ initialData }: { initialData: RodDataset }
   }, [mobile,selected?.page]);
   function updateFilter(key: keyof Filters, value: string) { setFilters(current => ({ ...current,[key]:value })); setPage(1); }
   function clearFilters() { setQuery(''); setFilters({ ...defaults }); setPage(1); }
-  function choose(rod: Rod, trigger: HTMLElement) { detailTrigger.current = trigger; setSelectedPage(rod.page); if (!mobile && window.innerWidth < 1100) window.setTimeout(() => document.getElementById('rod-detail')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }),0); }
+  function choose(rod: Rod, trigger: HTMLElement) { detailTrigger.current = trigger; setSelectedPage(rod.page); setRecipePage(rod.page); if (!mobile && window.innerWidth < 1100) window.setTimeout(() => document.getElementById('rod-detail')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }),0); }
+  function showObtainment() {
+    if (!selected) return; setRecipePage(selected.page); if (mobile) setSelectedPage('');
+    window.requestAnimationFrame(() => window.requestAnimationFrame(() => {
+      const viewer = document.getElementById('rod-obtainment-viewer');
+      viewer?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+      viewer?.focus({ preventScroll: true });
+    }));
+  }
   const filterValue = (key: keyof Filters) => filters[key] === '__none__' ? 'No recommendation listed' : key === 'status' ? filters[key] === 'available' ? 'Available' : 'Unavailable' : filters[key];
   return <section className="fish-database rod-database" aria-label="Searchable rod database">
     <header className="fish-page-heading flex flex-wrap items-start justify-between gap-lg mb-lg"><div><p className="text-accent text-xs font-semibold uppercase tracking-wide mb-xs">Fischipedia data, easier to read</p><h1 className="text-3xl font-semibold tracking-tight">Rod Finder</h1><p className="text-mute mt-xs">Find your next rod. Compare stats and preferred enchants.</p></div><div className="fish-source-summary"><span className={`fish-data-badge ${data.mode === 'snapshot' || error ? 'fish-data-badge-snapshot' : ''}`}>{loading ? 'Checking wiki data…' : error || data.mode === 'snapshot' ? 'Saved wiki snapshot' : 'Wiki API data'}</span><p>Source checked: {timestamp(data.fetchedAt)}</p><button className="fish-refresh" onClick={() => void refresh(true)} disabled={loading}>{loading ? 'Refreshing…' : 'Refresh data'} <span aria-hidden="true">↻</span></button></div></header>
@@ -100,7 +110,8 @@ export default function RodDatabase({ initialData }: { initialData: RodDataset }
     {results.length ? <><div className="fish-table-scroll" tabIndex={0} role="region" aria-label="Rod results table; scroll for more columns"><table className="fish-table rod-table"><caption className="sr-only">Click anywhere in a row for details. Keyboard users can activate the rod name button.</caption><thead><tr>{['Rod','Stage','Lure speed','Luck','Obtainment','Preferred enchants'].map(label => <th key={label} scope="col">{label}</th>)}</tr></thead><tbody>{visible.map(rod => <tr key={rod.id} onClick={event => choose(rod,event.currentTarget.querySelector<HTMLElement>('.fish-name') ?? event.currentTarget)} className={selectedPage === rod.page ? 'fish-row-selected' : ''}><td><button className="fish-name" onClick={event => { event.stopPropagation();choose(rod,event.currentTarget); }} aria-pressed={selectedPage === rod.page} aria-controls="rod-detail">{rod.name}</button><span className="fish-row-note">{listed(rod.region)}</span>{rod.secondary && <span className="fish-row-note">Fandom · provisional</span>}{rod.unavailable && <span className="fish-row-status">Unavailable</span>}</td><td>{rod.stage}</td><td>{listed(rod.lure)}</td><td>{listed(rod.luck)}</td><td>{listed(rod.source)}<span className="fish-row-note">{listed(rod.price)}</span></td><td className={rod.recommendations.length ? '' : 'fish-missing'}><EnchantSummary rod={rod}/></td></tr>)}</tbody></table></div>
     <ul className="fish-mobile-cards" aria-label="Rod search results">{visible.map(rod => <li key={rod.id}><button className={`fish-mobile-card ${selectedPage === rod.page ? 'fish-card-selected' : ''}`} onClick={event => choose(rod,event.currentTarget)} aria-label={`View details for ${rod.name}`} aria-haspopup="dialog" aria-controls="rod-detail-dialog"><span className="fish-card-heading"><span className="fish-card-name">{rod.name}</span><span className="fish-card-arrow" aria-hidden="true">↗</span></span><span className="fish-card-region">{listed(rod.region)}</span><span className="fish-card-tags"><span className="fish-tag">{rod.stage}</span><span className={`fish-tag ${rod.unavailable ? 'fish-tag-warning' : ''}`}>{rod.unavailable ? 'Unavailable' : 'Available'}</span>{rod.secondary && <span className="fish-tag">Fandom · provisional</span>}</span><span className="rod-card-stats"><span>Lure <strong>{listed(rod.lure)}</strong></span><span>Luck <strong>{listed(rod.luck)}</strong></span></span><span className="fish-card-bait"><span>Enchants</span><span><EnchantSummary rod={rod}/></span></span></button></li>)}</ul>
     <div className="fish-pagination"><p>{(currentPage - 1) * pageSize + 1}–{Math.min(currentPage * pageSize,results.length)} of {results.length.toLocaleString('en-US')}</p><div className="flex items-center gap-sm"><button onClick={() => setPage(currentPage - 1)} disabled={currentPage === 1} aria-label="Previous page">←</button><span>Page {currentPage} of {pageCount}</span><button onClick={() => setPage(currentPage + 1)} disabled={currentPage === pageCount} aria-label="Next page">→</button></div></div></> : <div className="fish-results-empty"><SearchIcon/><h3>No rods match</h3><p>Try part of a rod name or enchant, or remove a filter.</p><button className="btn-primary" onClick={clearFilters}>Clear search & filters</button></div>}
-    <p className="fish-results-note">{mobile ? 'Tap a rod card for details.' : 'Click anywhere in a row for all stats and details.'} Recommendations are sourced from each rod’s wiki page.</p></div><div className="fish-detail-column">{!mobile && <RodDetails rod={selected} close={() => setSelectedPage('')}/>}{selectedPage && !selected && <p className="fish-data-notice">The linked rod was not found in this dataset.</p>}</div></div>
-    {mobile && <dialog className="fish-detail-dialog" id="rod-detail-dialog" ref={detailDialog} aria-labelledby={selected ? 'rod-detail-title' : undefined} aria-label={selected ? undefined : 'Rod details'} onCancel={() => setSelectedPage('')} onClick={event => { if (event.target === event.currentTarget) setSelectedPage(''); }}><RodDetails rod={selected} close={() => setSelectedPage('')}/></dialog>}
+    <p className="fish-results-note">{mobile ? 'Tap a rod card for details.' : 'Click anywhere in a row for all stats and details.'} Recommendations are sourced from each rod’s wiki page.</p></div><div className="fish-detail-column">{!mobile && <RodDetails rod={selected} close={() => setSelectedPage('')} showObtainment={showObtainment}/>}{selectedPage && !selected && <p className="fish-data-notice">The linked rod was not found in this dataset.</p>}</div></div>
+    <RodObtainmentViewer rod={data.rods.find(rod => rod.page === recipePage)} rods={data.rods} select={setRecipePage} loading={loading}/>
+    {mobile && <dialog className="fish-detail-dialog" id="rod-detail-dialog" ref={detailDialog} aria-labelledby={selected ? 'rod-detail-title' : undefined} aria-label={selected ? undefined : 'Rod details'} onCancel={() => setSelectedPage('')} onClick={event => { if (event.target === event.currentTarget) setSelectedPage(''); }}><RodDetails rod={selected} close={() => setSelectedPage('')} showObtainment={showObtainment}/></dialog>}
   </section>;
 }

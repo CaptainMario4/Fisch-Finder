@@ -1,0 +1,28 @@
+.rod-obtainment-viewer{margin-top:28px;border:1px solid var(--color-rule);border-radius:var(--radius-lg);background:var(--color-paper);padding:24px;min-width:0;scroll-margin-top:90px;color:var(--color-ink)}
+.rod-obtainment-viewer :is(h2,h3,h4,p,a,summary,label,select){overflow-wrap:anywhere;min-width:0}
+.rod-obtainment-viewer :is(button,a,summary,select):focus-visible,.rod-obtainment-viewer:focus-visible{outline:3px solid var(--color-focus);outline-offset:3px}
+.rod-obtain-header{display:flex;align-items:start;justify-content:space-between;flex-wrap:wrap;gap:20px;margin-bottom:20px}
+.rod-obtain-header>div{flex:1 1 320px;min-width:0}.rod-obtain-header h2{font-size:1.4rem;font-weight:650;line-height:1.35}.rod-obtain-header p{color:var(--color-mute);font-size:.85rem;line-height:1.6;margin-top:6px}
+.rod-obtain-header .rod-obtain-eyebrow{color:var(--color-accent);font-size:.72rem;font-weight:650;text-transform:uppercase;letter-spacing:.08em;margin:0 0 8px}
+.rod-obtain-header label{display:grid;gap:8px;flex:0 1 340px;font-size:.78rem;color:var(--color-mute);max-width:100%}
+.rod-obtain-header select{background:var(--color-paper);border:1px solid var(--color-rule);border-radius:var(--radius-md);color:var(--color-ink);width:100%;max-width:100%;min-height:44px;padding:10px;font-size:.9rem}
+.rod-obtain-note{color:var(--color-mute);font-size:.82rem;line-height:1.65;margin-bottom:16px}
+.rod-obtain-warning{color:var(--color-ink);font-size:.82rem;line-height:1.6;padding:8px 10px;border:1px solid var(--color-rule);border-left:3px solid var(--color-accent);border-radius:6px;margin:10px 0}
+.rod-obtain-inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:16px;list-style:none;padding:0;margin:20px 0 0;align-items:start;min-width:0}
+.rod-obtain-node{padding:16px;border:1px solid var(--color-rule);border-radius:var(--radius-md);background:var(--color-paper-alt,var(--color-paper));min-width:0}
+.rod-obtain-kind{display:block;color:var(--color-accent);font-size:.7rem;font-weight:650;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.rod-obtain-node h4{font-size:.98rem;font-weight:650;line-height:1.5}.rod-obtain-node p,.rod-obtain-output p{font-size:.85rem;color:var(--color-mute);line-height:1.6;margin-top:6px}
+.rod-obtain-recipe a{display:inline-block;color:var(--color-accent);font-size:.82rem;font-weight:600;line-height:1.5;min-height:32px;padding:7px 0;margin-top:6px}
+.rod-obtain-connector{display:flex;justify-content:center;padding:12px;color:var(--color-accent);font-size:1.7rem}
+.rod-obtain-connector span{display:flex;align-items:center;justify-content:center;width:40px;height:40px}
+.rod-obtain-output{border:1px solid var(--color-accent);border-radius:var(--radius-md);background:var(--color-accent-soft);padding:20px;max-width:640px;margin:0 auto;text-align:center;min-width:0}
+.rod-obtain-output h3{font-size:1.12rem;font-weight:650;line-height:1.5}
+.rod-obtain-branch{grid-column:1/-1;margin-top:12px;min-width:0}.rod-obtain-branch summary,.rod-obtain-instructions summary{color:var(--color-accent);font-size:.85rem;line-height:1.5;font-weight:600;cursor:pointer;min-height:36px;padding:8px 0}
+.rod-obtain-node:has(>.rod-obtain-branch[open]){grid-column:1/-1}
+.rod-obtain-branch>.rod-obtain-recipe{border-top:1px solid var(--color-rule);margin-top:8px;padding-top:4px}.rod-obtain-branch .rod-obtain-inputs{margin-top:10px}
+.rod-obtain-instructions{border-top:1px solid var(--color-rule);margin-top:22px;padding-top:12px;min-width:0}
+.rod-obtain-instructions section{padding:12px 0}.rod-obtain-instructions h4{font-size:.95rem;font-weight:650;margin-bottom:10px}
+.rod-obtain-instructions ol{padding-left:22px;list-style:decimal;display:grid;gap:10px;font-size:.85rem;line-height:1.7;color:var(--color-ink-soft)}
+.rod-obtain-instructions p{font-size:.85rem;line-height:1.7}.rod-obtain-links{display:flex;flex-wrap:wrap;gap:8px 16px}
+.rod-obtain-empty{text-align:center;padding:28px 12px}.rod-obtain-empty h3{font-weight:650;margin-bottom:8px}.rod-obtain-empty p{font-size:.88rem;line-height:1.65;color:var(--color-mute)}
+@media(max-width:767px){.rod-obtainment-viewer{padding:20px 16px;margin-top:20px;scroll-margin-top:80px}.rod-obtain-header{gap:16px}.rod-obtain-header>div,.rod-obtain-header label{flex-basis:100%;width:100%}.rod-obtain-header h2{font-size:1.2rem}.rod-obtain-inputs{grid-template-columns:minmax(0,1fr);gap:12px}.rod-obtain-node{padding:14px}.rod-obtain-recipe a,.rod-obtain-branch summary,.rod-obtain-instructions summary{min-height:44px;font-size:.9rem}.rod-obtain-note,.rod-obtain-node p,.rod-obtain-output p,.rod-obtain-instructions :is(p,ol){font-size:.9rem}.rod-obtain-branch .rod-obtain-node{padding:12px}.rod-obtain-output{padding:16px}}

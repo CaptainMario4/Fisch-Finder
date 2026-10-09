@@ -3,10 +3,15 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import ts from 'typescript';
 
+const dataUri=code=>'data:text/javascript;base64,'+Buffer.from(code).toString('base64');
+const compileFile=path=>ts.transpileModule(fs.readFileSync(new URL(path,import.meta.url),'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;
+const wikiUri=dataUri(compileFile('../src/lib/quest-wiki.ts'));
+const obtainUri=dataUri(compileFile('../src/lib/rod-obtainment.ts').replace("from './quest-wiki'", "from '"+wikiUri+"'"));
+
 const snapshot = JSON.parse(fs.readFileSync(new URL('../src/data/rods-snapshot.json', import.meta.url), 'utf8'));
 const compiled = ts.transpileModule(fs.readFileSync(new URL('../src/lib/rods.ts', import.meta.url), 'utf8'), {
   compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
-}).outputText.replace("import snapshot from '../data/rods-snapshot.json';", `const snapshot = ${JSON.stringify(snapshot)};`);
+}).outputText.replace("import snapshot from '../data/rods-snapshot.json';", `const snapshot = ${JSON.stringify(snapshot)};`).replace("from './rod-obtainment'", "from '"+obtainUri+"'");
 let moduleId = 0;
 const fresh = () => import('data:text/javascript;base64,' + Buffer.from(compiled + `\n// test ${moduleId++}`).toString('base64'));
 
@@ -114,10 +119,12 @@ test('refresh checks revision IDs, fetches only changed advice, caches, and reta
     assert.deepEqual(first.rods.find(r => r.id === 999999).recommendations[0].enchants, ['Hasty']);
     assert.equal(first.rods.find(r => r.id === 999999).abilities[0].text, '8% chance for Sunken');
     assert.equal(first.rods.find(r => r.id === 999999).mastery[0].reward, '+5% mutation chance.');
-    assert.equal(contentRequests, 1); const initialRequests = requests;
+    // One-time migration imports obtainment text; subsequent checks remain incremental.
+    const migratedContentRequests = Math.ceil(raw.length / 50);
+    assert.equal(contentRequests, migratedContentRequests); const initialRequests = requests;
     clock += 10000; await mod.getRodDataset({ forceRefresh: true }); assert.equal(requests, initialRequests);
     clock += 61000; const refreshed = await mod.getRodDataset({ forceRefresh: true });
-    assert.equal(contentRequests, 1); assert.notEqual(refreshed.fetchedAt, first.fetchedAt);
+    assert.equal(contentRequests, migratedContentRequests); assert.notEqual(refreshed.fetchedAt, first.fetchedAt);
     clock += 61000; globalThis.fetch = async () => ({ ok: true, json: async () => ({ bucket: raw.slice(0,2) }) });
     const failed = await mod.getRodDataset({ forceRefresh: true });
     assert.equal(failed.mode, 'snapshot'); assert.equal(failed.fetchedAt, refreshed.fetchedAt);

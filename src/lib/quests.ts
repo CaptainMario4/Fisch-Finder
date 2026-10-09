@@ -8,7 +8,7 @@ export type QuestBlock = { heading:string; paragraphs:string[]; tables:QuestTabl
 export type QuestDetails = { description:string; gps:string; stages:QuestStage[]; notes:QuestBlock[]; rewards:string[]; incomplete:boolean };
 export type Quest = QuestDetails & { id:number; page:string; name:string; npc:string; locations:string[]; events:string[]; status:'available'|'unavailable'|'unknown'; type:string; url:string };
 export type QuestFish = { page:string; name:string; location:string; bait:string[]; weather:string[]; time:string[]; season:string[]; methods:string[]; maximumWeight:number|null; unavailable:boolean };
-export type QuestRod = { page:string; name:string; stage:string; maximumWeight:number|null; weightLabel:string; level:string; unavailable:boolean };
+export type QuestRod = { page:string; name:string; stage:string; maximumWeight:number|null; weightLabel:string; level:string; unavailable:boolean; permanentRoute?:boolean };
 export type QuestMutation = { page:string; name:string; notes:string[]; rods:QuestRef[]; url:string };
 export type QuestDataset = { quests:Quest[]; fish:QuestFish[]; rods:QuestRod[]; mutations:QuestMutation[]; fetchedAt:string; mode:'api'|'snapshot'; notice:string };
 export type RawNpc = Record<string,unknown>;
@@ -89,7 +89,7 @@ export function normalizeQuests(raw:RawNpc[],sources:Record<string,Source>):Ques
   }).sort((a,b)=>a.name.localeCompare(b.name));
 }
 export function normalizeQuestFish(raw:Record<string,unknown>[]):QuestFish[]{return raw.map(r=>({page:String(r.page_name),name:questText(r.name??r.page_name),location:list(r.location).join('; ')||questText(r.bestiary),bait:list(r.bait),weather:list(r.weather),time:list(r.time),season:list(r.season),methods:list(r.source),maximumWeight:Number.isFinite(Number(r.base_weight))&&r.base_weight!=null?Number(r.base_weight):null,unavailable:flag(r.is_removed)||flag(r.is_unob)}));}
-export function normalizeQuestRods(raw:Record<string,unknown>[]):QuestRod[]{return raw.map(r=>{const label=questText(r.max_weight),n=Number(label.replace(/,/g,'').replace(/\s*kg\s*/gi,''));return {page:String(r.page_name),name:questText(r.page_name),stage:questText(r.stage),maximumWeight:/inf|∞/i.test(label)?1e99:label&&Number.isFinite(n)?n:null,weightLabel:label,level:questText(r.level),unavailable:flag(r.is_removed)||flag(r.is_unob)};});}
+export function normalizeQuestRods(raw:Record<string,unknown>[]):QuestRod[]{return raw.map(r=>{const label=questText(r.max_weight),n=Number(label.replace(/,/g,'').replace(/\s*kg\s*/gi,''));return {page:String(r.page_name),name:questText(r.page_name),stage:questText(r.stage),maximumWeight:/inf|∞/i.test(label)?1e99:label&&Number.isFinite(n)?n:null,weightLabel:label,level:questText(r.level),unavailable:flag(r.is_removed)||flag(r.is_unob),permanentRoute:!flag(r.is_removed)&&!flag(r.is_unob)&&!questText(r.event)&&!/limited|exclusive|developer|admin|removed|unobtainable|event.only/i.test([r.source,r.description,r.hint,r.quest].map(questText).join(' '))&&(/purchas|craft|level/i.test(questText(r.source))||!!questText(r.quest))};});}
 export function extractQuestMutation(page:string,text:string):QuestMutation {const body=wikiSection(text,'Obtainment'),infobox=wikiTemplates(text).find(t=>t.name==='mutationinfobox');return {page,name:questText(infobox?.args.name)||page,notes:prose(body),rods:questReferences(body,'rod'),url:wikiUrl(page)};}
 // Resolve known wiki links and ordinary multi-word catch targets. Riddle
 // wording is not a target: once a solution exists, only its answer is scanned.
@@ -117,7 +117,7 @@ export const questFallback=snapshot.data as unknown as QuestDataset;
 const API='https://fischipedia.org/w/api.php';
 const NPC_QUERY="mw.bucket('npcs').select('page_id','page_name','name','location','event','is_quest','is_event','is_removed').limit(5000):run()";
 const FISH_QUERY="mw.bucket('fish').select('page_name','name','location','bestiary','bait','weather','time','season','source','base_weight','is_unob','is_removed').limit(5000):run()";
-const ROD_QUERY="mw.bucket('rods').select('page_name','journal','stage','max_weight','level','is_unob','is_removed').limit(5000):run()";
+const ROD_QUERY="mw.bucket('rods').select('page_name','journal','stage','max_weight','level','source','quest','event','description','hint','is_unob','is_removed').limit(5000):run()";
 let sources=Object.fromEntries(Object.entries(snapshot.revisions).map(([id,revision])=>[id,{revision,details:questFallback.quests.find(q=>q.id===Number(id))!}])) as Record<string,Source>;
 let mutationSources=Object.fromEntries(Object.entries(snapshot.mutationRevisions).map(([id,source])=>[id,{revision:source.revision,details:questFallback.mutations.find(m=>m.page===source.page)!}])) as Record<string,MutationSource>;
 let cache:QuestDataset|undefined,expires=0,lastAttempt=0,pending:Promise<QuestDataset>|undefined;

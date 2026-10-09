@@ -71,13 +71,43 @@ const preferredMutationRods:Record<string,{page:string;reason:string}>={
  serene:{page:'Duskwire',reason:'2% base; 3% after a Perfect Catch, or 5%/10% with mastery. Permanent quest and purchase route.'},
  nova:{page:'Rod of the Singularity',reason:'25.92% Nova chance. Permanent Merlin quest reward.'},
 };
-function RecommendationLabel({name,page,data}:{name:string;page:string;data:QuestDataset}) {
+// Compare only explicit, unconditional base chances from the primary wiki.
+// Event, mastery-only, duplicate and meter effects are deliberately not scored.
+function automaticMutationRod(name:string,data:QuestDataset) {
  const mutation=data.mutations.find(m=>fold(m.name)===fold(name)||fold(m.page)===fold(name));
- if(!mutation||new Set(mutation.rods.map(r=>fold(r.page))).size<3)return null;
- const choice=preferredMutationRods[fold(mutation.name)];
- if(!choice||fold(choice.page)!==fold(page)||!mutation.rods.some(r=>fold(r.page)===fold(choice.page)))return null;
- const rod=rodMatch(data,choice.page);
- if(!rod||rod.unavailable)return null;
+ if(!mutation||new Set(mutation.rods.map(r=>fold(r.page))).size<3||!mutation.url.startsWith('https://fischipedia.org/wiki/'))return undefined;
+ const reviewed=preferredMutationRods[fold(mutation.name)];
+ const eligible=(page:string)=>{
+  const rod=rodMatch(data,page);
+  return !!rod&&!rod.unavailable&&(rod.permanentRoute===true||(rod.permanentRoute===undefined&&!!reviewed&&fold(reviewed.page)===fold(page)));
+ };
+ const candidates=mutation.rods.flatMap(ref=>{
+  if(!eligible(ref.page))return [];
+  const names=[ref.name,ref.page];
+  const rates=mutation.notes.flatMap(note=>{
+   const prefix=names.find(n=>note.toLowerCase().startsWith(n.toLowerCase()));
+   if(!prefix)return [];
+   const rest=note.slice(prefix.length);
+   const match=rest.match(/^,?\s+(?:at (?:a |an )?|increasing chance by )(\d+(?:\.\d+)?)%\s*(?:chance)?\s*\.\s*(.*)$/i);
+   if(!match)return [];
+   // Later mastery information is separate; conditions on the base statement
+   // cannot match the complete first sentence above.
+   const rate=Number(match[1]);return rate>0&&rate<=100?[rate]:[];
+  });
+  return rates.length===1?[{page:ref.page,rate:rates[0]}]:[];
+ }).sort((a,b)=>b.rate-a.rate);
+ if(candidates.length&&(!candidates[1]||candidates[0].rate>candidates[1].rate)){
+  const best=candidates[0];
+  return {page:best.page,reason:`${best.rate}% documented ${['shiny','sparkling'].includes(fold(mutation.name))?'base chance increase':'base chance'}. Highest clear unconditional rate among eligible permanent rods; mastery and special triggers are not compared.`};
+ }
+ // Retain a reviewed conditional option only when no clear base-rate choice
+ // exists. Never keep its label after the wiki removes the rod or its method.
+ if(!candidates.length&&reviewed&&eligible(reviewed.page)&&mutation.rods.some(r=>fold(r.page)===fold(reviewed.page)))return reviewed;
+ return undefined;
+}
+function RecommendationLabel({name,page,data}:{name:string;page:string;data:QuestDataset}) {
+ const choice=automaticMutationRod(name,data);
+ if(!choice||fold(choice.page)!==fold(page))return null;
  return <><strong style={{color:'var(--color-accent)',fontSize:'.8rem'}}> · Recommended</strong><span className="quest-hint"> — {choice.reason}</span></>;
 }
 function CatchHelp({task,data}:{task:QuestTask;data:QuestDataset}) {
@@ -104,7 +134,7 @@ function MutationRodOverview({quest,data}:{quest:Quest;data:QuestDataset}) {
    const guide=stage.tasks.map(task=>methodGuide(name,task)).find(Boolean);
    return <li key={name}><strong>{name}: </strong>{guide?<span className="quest-hint">{guide.summary}{guide.limited&&<span className="quest-warning"> · Limited / event-exclusive; use only if owned or the event source is available.</span>} See the catch guidance for conditions and alternatives.{rods.length>0?' Other documented rods: ':''}</span>:null}{rods.length?rods.map((ref)=>{const rod=rodMatch(data,ref.page);return <span key={ref.page} style={rods.length>1?{display:'block',marginTop:6}:undefined}><a aria-haspopup="dialog" aria-controls="quest-rod-dialog" href={rodUrl(rod?.page??ref.page)}>{ref.name} ↗</a><RecommendationLabel name={name} page={ref.page} data={data}/>{rod?.unavailable&&<span className="quest-hint"> (unavailable)</span>}</span>}):!guide&&<span className="quest-hint">No specific rod listed; see <a href={mutation?.url??sourceUrl(name)} target="_blank" rel="noopener noreferrer">mutation methods ↗</a>.</span>}</li>;
   })}{required.length>0&&<li><strong>Objective-specific rods: </strong>{required.map((ref,index)=><span key={ref.page}>{index>0?' / ':''}<a aria-haspopup="dialog" aria-controls="quest-rod-dialog" href={rodUrl(rodMatch(data,ref.page)?.page??ref.page)}>{ref.name} ↗</a></span>)}</li>}</ul></article>;
- })}</div><p className="quest-hint">Listed mutation rods are alternatives, not a requirement to own every rod. Recommended labels apply to lists of three or more rods and prefer permanent obtainment routes; level, quest, location and trigger conditions still apply. These are reviewed picks, not a guarantee for every objective. Objective-specific conditions take priority.</p></section>;
+ })}</div><p className="quest-hint">Listed mutation rods are alternatives, not a requirement to own every rod. Recommended labels apply to lists of three or more rods. Clear unconditional base chances from Fischipedia are compared automatically for permanent obtainment routes; ambiguous or conditional methods retain reviewed guidance where available. level, quest, location and trigger conditions still apply. These are reviewed picks, not a guarantee for every objective. Objective-specific conditions take priority.</p></section>;
 }
 function Guide({quest,data,progress,toggle,storageAvailable,share,shareStatus}:{quest:Quest;data:QuestDataset;progress:Record<string,true>;toggle:(task:QuestTask)=>void;storageAvailable:boolean;share:()=>void;shareStatus:string}) {
  const [view,setView]=useState('overview');const tasks=questTasks(quest),done=tasks.filter(t=>progress[taskProgressKey(quest,t)]).length;

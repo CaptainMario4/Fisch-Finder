@@ -33,6 +33,7 @@ test('recipe tree separates ingredient facts and the complete Archives access pu
  assert.ok(!html.includes('Bestiary')&&!html.includes('four players'),'current wiki no longer requires four players');
  assert.ok(html.indexOf('Desired rod')<html.indexOf('Crafting recipe'));assert.ok(html.indexOf('Crafting recipe')<html.indexOf('Recipe requirements'));assert.ok(html.indexOf('Recipe requirements')<html.indexOf('Area access'));
  assert.match(html,/Ancient_Isle#Ancient_Archives/);
+ assert.ok(!craftingPath(rod).steps.some(step=>/Monstrous Cusk Tooth ×|Rod Journal/.test(step.text)),'compact cards do not repeat the recipe or journal XP');
 });
 test('attribute guidance reuses mutation alternatives and excludes the desired rod from circular recommendations',()=>{
  const html=render(target('Wisdom Rod'),questFallback);assert.match(html,/Mythical/);assert.match(html,/Mythical Rod/);assert.match(html,/Suggested method/);assert.match(html,/Owned or traded materials/);

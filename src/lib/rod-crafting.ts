@@ -9,8 +9,10 @@ export function craftingPath(rod:Rod){
  const craftingSections=sections.filter(section=>/craft/i.test(section.heading));
  const direct=/craft/i.test(rod.source);
  const recipes=rod.obtainment?.recipes??[];
+ const summaries=recipes.map(recipe=>[recipe.level?'Required level: '+recipe.level:'',...recipe.ingredients.map(ref=>ref.name+(ref.quantity?' ×'+ref.quantity:'')+(ref.attributes?' ('+ref.attributes+')':'')),recipe.price?'Price: '+recipe.price:''].filter(Boolean).join(' · '));
  const steps=(craftingSections.length?craftingSections.flatMap(section=>section.steps):sections.flatMap(section=>section.steps).filter(step=>/\bcraft(?:ed|ing|able)?\b/i.test(step.text)))
-  .filter(step=>!/^Required level:.* · |\.(?:png|jpg)\|/i.test(step.text));
+  .map(step=>({...step,text:summaries.reduce((text,summary)=>summary?text.replace(summary,''):text,step.text).replace(/^Craftable [^.]*\.\s*/i,'').replace(/\bObtaining [^.]* (?:rewards|awards) [^.]* XP in the Rod Journal\.?/gi,'').trim()}))
+  .filter(step=>step.text&&!/\.(?:png|jpg)\|/i.test(step.text));
  if(!direct&&!recipes.length&&!steps.length)return;
  // Older prose/list/table recipes can expose explicit counted materials. Never
  // turn every location, quest or journal reference into a crafting ingredient.

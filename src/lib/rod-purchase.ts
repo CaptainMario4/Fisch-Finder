@@ -38,7 +38,7 @@ export function extractAreaAccess(region:string,page:string,revision:number,text
  const portions=[chunks[0]];
  for(let i=1;i<chunks.length;i+=3){
   const heading=questText(chunks[i+1]),intro=questText(chunks[i+2].split(/\n\s*\n/).slice(0,2).join('\n'));
-  if(/^(?:access|accessing|entrance|entry|requirements?|getting (?:there|to)|how to (?:enter|reach|access)|obtainment|obtaining|usage|travel|navigation guide)$|^(?:Entering |Accessing |Entrance to )|(?: Entry Point| Portal)$/i.test(heading)||intro.toLowerCase().includes('entrance to the '+region.toLowerCase()))portions.push(chunks[i+2]);
+  if(/^(?:access|accessing|entrance|entry|requirements?|getting (?:there|to)|how to (?:enter|reach|access)|obtainment|obtaining|usage|travel|navigation guide|fragment puzzle)$|^(?:Entering |Accessing |Entrance to )|(?: Entry Point| Portal)$/i.test(heading)||intro.toLowerCase().includes('entrance to the '+region.toLowerCase()))portions.push(chunks[i+2]);
  }
  const steps:ObtainStep[]=[],equipment:string[]=[];
  for(const [portionIndex,portion] of portions.entries()){
@@ -49,7 +49,7 @@ export function extractAreaAccess(region:string,page:string,revision:number,text
    const bullet=/^\s*[*#]/.test(paragraph),followList:boolean=bullet&&list;
    if(!bullet)list=false;
    if(!value||/^(?:Fishing (?:in|at)|During |Multiple NPCs|Possible rewards|Touching |Flowers |Seeds )/i.test(value)||/consists of .*sub-locations/i.test(value))continue;
-   if(!portionIndex&&!followList&&!/\b(?:access(?:ed|ible)?|enter(?:ed|ing)?|entrance|reach(?:ed)?|navigat(?:e|ing)|travel|requires?|required|must|unlock(?:ed)?|locked|equip(?:ped)?|purchas(?:able|ed)|obtained from completing)\b/i.test(value))continue;
+   if(!portionIndex&&!followList&&!/\b(?:access(?:ed|ible)?|enter(?:ed|ing)?|entrance|reach(?:ed)?|navigat(?:e|ing)|travel|requires?|required|must|unlock(?:ed)?|locked|equip(?:ped)?|purchas(?:able|ed)|obtained from completing)\b/i.test(value)&&!(accessKey(region)==='ancient archives'&&/\b(?:anvil|glider|cross the gaps)\b/i.test(value)))continue;
    list=followList||value.endsWith(':');
    const references=obtainmentReferences(paragraph);
    for(const template of wikiTemplates(paragraph)){

@@ -3,10 +3,11 @@ import type { Rod } from '../lib/rods';
 import type { QuestDataset } from '../lib/quests';
 import { fold } from '../lib/quest-search';
 import { obtainQuestUrl, obtainWikiUrl } from '../lib/rod-obtainment';
-import { matchPathQuest, pathReferencedRods, rodQuestPaths } from '../lib/rod-quest-path';
+import { matchPathQuest, pathReferencedRods, rodQuestPaths, pathObjective } from '../lib/rod-quest-path';
 import { purchasePath } from '../lib/rod-purchase';
+import { craftingPath } from '../lib/rod-crafting';
 import type { AreaAccessGuide } from '../lib/rod-purchase';
-import type { ObtainStep } from '../lib/rod-obtainment';
+import type { ObtainStep, ObtainRef } from '../lib/rod-obtainment';
 import type { PathQuest, PathStage, PathObjective, PathMethod, PathRod } from '../lib/rod-quest-path';
 
 type TreeContext={rods:Rod[];data?:QuestDataset;request:()=>void;loading:boolean;error:string;path:string[];depth:number};
@@ -95,14 +96,50 @@ function PurchaseBranch({rod,ctx}:{rod:Rod;ctx:TreeContext}){
  </div>:<p className="rod-obtain-note rod-path-none">Access requirements not documented in the imported guide. Check the purchase source for entrance unlocks and equipment before travelling.</p>}
  </li>;
 }
+function CraftIngredient({ingredient,rod,ctx}:{ingredient:ObtainRef;rod:Rod;ctx:TreeContext}){
+ const fish=ctx.data?.fish.find(f=>fold(f.page)===fold(ingredient.page));
+ const mutations=ctx.data?.mutations.filter(m=>ingredient.attributes.split(/[,;·]/).some(attribute=>fold(attribute)===fold(m.name)||fold(attribute)===fold(m.page))).map(m=>m.name)??[];
+ const task={id:ingredient.page,text:'Obtain '+ingredient.name+' '+ingredient.attributes,fish:[ingredient],rods:[],mutations};
+ const methods=ctx.data?pathObjective(task,ctx.data,rod).methods:[];
+ return <li className="rod-path-card rod-craft-ingredient"><span className="rod-obtain-kind">Crafting ingredient</span><h5>{ingredient.name}</h5>
+  <dl className="rod-purchase-facts"><div><dt>Quantity</dt><dd>{ingredient.quantity?'×'+ingredient.quantity:'Not listed by the source'}</dd></div><div><dt>Required attributes</dt><dd>{ingredient.attributes||'None listed'}</dd></div></dl>
+  {fish?.location&&<p>Catch location: {fish.location}</p>}
+  {fish?.unavailable&&<p className="rod-obtain-warning">This ingredient is marked unavailable in the fish guide. Check event availability or owned materials.</p>}
+  <a href={obtainWikiUrl(ingredient)} target="_blank" rel="noopener noreferrer">Ingredient source ↗</a>
+  {ingredient.attributes&&<details className="rod-path-alternatives"><summary>Ways to obtain the required attributes</summary>
+   {methods.length?<div className="rod-path-methods">{methods.map(method=><MutationMethod key={method.name} method={method} ctx={ctx}/>)}</div>:<p className="rod-obtain-note">{ctx.loading?'Loading mutation methods…':'No matching mutation method is documented in the imported guide. Check the ingredient source for size, mutation and other conditions.'}</p>}
+   <p className="rod-obtain-note">Suggested methods do not replace the exact recipe attributes. Owned or traded materials may be used where allowed by the source; obtain compatible attributes together.</p>
+  </details>}
+ </li>;
+}
+function CraftingBranch({rod,ctx}:{rod:Rod;ctx:TreeContext}){
+ const path=craftingPath(rod)!;const access=rod.craftingAccess;
+ const hasAttributes=path.recipes.some(recipe=>recipe.ingredients.some(ingredient=>ingredient.attributes));
+ const guideSteps=[...path.steps,...(access?.area?.steps??[]),...(access?.equipment.flatMap(guide=>guide.steps)??[])];
+ useEffect(()=>{if(hasAttributes||guideSteps.some(step=>/\bquest\b/i.test(step.text)&&step.references.length))ctx.request();},[rod,hasAttributes,ctx.request]);
+ return <li className="rod-path-child rod-crafting-branch"><article className="rod-path-card rod-path-crafting"><span className="rod-obtain-kind">{path.alternative?'Crafting option':'Crafting recipe'}</span><h4>Craft at {path.accessPage}</h4>
+  <dl className="rod-purchase-facts"><div><dt>Crafting location</dt><dd>{path.location}</dd></div><div><dt>Station</dt><dd>{path.station}</dd></div></dl>
+  <AccessSteps steps={path.steps} ctx={ctx}/>{path.hint&&<p>{path.hint}</p>}
+  {rod.unavailable&&<p className="rod-obtain-warning">Limited or marked unavailable. This recipe may be historical; check event requirements and ingredient availability.</p>}
+  <a href={rod.url+'#Obtainment'} target="_blank" rel="noopener noreferrer">{rod.secondary?'Fisch Fandom':'Fischipedia'} crafting instructions ↗</a>
+ </article>
+ {path.recipes.length?path.recipes.map((recipe,index)=><section key={index} className="rod-craft-recipe" aria-label={'Crafting recipe '+(index+1)+' for '+rod.name}><Connector/>
+  <div className="rod-path-card rod-path-crafting"><h4>{path.recipes.length>1?'Recipe option '+(index+1):'Recipe requirements'}</h4><dl className="rod-purchase-facts"><div><dt>Required level</dt><dd>{recipe.level||'Not listed by the source'}</dd></div><div><dt>Crafting cost</dt><dd>{recipe.price||'Not listed by the source'}</dd></div></dl></div><Connector/>
+  <ul className="rod-craft-ingredients" aria-label={'Ingredients for recipe '+(index+1)}>{recipe.ingredients.map((ingredient,i)=><CraftIngredient key={[ingredient.page,ingredient.attributes,i].join(':')} ingredient={ingredient} rod={rod} ctx={ctx}/>)}</ul>
+ </section>):<p className="rod-obtain-note rod-path-none">A crafting route is listed, but no complete ingredient recipe was imported. Check the source for materials, quantities, required attributes and cost.</p>}
+ <Connector/>{access?.area?<><AccessGuide guide={access.area} ctx={ctx}/>{access.equipment.map(guide=><div key={guide.region}><Connector/><AccessGuide guide={guide} ctx={ctx} equipment/></div>)}</>:<p className="rod-obtain-note rod-path-none">{path.accessPage} access requirements were not imported. Check the crafting source before travelling.</p>}
+ </li>;
+}
 export function TreeRequirements({rod,ctx}:{rod:Rod;ctx:TreeContext}){
  const quests=useMemo(()=>rodQuestPaths(rod,ctx.rods,ctx.data),[rod,ctx.rods,ctx.data]);
  const direct=useMemo(()=>pathReferencedRods(rod,ctx.rods),[rod,ctx.rods]);
  useEffect(()=>{if(quests.length)ctx.request();},[quests.length,ctx.request]);
  const nonQuestRods=direct.filter(r=>!quests.some(q=>q.stages.some(s=>s.objectives.some(o=>o.rods.some(option=>fold(option.page)===fold(r.page))))));
  const purchase=purchasePath(rod);
- if(!quests.length&&!nonQuestRods.length&&!purchase)return <p className="rod-obtain-note rod-path-none">No quest or specific rod prerequisite is listed in the imported source. Use the obtainment instructions for purchases, crafting materials, locations and other conditions.</p>;
- return <ul className="rod-path-children" aria-label={'Quest and rod prerequisites for '+rod.name}>
+ const crafting=craftingPath(rod);
+ if(!quests.length&&!nonQuestRods.length&&!purchase&&!crafting)return <p className="rod-obtain-note rod-path-none">No quest or specific rod prerequisite is listed in the imported source. Use the obtainment instructions for purchases, crafting materials, locations and other conditions.</p>;
+ return <ul className="rod-path-children" aria-label={'Obtainment paths for '+rod.name}>
+  {crafting&&<CraftingBranch rod={rod} ctx={ctx}/>}
   {purchase&&<PurchaseBranch rod={rod} ctx={ctx}/>}
   {quests.map(entry=><QuestBranch key={entry.reference.page} entry={entry} ctx={ctx}/>)}
   {nonQuestRods.map(r=><li className="rod-path-child" key={r.page}><RodChoice choice={{page:r.page,name:r.name,role:'objective',unavailable:r.unavailable}} ctx={ctx}/></li>)}
@@ -110,8 +147,9 @@ export function TreeRequirements({rod,ctx}:{rod:Rod;ctx:TreeContext}){
 }
 export default function RodQuestTree({rod,rods,data,request,loading,error}:{rod:Rod;rods:Rod[];data?:QuestDataset;request:()=>void;loading:boolean;error:string}){
  const ctx:TreeContext={rods,data,request,loading,error,path:[rod.page],depth:0};
+ const level=craftingPath(rod)?rod.obtainment?.level||rod.level:rod.level||rod.obtainment?.level;
  return <div className="rod-obtain-recipe rod-quest-tree"><div className="rod-path-card rod-path-target"><span className="rod-obtain-kind">Desired rod</span><h3>{rod.name}</h3>
-  <div className="rod-path-badges">{(rod.level||rod.obtainment?.level)&&<span>Required level: {rod.level||rod.obtainment?.level}</span>}{rod.unavailable&&<span>Limited / unavailable</span>}</div>
+  <div className="rod-path-badges">{level&&<span>Required level: {level}</span>}{rod.unavailable&&<span>Limited / unavailable</span>}</div>
   <a href={rod.url+'#Obtainment'} target="_blank" rel="noopener noreferrer">View {rod.secondary?'Fisch Fandom':'Fischipedia'} obtainment ↗</a>
  </div><Connector/><TreeRequirements rod={rod} ctx={ctx}/>
  {error&&<p className="rod-obtain-warning" role="status">{error}</p>}

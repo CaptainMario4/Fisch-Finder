@@ -2,6 +2,7 @@ import snapshot from '../data/rod-access-snapshot.json';
 import type { Rod } from './rods';
 import { accessKey, attachPurchaseAccess, extractAreaAccess, purchasePath, safeAccessPage } from './rod-purchase';
 import type { AccessGuides } from './rod-purchase';
+import { attachCraftingAccess, craftingPath } from './rod-crafting';
 
 let guides:AccessGuides={...snapshot.guides} as AccessGuides;
 type WikiRequest=(params:Record<string,string>)=>Promise<any>;
@@ -32,10 +33,11 @@ async function updateGuides(titles:string[],request:WikiRequest){
 }
 export async function withPurchaseAreas(rods:Rod[],request:WikiRequest):Promise<Rod[]>{
  const regions=[...new Set(rods.filter(rod=>!rod.secondary&&purchasePath(rod)).map(rod=>rod.region).filter(safeAccessPage))];
+ for(const rod of rods){const craft=!rod.secondary&&craftingPath(rod);if(craft&&!regions.includes(craft.accessPage))regions.push(craft.accessPage);}
  try{
   await updateGuides(regions,request);
   const equipment=[...new Set(regions.flatMap(region=>guides[accessKey(region)]?.equipment??[]))].slice(0,25);
   await updateGuides(equipment,request);
  }catch{/* Keep each area's last successful source and timestamp; rod refresh can still succeed. */}
- return rods.map(rod=>attachPurchaseAccess(rod,guides));
+ return rods.map(rod=>attachCraftingAccess(attachPurchaseAccess(rod,guides),guides));
 }

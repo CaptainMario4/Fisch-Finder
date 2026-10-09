@@ -4,7 +4,8 @@ import type { Rod } from './rods';
 export type ObtainRef = { kind:'rod'|'fish'|'item'|'quest'|'wiki'; page:string; name:string; quantity:string; attributes:string };
 export type ObtainStep = { text:string; references:ObtainRef[] };
 export type ObtainSection = { heading:string; steps:ObtainStep[] };
-export type RodObtainment = { version:2; sections:ObtainSection[]; references:ObtainRef[]; level?:string; price?:string };
+export type CraftRecipe = { ingredients:ObtainRef[]; level:string; price:string };
+export type RodObtainment = { version:2|3; sections:ObtainSection[]; references:ObtainRef[]; recipes?:CraftRecipe[]; level?:string; price?:string };
 const fold=(value:string)=>value.toLowerCase().replace(/[^a-z0-9]/g,'');
 const clean=(value:string)=>value.replace(/<!--[\s\S]*?-->/g,'').replace(/<span\b[^>]*style\s*=\s*["'][^"']*display\s*:\s*none[^"']*["'][^>]*>[\s\S]*?<\/span>/gi,'').replace(/<ref\b[^>]*>[\s\S]*?<\/ref>/gi,'').replace(/<ref\b[^>]*\/>/gi,'');
 const safePage=(value:string)=>!!value&&!/^(?:File|Image|Category|Template|Special|https?|javascript|data):/i.test(value)&&!/[<>{}\n]/.test(value);
@@ -18,12 +19,13 @@ function recipeData(value:string,start:number,end:number){
  const refs:ObtainRef[]=[];
  for(const ingredient of (args.sort??'').split(';').map(x=>x.trim()).filter(Boolean)){
   const page=questText(ingredient);if(!safePage(page))continue;
-  const countNote=args[ingredient]??args[page]??'',slash=countNote.indexOf('/');
+  const countNote=args[ingredient]??args[page]??'1',slash=countNote.indexOf('/');
   const count=questText(slash<0?countNote:countNote.slice(0,slash)),note=questText(slash<0?'':countNote.slice(slash+1));
-  refs.push({kind:'item',page,name:page,quantity:/^\d+(?:,\d{3})*(?:\.\d+)?$/.test(count)?count:'',attributes:note});
+  const attributes=questText(args[ingredient+'_attrs']??args[page+'_attrs']);
+  refs.push({kind:'item',page,name:page,quantity:/^\d+(?:,\d{3})*(?:\.\d+)?$/.test(count)?count:'',attributes:[attributes,note].filter(Boolean).join(' · ')});
  }
- const level=questText(args.level),rawPrice=questText(args.price),currency=questText(args.currency)||'C$';
- const price=rawPrice?/^\d+(?:,\d{3})*(?:\.\d+)?$/.test(rawPrice)?currency+' '+rawPrice:rawPrice:'';
+ const level=questText(args.level),rawPrice=questText(args.price),currency=questText(args.price_type??args.currency)||'C$';
+ const price=rawPrice?/^\d+(?:,\d{3})*(?:\.\d+)?$/.test(rawPrice)?currency+' '+Number(rawPrice.replace(/,/g,'')).toLocaleString('en-US'):rawPrice:'';
  return {refs,level,price};
 }
 export function obtainmentReferences(raw:string,defaultKind:ObtainRef['kind']='wiki'):ObtainRef[] {
@@ -110,7 +112,7 @@ export function extractRodObtainment(wikitext:string):RodObtainment {
   });
   return new Set(quantities).size===1?{...ref,quantity:quantities[0]}:ref;
  });
- return {version:2,sections,references,level:levels.length===1?levels[0]:undefined,price:prices.length===1?prices[0]:undefined};
+ return {version:3,sections,references,recipes:recipes.map(r=>({ingredients:r.refs,level:r.level,price:r.price})),level:levels.length===1?levels[0]:undefined,price:prices.length===1?prices[0]:undefined};
 }
 export type ObtainNode = { id:string; kind:'level'|'quest'|'event'|'price'|'rod'|'fish'|'item'|'wiki'; title:string; detail:string; reference?:ObtainRef };
 export function rodObtainmentNodes(rod:Rod,rods:Rod[]):ObtainNode[] {

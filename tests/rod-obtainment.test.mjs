@@ -52,7 +52,7 @@ Ignored.`);
 });
 test('Recipe template ingredient parameters with spaces preserve count, mutation notes and zero cost',()=>{
  const result=mod.extractRodObtainment('== Obtainment ==\n{{Recipe|level=50|sort=Ruby;Driftwood;Magic Thread|Ruby=1|Driftwood=2/Mythical|Magic Thread=1|price=0}}');
- assert.equal(result.version,2);assert.equal(result.level,'50');assert.equal(result.price,'C$ 0');
+ assert.equal(result.version,3);assert.equal(result.level,'50');assert.equal(result.price,'C$ 0');
  assert.deepEqual(result.references.map(r=>[r.page,r.quantity,r.attributes]),[['Ruby','1',''],['Driftwood','2','Mythical'],['Magic Thread','1','']]);
  assert.match(result.sections[0].steps[0].text,/Driftwood ×2 \(Mythical\)/);
  assert.ok(!JSON.stringify(result).includes('Magic Thread ='));

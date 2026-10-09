@@ -10,12 +10,15 @@ const obtainUri=dataUri(compileFile('../src/lib/rod-obtainment.ts').replace("fro
 
 const accessSnapshot = JSON.parse(fs.readFileSync(new URL('../src/data/rod-access-snapshot.json', import.meta.url), 'utf8'));
 const purchaseUri=dataUri(compileFile('../src/lib/rod-purchase.ts').replace("from './rod-obtainment'", "from '"+obtainUri+"'").replace("from './quest-wiki'", "from '"+wikiUri+"'"));
-const accessUri=dataUri(compileFile('../src/lib/rod-access-cache.ts').replace("import snapshot from '../data/rod-access-snapshot.json';", `const snapshot = ${JSON.stringify(accessSnapshot)};`).replace("from './rod-purchase'", "from '"+purchaseUri+"'"));
+const craftingUri=dataUri(compileFile('../src/lib/rod-crafting.ts').replace("from './rod-purchase'", "from '"+purchaseUri+"'"));
+const accessUri=dataUri(compileFile('../src/lib/rod-access-cache.ts').replace("import snapshot from '../data/rod-access-snapshot.json';", `const snapshot = ${JSON.stringify(accessSnapshot)};`).replace("from './rod-purchase'", "from '"+purchaseUri+"'").replace("from './rod-crafting'", "from '"+craftingUri+"'"));
 
 const snapshot = JSON.parse(fs.readFileSync(new URL('../src/data/rods-snapshot.json', import.meta.url), 'utf8'));
+const craftingSnapshot = JSON.parse(fs.readFileSync(new URL('../src/data/rod-crafting-snapshot.json', import.meta.url), 'utf8'));
+snapshot.sources={...snapshot.sources,...craftingSnapshot.sources};
 const compiled = ts.transpileModule(fs.readFileSync(new URL('../src/lib/rods.ts', import.meta.url), 'utf8'), {
   compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
-}).outputText.replace("import snapshot from '../data/rods-snapshot.json';", `const snapshot = ${JSON.stringify(snapshot)};`).replace("from './rod-obtainment'", "from '"+obtainUri+"'").replace("import accessSnapshot from '../data/rod-access-snapshot.json';", `const accessSnapshot = ${JSON.stringify(accessSnapshot)};`).replace("from './rod-purchase'", "from '"+purchaseUri+"'").replace("from './rod-access-cache'", "from '"+accessUri+"'");
+}).outputText.replace("import snapshot from '../data/rods-snapshot.json';", `const snapshot = ${JSON.stringify(snapshot)};`).replace("import craftingSnapshot from '../data/rod-crafting-snapshot.json';", `const craftingSnapshot = ${JSON.stringify(craftingSnapshot)};`).replace("from './rod-obtainment'", "from '"+obtainUri+"'").replace("import accessSnapshot from '../data/rod-access-snapshot.json';", `const accessSnapshot = ${JSON.stringify(accessSnapshot)};`).replace("from './rod-purchase'", "from '"+purchaseUri+"'").replace("from './rod-access-cache'", "from '"+accessUri+"'").replace("from './rod-crafting'", "from '"+craftingUri+"'");
 let moduleId = 0;
 const fresh = () => import('data:text/javascript;base64,' + Buffer.from(compiled + `\n// test ${moduleId++}`).toString('base64'));
 
@@ -125,7 +128,7 @@ test('refresh checks revision IDs, fetches only changed advice, caches, and reta
     assert.equal(first.rods.find(r => r.id === 999999).abilities[0].text, '8% chance for Sunken');
     assert.equal(first.rods.find(r => r.id === 999999).mastery[0].reward, '+5% mutation chance.');
     // One-time migration imports obtainment text; subsequent checks remain incremental.
-    const migratedContentRequests = Math.ceil(raw.length / 50);
+    const migratedContentRequests = Math.ceil(raw.filter(rod=>snapshot.sources[String(rod.page_id)]?.obtainment?.version!==3).length / 50);
     assert.equal(contentRequests, migratedContentRequests); const initialRequests = requests;
     clock += 10000; await mod.getRodDataset({ forceRefresh: true }); assert.equal(requests, initialRequests);
     clock += 61000; const refreshed = await mod.getRodDataset({ forceRefresh: true });

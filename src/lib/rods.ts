@@ -1,9 +1,11 @@
 import snapshot from '../data/rods-snapshot.json';
+import craftingSnapshot from '../data/rod-crafting-snapshot.json';
 import { extractRodObtainment, rodQuestReferences } from './rod-obtainment';
 import type { RodObtainment, ObtainRef } from './rod-obtainment';
 import accessSnapshot from '../data/rod-access-snapshot.json';
 import { attachPurchaseAccess } from './rod-purchase';
 import type { AccessGuides, PurchaseAccess } from './rod-purchase';
+import { attachCraftingAccess } from './rod-crafting';
 import { withPurchaseAreas } from './rod-access-cache';
 
 const API = 'https://fischipedia.org/w/api.php';
@@ -22,7 +24,7 @@ export type Rod = {
   description: string; hint: string; unavailable: boolean; recommendations: Recommendation[];
   abilities?: RodAbility[]; mastery?: RodMastery[]; masteryLevel?: string;
   obtainment?: RodObtainment; questReferences?: ObtainRef[];
-  purchaseAccess?: PurchaseAccess;
+  purchaseAccess?: PurchaseAccess; craftingAccess?: PurchaseAccess;
 };
 export type RodDataset = { rods: Rod[]; fetchedAt: string; mode: 'api' | 'snapshot'; notice: string; secondaryData?: import('./secondary-source').SecondaryStatus };
 type RecommendationSource = { revision: number; recommendations: Recommendation[]; abilities?: RodAbility[]; mastery?: RodMastery[]; masteryLevel?: string; obtainment?: RodObtainment };
@@ -155,7 +157,7 @@ export function normalizeRods(raw: RawRod[], sources: Sources): Rod[] {
     const stage = value('stage');
     const rawPrice = value('price');
     const price = /^[\d,]+(?:\.\d+)?$/.test(rawPrice) ? Number(rawPrice.replace(/,/g, '')).toLocaleString('en-US', { maximumFractionDigits: 10 }) : rawPrice;
-    return attachPurchaseAccess({
+    return attachCraftingAccess(attachPurchaseAccess({
       id: Number(rod.page_id), page: String(rod.page_name), name: value('page_name'),
       url: 'https://fischipedia.org/wiki/' + encodeURIComponent(String(rod.page_name).replace(/ /g, '_')),
       stage: stage ? stage === '0' ? 'Stage 0 / Exclusive' : `Stage ${stage}` : 'Not listed',
@@ -167,15 +169,15 @@ export function normalizeRods(raw: RawRod[], sources: Sources): Rod[] {
       description: value('description'), hint: value('hint'), unavailable: flag(rod.is_unob) || flag(rod.is_removed),
       recommendations: sources[String(rod.page_id)]?.recommendations ?? [],
       abilities: sources[String(rod.page_id)]?.abilities ?? [], mastery: sources[String(rod.page_id)]?.mastery ?? [], masteryLevel: sources[String(rod.page_id)]?.masteryLevel ?? '',
-    }, accessSnapshot.guides as AccessGuides);
+    }, accessSnapshot.guides as AccessGuides), accessSnapshot.guides as AccessGuides);
   }).sort((a, b) => a.name.localeCompare(b.name));
 }
 export const rodFallback: RodDataset = {
-  rods: normalizeRods(snapshot.rods, snapshot.sources as Sources), fetchedAt: snapshot.fetchedAt,
+  rods: normalizeRods(snapshot.rods, { ...snapshot.sources, ...craftingSnapshot.sources } as Sources), fetchedAt: snapshot.fetchedAt,
   mode: 'snapshot', notice: 'Showing the saved rod data with its original source timestamp.',
 };
 let cache: RodDataset | undefined, expires = 0, lastAttempt = 0;
-let sources: Sources = { ...snapshot.sources } as Sources;
+let sources: Sources = { ...snapshot.sources, ...craftingSnapshot.sources } as Sources;
 let pending: Promise<RodDataset> | undefined;
 async function request(params: Record<string, string>) {
   const url = new URL(API); url.search = new URLSearchParams({ ...params, format: 'json', formatversion: '2' }).toString();
@@ -204,7 +206,7 @@ export async function getRodDataset({ forceRefresh = false }: { forceRefresh?: b
       const raw: RawRod[] = payload.bucket;
       if (!Array.isArray(raw) || raw.length < (cache?.rods.length ?? snapshot.rods.length) * 0.7 || raw.length >= 5000 || raw.some(rod => !rod.page_id || !rod.page_name)) throw new Error('Incomplete rod data');
       const pages = await revisionPages(raw.map(rod => Number(rod.page_id)), false);
-      const changed = pages.filter(page => sources[String(page.pageid)]?.revision !== page.revisions[0].revid || !Array.isArray(sources[String(page.pageid)]?.abilities) || !Array.isArray(sources[String(page.pageid)]?.mastery) || sources[String(page.pageid)]?.obtainment?.version!==2);
+      const changed = pages.filter(page => sources[String(page.pageid)]?.revision !== page.revisions[0].revid || !Array.isArray(sources[String(page.pageid)]?.abilities) || !Array.isArray(sources[String(page.pageid)]?.mastery) || sources[String(page.pageid)]?.obtainment?.version!==3);
       const updated = { ...sources };
       if (changed.length) for (const page of await revisionPages(changed.map(page => page.pageid), true)) {
         const revision = page.revisions[0]; const content = revision.slots?.main?.content;

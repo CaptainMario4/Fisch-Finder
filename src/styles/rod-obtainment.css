@@ -41,3 +41,6 @@
  .rod-path-stages[data-count="1"]::before,.rod-path-stages:not([data-count="1"]):not([data-count="2"]):not([data-count="3"])::before,.rod-path-expand .rod-path-stages::before,
  .rod-path-stages[data-count="1"]>.rod-path-child::before,.rod-path-stages[data-count="1"]>.rod-path-child::after,.rod-path-stages:not([data-count="1"]):not([data-count="2"]):not([data-count="3"])>.rod-path-child::before,.rod-path-stages:not([data-count="1"]):not([data-count="2"]):not([data-count="3"])>.rod-path-child::after,.rod-path-expand .rod-path-stages>.rod-path-child::before,.rod-path-expand .rod-path-stages>.rod-path-child::after{display:none}
 }
+
+.rod-path-crafting{max-width:780px;margin:0 auto;border-left:3px solid var(--color-accent)}.rod-craft-ingredients{list-style:none;padding:0;margin:0 auto;max-width:780px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;min-width:0}.rod-craft-ingredient{min-width:0;height:fit-content}.rod-craft-ingredient .rod-purchase-facts{grid-template-columns:minmax(0,1fr)}.rod-craft-recipe{min-width:0}.rod-path-expand .rod-craft-ingredients{grid-template-columns:minmax(0,1fr)}
+@media(max-width:767px){.rod-craft-ingredients{grid-template-columns:minmax(0,1fr)}}

@@ -1688,6 +1688,127 @@
         }
       ],
       "equipment": []
+    },
+    "ancient archives": {
+      "region": "Ancient Archives",
+      "page": "Ancient Isle",
+      "revision": 181789,
+      "fetchedAt": "2026-10-09T18:58:27.569Z",
+      "steps": [
+        {
+          "text": "The Ancient Archives are the ruins underneath the Ancient Isle. The area is locked behind a large circular door, which only opens after completing the Fragment Puzzle.",
+          "references": []
+        },
+        {
+          "text": "Notably, the anvil used for rod Crafting is located at the end of the bridge, separated by significant gaps which drop into the void.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Crafting",
+              "name": "Crafting",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "Using any glider with enough height is one way to cross the gaps. The arches of the bridge are a good starting point.",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Gliders",
+              "name": "glider",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "The room for the Fragment Puzzle lies under a cave behind the lower waterfall of the Ancient Isle. (5870, 160, 415). Within the cave lies a rope that can be used to descend into the puzzle room.",
+          "references": []
+        },
+        {
+          "text": "The puzzle consists of four rotating pillars. Solving the puzzle requires all four Fragment items to be placed on their corresponding pillar:",
+          "references": [
+            {
+              "kind": "wiki",
+              "page": "Fragment",
+              "name": "Fragment",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "Deep Sea Fragment must be placed in the blue pillar.",
+          "references": [
+            {
+              "kind": "fish",
+              "page": "Deep Sea Fragment",
+              "name": "Deep Sea Fragment",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "Solar Fragment must be placed in the orange pillar.",
+          "references": [
+            {
+              "kind": "fish",
+              "page": "Solar Fragment",
+              "name": "Solar Fragment",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "Earth Fragment must be placed in the cyan pillar.",
+          "references": [
+            {
+              "kind": "fish",
+              "page": "Earth Fragment",
+              "name": "Earth Fragment",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "Ancient Fragment must be placed on the purple pillar.",
+          "references": [
+            {
+              "kind": "fish",
+              "page": "Ancient Fragment",
+              "name": "Ancient Fragment",
+              "quantity": "",
+              "attributes": ""
+            }
+          ]
+        },
+        {
+          "text": "Lastly, the pillars must be rotated to face the front. The puzzle will be completed after all four pillars are facing the right direction. When a pillar is rotated in the right direction, the corresponding ring-like structure around the locked door will light up.",
+          "references": []
+        },
+        {
+          "text": "The door to the Ancient Archives will open for anyone involved in any process of solving the puzzle (placing Fragments, or rotating). It will remain open permanently for those players. Some things to note about the puzzle are:",
+          "references": []
+        },
+        {
+          "text": "The pillars can only be rotated during an Eclipse.",
+          "references": []
+        },
+        {
+          "text": "Fragments can be placed prematurely, but the pillars cannot be rotated outside of an Eclipse.",
+          "references": []
+        },
+        {
+          "text": "The player opening it does not need to be the same who placed the Fragments.",
+          "references": []
+        }
+      ],
+      "equipment": []
     }
   }
 }

@@ -41,7 +41,7 @@ export default function RodDatabase({ initialData }: { initialData: RodDataset }
     try {
       // Keep an older edge-cached parsing format from replacing this snapshot
       // after a release. Bump this key when the normalized data format changes.
-      const next = await fetchDataset<RodDataset>('/api/rods.json?schema=6', { force: force, signal: controller.signal, maxAge: 30 * 60 * 1000 }, next => Array.isArray(next.rods) && next.rods.length > 0 && next.rods.every(rod => Array.isArray(rod.abilities) && Array.isArray(rod.mastery) && Array.isArray(rod.recommendations) && (rod.secondary || rod.obtainment?.version === 2 && Array.isArray(rod.obtainment.sections) && Array.isArray(rod.obtainment.references))));
+      const next = await fetchDataset<RodDataset>('/api/rods.json?schema=7', { force: force, signal: controller.signal, maxAge: 30 * 60 * 1000 }, next => Array.isArray(next.rods) && next.rods.length > 0 && next.rods.every(rod => Array.isArray(rod.abilities) && Array.isArray(rod.mastery) && Array.isArray(rod.recommendations) && (rod.secondary || rod.obtainment?.version === 3 && Array.isArray(rod.obtainment.sections) && Array.isArray(rod.obtainment.references))));
       setData(current => Date.parse(next.fetchedAt) < Date.parse(current.fetchedAt) ? { ...current, mode: next.mode, notice: next.notice } : next);
     } catch { if (refreshController.current === controller) setError('Refresh unavailable. The saved rods remain searchable with their original source timestamp.'); }
     finally { window.clearTimeout(timeout); if (refreshController.current === controller) setLoading(false); }
@@ -54,7 +54,7 @@ export default function RodDatabase({ initialData }: { initialData: RodDataset }
       const requestedPage = Number(params.get('page')); setPage(Number.isFinite(requestedPage) ? Math.max(1, Math.floor(requestedPage)) : 1);
       keys.forEach(key => restored[key] = params.get(key) ?? ''); setFilters(restored); setUrlReady(true);
     };
-    readUrl(); const stopRefresh = pollDataset('/api/rods.json?schema=6', () => refresh(), 30 * 60 * 1000);
+    readUrl(); const stopRefresh = pollDataset('/api/rods.json?schema=7', () => refresh(), 30 * 60 * 1000);
     const stopHistory = listenForFinderHistory(readUrl);
     return () => { stopHistory(); stopRefresh(); refreshController.current?.abort(); };
   }, []);

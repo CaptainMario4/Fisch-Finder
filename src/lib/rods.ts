@@ -199,7 +199,7 @@ export async function getRodDataset({ forceRefresh = false }: { forceRefresh?: b
       const raw: RawRod[] = payload.bucket;
       if (!Array.isArray(raw) || raw.length < (cache?.rods.length ?? snapshot.rods.length) * 0.7 || raw.length >= 5000 || raw.some(rod => !rod.page_id || !rod.page_name)) throw new Error('Incomplete rod data');
       const pages = await revisionPages(raw.map(rod => Number(rod.page_id)), false);
-      const changed = pages.filter(page => sources[String(page.pageid)]?.revision !== page.revisions[0].revid || !Array.isArray(sources[String(page.pageid)]?.abilities) || !Array.isArray(sources[String(page.pageid)]?.mastery) || !sources[String(page.pageid)]?.obtainment);
+      const changed = pages.filter(page => sources[String(page.pageid)]?.revision !== page.revisions[0].revid || !Array.isArray(sources[String(page.pageid)]?.abilities) || !Array.isArray(sources[String(page.pageid)]?.mastery) || sources[String(page.pageid)]?.obtainment?.version!==2);
       const updated = { ...sources };
       if (changed.length) for (const page of await revisionPages(changed.map(page => page.pageid), true)) {
         const revision = page.revisions[0]; const content = revision.slots?.main?.content;

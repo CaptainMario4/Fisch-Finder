@@ -1,9 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import RodDatabase from '../components/RodDatabase';
-import { rodFallback } from '../lib/rods';
+import { getRodDataset, rodFallback } from '../lib/rods';
+import { initialDataset } from '../lib/initial-dataset';
+import { withSecondary } from '../lib/secondary-source';
+const initialData = await initialDataset(() => (async () => withSecondary(await getRodDataset(), 'rods', rodFallback.rods))(), rodFallback);
 ---
 <Layout title="Rod Finder" description="Search Fisch fishing rods by stage, compare their stats, and read Fischipedia's recommended enchantments.">
-  <RodDatabase client:load initialData={rodFallback} />
+  <RodDatabase client:load initialData={initialData} />
   <noscript><p class="max-w-6xl mx-auto px-lg py-lg">Enable JavaScript to search, filter, and open rod details.</p></noscript>
 </Layout>

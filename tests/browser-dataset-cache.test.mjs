@@ -49,6 +49,31 @@ test('public data cache preserves refresh, expiry, and storage failure behavior'
    globalThis.window={sessionStorage:{...storage,setItem(){throw Error('Quota');}}};
    await mod.fetchDataset('/quota',options(false),validate); await mod.fetchDataset('/quota',options(false),validate); assert.equal(count,2);
   });
+  await t.test('fresh server data avoids GET, retains source expiry, and still allows POST',async()=>{
+   globalThis.window={sessionStorage:storage}; let count=0;
+   globalThis.fetch=async()=>{count++;return {ok:true,json:async()=>value()};};
+   const mod=await fresh(), initial={...value(),fetchedAt:new saved.Date(clock-600000).toISOString()};
+   assert.deepEqual(await mod.fetchDataset('/seed',{...options(false),initialData:initial},validate),initial);
+   assert.equal(count,0);
+   assert.equal(JSON.parse(stored.get('fischfinder:dataset:v1:/seed')).expiresAt,clock+ttl-600000);
+   await mod.fetchDataset('/seed',{...options(true),initialData:initial},validate);assert.equal(count,1);
+  });
+  await t.test('expired, snapshot, and invalid initial data still refresh',async()=>{
+   let count=0;globalThis.fetch=async()=>{count++;return {ok:true,json:async()=>value()};};
+   const mod=await fresh();
+   for(const [i,initialData] of [{...value(),fetchedAt:new saved.Date(clock-ttl).toISOString()},{...value(),mode:'snapshot'},{...value(),rows:[]}].entries())
+    await mod.fetchDataset('/untrusted'+i,{...options(false),initialData},validate);
+   assert.equal(count,3);
+  });
+  await t.test('newer session data wins over server data, including denied storage',async()=>{
+   let count=0;globalThis.fetch=async()=>{count++;return {ok:true,json:async()=>value()};};
+   const mod=await fresh(); const recent=await mod.fetchDataset('/newer',options(false),validate);
+   const old={...value(),fetchedAt:new saved.Date(clock-60000).toISOString()};
+   assert.deepEqual(await mod.fetchDataset('/newer',{...options(false),initialData:old},validate),recent);assert.equal(count,1);
+   globalThis.window={get sessionStorage(){throw Error('Denied');}};
+   await mod.fetchDataset('/seed-private',{...options(false),initialData:value()},validate);
+   await mod.fetchDataset('/seed-private',options(false),validate);assert.equal(count,1);
+  });
   await t.test('aborted requests do not write data',async()=>{
    const controller=new AbortController(); controller.abort(); const count=calls.length;
    await assert.rejects((await fresh()).fetchDataset('/abort',{...options(false),signal:controller.signal},validate),{name:'AbortError'}); assert.equal(calls.length,count);

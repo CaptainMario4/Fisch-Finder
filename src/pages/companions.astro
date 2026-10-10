@@ -1,9 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import CompanionDatabase from '../components/CompanionDatabase';
-import { companionFallback } from '../lib/companions';
+import { getCompanionDataset, companionFallback } from '../lib/companions';
+import { initialDataset } from '../lib/initial-dataset';
+const initialData = await initialDataset(() => getCompanionDataset(), companionFallback);
 ---
 <Layout title="Companions" description="Search Fisch companions, compare their abilities and level bonuses, and find their food, locations, and obtainment requirements.">
-  <CompanionDatabase client:load initialData={companionFallback} />
+  <CompanionDatabase client:load initialData={initialData} />
   <noscript><p class="max-w-6xl mx-auto px-lg py-lg">Enable JavaScript to search, filter, and open companion details.</p></noscript>
 </Layout>

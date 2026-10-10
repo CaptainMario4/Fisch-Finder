@@ -1,10 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import FishDatabase from '../components/FishDatabase';
-import { fallback } from '../lib/fisch';
+import { getDataset, fallback } from '../lib/fisch';
 import { scheduleFallback } from '../lib/schedules';
+import { initialDataset } from '../lib/initial-dataset';
+import { withSecondary } from '../lib/secondary-source';
+const initialData = await initialDataset(() => (async () => withSecondary(await getDataset(), 'fish', fallback.fish))(), fallback);
 ---
 <Layout title="Fisch Database" description="Search Fisch fish by name or region and compare their listed locations, preferred bait, time, weather, and seasons using Fischipedia data.">
-  <FishDatabase client:load initialData={fallback} initialSchedules={scheduleFallback} />
+  <FishDatabase client:load initialData={initialData} initialSchedules={scheduleFallback} />
   <noscript><p class="max-w-6xl mx-auto px-lg py-lg">Enable JavaScript to search, filter, and open fish details.</p></noscript>
 </Layout>

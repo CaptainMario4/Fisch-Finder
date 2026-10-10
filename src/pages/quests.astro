@@ -1,9 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import QuestHelper from '../components/QuestHelper';
-import { questFallback } from '../lib/quests';
+import { getQuestDataset, questFallback } from '../lib/quests';
+import { initialDataset } from '../lib/initial-dataset';
+const initialData = await initialDataset(() => getQuestDataset(), questFallback);
 ---
 <Layout title="Quest Helper" description="Search Fisch quests and follow expanded guides with objectives, required fish, mutation and rod guidance, rewards, and a saved checklist.">
-  <QuestHelper client:load initialData={questFallback} />
+  <QuestHelper client:load initialData={initialData} />
   <noscript><p class="max-w-6xl mx-auto px-lg py-lg">Enable JavaScript to search quests, open guides, and save checklist progress.</p></noscript>
 </Layout>

@@ -23,11 +23,22 @@ function read(url: string): Entry | undefined {
 /** Cache only validated, successful public datasets; never credentials or failed refreshes. */
 export async function fetchDataset<T extends PublicDataset>(
   url: string,
-  options: { force: boolean; signal: AbortSignal; maxAge: number },
+  options: { force: boolean; signal: AbortSignal; maxAge: number; initialData?: T },
   validate: (value: T) => boolean,
 ): Promise<T> {
   if (options.signal.aborted) throw new DOMException('Aborted', 'AbortError');
-  const cached = read(url);
+  // The server-rendered dataset is already downloaded in the page. Reuse it
+  // only when it passes the same validation and original freshness deadline.
+  let cached = read(url);
+  const initial = options.initialData;
+  if (!options.force && valid<T>(initial, validate) && initial.mode === 'api') {
+    const expiresAt = Math.min(Date.now() + options.maxAge, Date.parse(initial.fetchedAt) + options.maxAge);
+    if (expiresAt > Date.now() && (!cached || !valid<T>(cached.value, validate) || Date.parse(initial.fetchedAt) > Date.parse(cached.value.fetchedAt))) {
+      cached = { value: initial, expiresAt };
+      memory.set(keyFor(url), cached);
+      try { window.sessionStorage.setItem(keyFor(url), JSON.stringify(cached)); } catch { /* Private browsing and quota errors are harmless. */ }
+    }
+  }
   if (!options.force && cached && valid<T>(cached.value, validate) && cached.value.mode === 'api') return cached.value;
   const response = await fetch(url, { method: options.force ? 'POST' : 'GET', cache: 'no-store', signal: options.signal });
   if (!response.ok) throw new Error('Refresh failed');

@@ -70,7 +70,7 @@ export default function FishDatabase({ initialData, initialSchedules }: { initia
     if (forceRefresh) setRefreshSequence(current => current + 1);
     setLoading(true); setError('');
     try {
-      const next = await fetchDataset<Dataset>('/api/fish.json?schema=2', { force: forceRefresh, signal: AbortSignal.timeout(22000), maxAge: 30 * 60 * 1000 }, next => Array.isArray(next.fish) && next.fish.length > 0);
+      const next = await fetchDataset<Dataset>('/api/fish.json?schema=2', { force: forceRefresh, signal: AbortSignal.timeout(22000), maxAge: 30 * 60 * 1000, initialData }, next => Array.isArray(next.fish) && next.fish.length > 0);
       setData(current => {
         // A different server instance may only have the bundled snapshot on
         // failure. Keep the newer data already visible in this browser.

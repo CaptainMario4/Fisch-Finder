@@ -53,7 +53,7 @@ export default function CompanionDatabase({ initialData }: { initialData: Compan
     try {
       // Keep an older edge-cached parsing format from replacing this snapshot
       // after a release. Bump this key when the normalized data format changes.
-      const next = await fetchDataset<CompanionDataset>('/api/companions.json?schema=1', { force: force, signal: controller.signal, maxAge: 30 * 60 * 1000 }, next => Array.isArray(next.companions) && next.companions.length > 0 && next.companions.every(item => !!item && typeof item.name === 'string' && Array.isArray(item.abilities) && Array.isArray(item.buffs) && Array.isArray(item.obtainment) && Array.isArray(item.gameplayNotes)));
+      const next = await fetchDataset<CompanionDataset>('/api/companions.json?schema=1', { force: force, signal: controller.signal, maxAge: 30 * 60 * 1000, initialData }, next => Array.isArray(next.companions) && next.companions.length > 0 && next.companions.every(item => !!item && typeof item.name === 'string' && Array.isArray(item.abilities) && Array.isArray(item.buffs) && Array.isArray(item.obtainment) && Array.isArray(item.gameplayNotes)));
       setData(current => Date.parse(next.fetchedAt) < Date.parse(current.fetchedAt) ? { ...current, mode: next.mode, notice: next.notice } : next);
     } catch { if (refreshController.current === controller) setError('Refresh unavailable. The saved companions and abilities remain searchable with their original source timestamp.'); }
     finally { window.clearTimeout(timeout); if (refreshController.current === controller) setLoading(false); }

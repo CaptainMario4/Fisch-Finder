@@ -44,7 +44,7 @@ Schedules refresh on opening, every 15 minutes, and with Refresh data. Countdown
 
 ## Appearance
 
-The always-visible navigation switch offers dark mode. Light remains the initial default. A user's choice is stored locally, restored before first paint, preserved across Astro navigation, and synchronized across tabs. The same light/dark choice applies to Fish Finder, Rod Finder, Companions, and Quest Helper. If storage is unavailable, the choice remains in memory across navigation. All surfaces and text use shared semantic palette tokens, including native form controls, focus rings, table selection, warnings, status badges, and the footer. Disabled database controls retain readable text rather than lowering the opacity of the entire control.
+The always-visible navigation switch offers both light and dark mode (dark mode is default). A user's choice is stored locally, restored before first paint, preserved across Astro navigation, and synchronized across tabs. The same light/dark choice applies to Fish Finder, Rod Finder, Companions, and Quest Helper. If storage is unavailable, the choice remains in memory across navigation. All surfaces and text use shared semantic palette tokens, including native form controls, focus rings, table selection, warnings, status badges, and the footer. Disabled database controls retain readable text rather than lowering the opacity of the entire control.
 
 ![Fisch Finder screenshot](images/fisch-finder-1.png)
 
@@ -52,4 +52,4 @@ The always-visible navigation switch offers dark mode. Light remains the initial
 
 Source data: Fischipedia contributors, https://fischipedia.org/wiki/Fisch_Wiki . Data adaptations shared under CC BY-NC-SA 4.0, https://creativecommons.org/licenses/by-nc-sa/4.0/ . Individual source pages are linked from every result. This unofficial companion is not affiliated with Roblox or Fisch.
 
-Secondary source: Fisch Wiki contributors, https://fisch.fandom.com/wiki/Fisch_Wiki . Fandom-derived adaptations retain the source's CC-BY-SA licensing, https://www.fandom.com/licensing . They are identified separately from the primary source's license below. Test fixtures retain representative source excerpts solely to validate parsing and attribution.
+Secondary source: Fisch Wiki contributors, https://fisch.fandom.com/wiki/Fisch_Wiki . Fandom-derived adaptations retain the source's CC-BY-SA licensing, https://www.fandom.com/licensing . They are identified separately from the primary source's license above. Test fixtures retain representative source excerpts solely to validate parsing and attribution.

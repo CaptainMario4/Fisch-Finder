@@ -1,11 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import FishDatabase from '../components/FishDatabase';
-import { getDataset, fallback } from '../lib/fisch';
+import { getCachedDataset, fallback } from '../lib/fisch';
 import { scheduleFallback } from '../lib/schedules';
-import { initialDataset } from '../lib/initial-dataset';
-import { withSecondary } from '../lib/secondary-source';
-const initialData = await initialDataset(() => (async () => withSecondary(await getDataset(), 'fish', fallback.fish))(), fallback);
+import { withCachedSecondary } from '../lib/secondary-source';
+const initialData = withCachedSecondary(getCachedDataset(), 'fish', fallback.fish);
 ---
 <Layout title="Fisch Database" description="Search Fisch fish by name or region and compare their listed locations, preferred bait, time, weather, and seasons using Fischipedia data.">
   <FishDatabase client:load initialData={initialData} initialSchedules={scheduleFallback} />

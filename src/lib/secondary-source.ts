@@ -66,8 +66,10 @@ export async function withSecondary<T extends Dataset | RodDataset>(data: T, kin
     const previous = lastGood.get(kind);
     return previous && Date.parse(previous.fetchedAt) >= Date.parse(data.fetchedAt) ? { ...previous, mode: data.mode, notice: data.notice } as T : data;
   }
-  const secondary = await getSecondaryData();
-  if (!secondary) return data;
+  return withCachedSecondary(data, kind, knownPrimary, await getSecondaryData());
+}
+export function withCachedSecondary<T extends Dataset | RodDataset>(data: T, kind: 'fish' | 'rods', knownPrimary: Fish[] | Rod[], secondary = cache): T {
+  if (data.mode !== 'api' || !secondary) return data;
   const primary = kind === 'fish' ? (data as Dataset).fish : (data as RodDataset).rods;
   const entries = mergeEntries(primary as (Fish | Rod)[], secondary[kind].map(entry => ({ ...entry, secondary: { ...entry.secondary!, checkedAt: secondary.checkedAt } })), knownPrimary);
   const count = entries.length - primary.length;

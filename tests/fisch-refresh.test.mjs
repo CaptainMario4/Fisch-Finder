@@ -75,3 +75,13 @@ test('automatic cache, explicit refresh, and source timestamps', async t => {
     });
   } finally { globalThis.Date = RealDate; globalThis.fetch = realFetch; }
 });
+
+test('server page reads return cached or saved data synchronously without starting requests',async()=>{
+ const original=globalThis.fetch;let calls=0;
+ globalThis.fetch=async()=>{calls++;throw Error('Must not request during rendering');};
+ try {
+  const mod=await freshModule();
+  assert.equal(mod.getCachedDataset(),mod.fallback);
+  assert.equal(mod.getCachedDataset() instanceof Promise,false);assert.equal(calls,0);
+ } finally {globalThis.fetch=original;}
+});

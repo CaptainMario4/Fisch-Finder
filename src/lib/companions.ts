@@ -158,3 +158,6 @@ export async function getCompanionDataset({ forceRefresh = false }: { forceRefre
   })();
   return pending;
 }
+
+/** Page rendering never waits for a wiki request; the browser refreshes stale data. */
+export function getCachedCompanionDataset() { return cache ?? companionFallback; }

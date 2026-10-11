@@ -144,3 +144,6 @@ export async function getQuestDataset({forceRefresh=false}:{forceRefresh?:boolea
   cache={quests,fish,rods,mutations,fetchedAt:new Date().toISOString(),mode:'api',notice:''};expires=Date.now()+30*60*1000;return cache;
  }catch{cache={...(cache??questFallback),mode:'snapshot',notice:'Wiki refresh unavailable. Keeping the last successful quest guides, catch data, and source timestamp.'};expires=Date.now()+60000;return cache;}finally{pending=undefined;}})();return pending;
 }
+
+/** Page rendering never waits for a wiki request; the browser refreshes stale data. */
+export function getCachedQuestDataset() { return cache ?? questFallback; }

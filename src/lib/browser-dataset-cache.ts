@@ -53,6 +53,9 @@ export async function fetchDataset<T extends PublicDataset>(
       try { window.sessionStorage.setItem(keyFor(url), JSON.stringify(entry)); } catch { /* Quota/storage errors never block rendering. */ }
     }
   }
+  if (options.force && next.mode === 'api' && typeof document !== 'undefined' && typeof CustomEvent !== 'undefined') {
+    document.dispatchEvent(new CustomEvent('fischfinder:dataset-refreshed', { detail: url }));
+  }
   return next;
 }
 

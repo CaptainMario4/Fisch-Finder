@@ -78,6 +78,17 @@ test('public data cache preserves refresh, expiry, and storage failure behavior'
    const controller=new AbortController(); controller.abort(); const count=calls.length;
    await assert.rejects((await fresh()).fetchDataset('/abort',{...options(false),signal:controller.signal},validate),{name:'AbortError'}); assert.equal(calls.length,count);
   });
+  await t.test('successful manual refresh invalidates only its visited page',async()=>{
+   const previousDoc=globalThis.document,previousEvent=globalThis.CustomEvent,events=[];
+   globalThis.document={dispatchEvent:event=>events.push(event)};
+   globalThis.CustomEvent=class {constructor(type,options){this.type=type;this.detail=options.detail;}};
+   globalThis.fetch=async()=>({ok:true,json:async()=>value()});
+   try {
+    const mod=await fresh();await mod.fetchDataset('/api/rods.json?schema=7',options(false),validate);assert.equal(events.length,0);
+    await mod.fetchDataset('/api/rods.json?schema=7',options(true),validate);
+    assert.equal(events.length,1);assert.equal(events[0].type,'fischfinder:dataset-refreshed');assert.equal(events[0].detail,'/api/rods.json?schema=7');
+   } finally {globalThis.document=previousDoc;globalThis.CustomEvent=previousEvent;}
+  });
   await t.test('polling uses remaining freshness and disposal cancels subsequent checks',async()=>{
    globalThis.window={sessionStorage:storage}; let scheduled, canceled, checks=0;
    globalThis.setTimeout=(callback,delay)=>{scheduled={callback,delay};return 7;};globalThis.clearTimeout=timer=>{canceled=timer;};

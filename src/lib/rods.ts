@@ -224,3 +224,6 @@ export async function getRodDataset({ forceRefresh = false }: { forceRefresh?: b
   })();
   return pending;
 }
+
+/** Page rendering never waits for a wiki request; the browser refreshes stale data. */
+export function getCachedRodDataset() { return cache ?? rodFallback; }

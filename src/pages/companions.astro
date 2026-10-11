@@ -1,9 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import CompanionDatabase from '../components/CompanionDatabase';
-import { getCompanionDataset, companionFallback } from '../lib/companions';
-import { initialDataset } from '../lib/initial-dataset';
-const initialData = await initialDataset(() => getCompanionDataset(), companionFallback);
+import { getCachedCompanionDataset, companionFallback } from '../lib/companions';
+const initialData = getCachedCompanionDataset();
 ---
 <Layout title="Companions" description="Search Fisch companions, compare their abilities and level bonuses, and find their food, locations, and obtainment requirements.">
   <CompanionDatabase client:load initialData={initialData} />

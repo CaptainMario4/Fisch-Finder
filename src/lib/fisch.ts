@@ -79,3 +79,6 @@ export async function getDataset({ forceRefresh = false }: { forceRefresh?: bool
   })();
   return pending;
 }
+
+/** Page rendering never waits for a wiki request; the browser refreshes stale data. */
+export function getCachedDataset() { return cache ?? fallback; }

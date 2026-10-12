@@ -16,7 +16,13 @@ export async function datasetResponse(request: Request, data: { fetchedAt: strin
     'X-Refresh-Wait': String(Math.max(0, Math.ceil((availableAt - Date.now()) / 1000))),
   });
   if (request.method === 'POST' || data.mode !== 'api') headers.set('Cache-Control', 'no-store');
-  const matches = request.headers.get('If-None-Match')?.split(',').some(tag => tag.trim() === etag);
-  if (matches && data.mode === 'api') return new Response(null, { status: request.method === 'POST' ? 204 : 304, headers });
+  // Wix hosting can normalize conditional headers/statuses. A public version
+  // query supplies the same validator without relying on the edge's behavior.
+  const explicit = new URL(request.url).searchParams.get('version') === etag;
+  const matches = explicit || request.headers.get('If-None-Match')?.split(',').some(tag => tag.trim() === etag);
+  if (matches && data.mode === 'api') {
+    if (explicit) return new Response(JSON.stringify({ unchanged: true }), { headers });
+    return new Response(null, { status: request.method === 'POST' ? 204 : 304, headers });
+  }
   return new Response(JSON.stringify(data), { headers });
 }

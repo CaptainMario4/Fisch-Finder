@@ -100,10 +100,10 @@ test('public data cache preserves refresh, expiry, and storage failure behavior'
    const etag=await datasetVersion(first);
    globalThis.fetch=async(url,request)=>{events.push(request.method);return new Response(JSON.stringify(first),{headers:{ETag:etag,'X-Refresh-Wait':'0'}});};
    await mod.fetchDataset(endpoint,opts(false),validate);clock+=hours+1;
-   globalThis.fetch=async(url,request)=>{events.push(request.method);assert.equal(request.headers['If-None-Match'],etag);return new Response(null,{status:304,headers:{ETag:etag,'X-Dataset-Fetched-At':new saved.Date(clock).toISOString(),'X-Refresh-Wait':'0'}});};
+   globalThis.fetch=async(url,request)=>{events.push(request.method);assert.equal(request.headers['If-None-Match'],etag);assert.equal(new URL(url,'https://test').searchParams.get('version'),etag);return new Response(JSON.stringify({unchanged:true}),{status:200,headers:{ETag:etag,'X-Dataset-Fetched-At':new saved.Date(clock).toISOString(),'X-Refresh-Wait':'0'}});};
    const checked=await mod.fetchDataset(endpoint,opts(false),validate);assert.deepEqual(checked.rows,first.rows);assert.notEqual(checked.fetchedAt,first.fetchedAt);
    clock+=301000;
-   globalThis.fetch=async(url,request)=>{events.push(request.method);return new Response(null,{status:204,headers:{ETag:etag,'X-Dataset-Fetched-At':new saved.Date(clock).toISOString(),'X-Refresh-Wait':'300'}});};
+   globalThis.fetch=async(url,request)=>{events.push(request.method);return new Response(JSON.stringify({unchanged:true}),{status:200,headers:{ETag:etag,'X-Dataset-Fetched-At':new saved.Date(clock).toISOString(),'X-Refresh-Wait':'300'}});};
    const manual=await mod.fetchDataset(endpoint,opts(true),validate);assert.deepEqual(manual.rows,first.rows);
    assert.deepEqual(await mod.fetchDataset(endpoint,opts(true),validate),manual);assert.deepEqual(events,['GET','GET','POST']);
    const source=JSON.parse(stored.get('fischfinder:dataset:v1:'+endpoint));assert.equal(source.expiresAt,clock+hours);

@@ -57,7 +57,8 @@ export async function fetchDataset<T extends PublicDataset>(
     try { etag = await datasetVersion(previous); } catch { /* Older browsers use a normal download. */ }
   }
   if (options.signal.aborted) throw new DOMException('Aborted', 'AbortError');
-  const response = await fetch(url, { method: options.force ? 'POST' : 'GET', cache: 'no-store', signal: options.signal,
+  const requestUrl = etag && isMainDataset(url) ? `${url}${url.includes('?') ? '&' : '?'}version=${encodeURIComponent(etag)}` : url;
+  const response = await fetch(requestUrl, { method: options.force ? 'POST' : 'GET', cache: 'no-store', signal: options.signal,
     ...(etag ? { headers: { 'If-None-Match': etag } } : {}),
   });
   const header = (name: string) => response.headers?.get(name) ?? null;
@@ -75,6 +76,11 @@ export async function fetchDataset<T extends PublicDataset>(
   } else {
     if (!response.ok) throw new Error('Refresh failed');
     next = await response.json();
+  }
+  if (next && typeof next === 'object' && 'unchanged' in next && next.unchanged === true) {
+    const checked = header('X-Dataset-Fetched-At');
+    if (!previous || previous.mode !== 'api' || !etag || header('ETag') !== etag || !checked || !Number.isFinite(Date.parse(checked))) throw new Error('Invalid unchanged response');
+    next = { ...previous, fetchedAt: Date.parse(checked) > Date.parse(previous.fetchedAt) ? checked : previous.fetchedAt };
   }
   if (!valid<T>(next, validate)) throw new Error('Invalid dataset');
   if (options.signal.aborted) throw new DOMException('Aborted', 'AbortError');

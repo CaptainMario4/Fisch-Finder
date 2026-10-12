@@ -12,6 +12,8 @@ test('unchanged facts return no body, changed facts and failed checks remain vis
  const later={...data,fetchedAt:new Date(Date.now()+1000).toISOString()};
  const unchanged=await datasetResponse(new Request('https://test/api/fish.json',{headers:{'If-None-Match':etag}}),later,0);
  assert.equal(unchanged.status,304);assert.equal(await unchanged.text(),'');assert.equal(unchanged.headers.get('X-Dataset-Fetched-At'),later.fetchedAt);
+ const explicit=await datasetResponse(new Request('https://test/api/fish.json?version='+encodeURIComponent(etag)),later,0);
+ assert.equal(explicit.status,200);assert.deepEqual(await explicit.json(),{unchanged:true});
  const manual=await datasetResponse(new Request('https://test/api/fish.json',{method:'POST',headers:{'If-None-Match':etag}}),later,0);
  assert.equal(manual.status,204);assert.equal(await manual.text(),'');assert.equal(manual.headers.get('Cache-Control'),'no-store');
  const changed=await datasetResponse(new Request('https://test/api/fish.json',{headers:{'If-None-Match':etag}}),{...later,rows:['one','two']},0);

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import ts from 'typescript';
 import { parsePage } from '../scripts/fandom-parser.mjs';
-const code = ts.transpileModule(fs.readFileSync(new URL('../src/lib/secondary-source.ts', import.meta.url), 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace("import bundled from '../data/fandom-secondary.json';", 'const bundled = {};');
+const code = ts.transpileModule(fs.readFileSync(new URL('../src/lib/secondary-source.ts', import.meta.url), 'utf8'), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/import \{[^}]*\} from ['\"]\.\/refresh-policy['\"];?/g, 'const DATASET_MAX_AGE = 21600000; const MANUAL_REFRESH_COOLDOWN = 300000;').replace("import bundled from '../data/fandom-secondary.json';", 'const bundled = {};');
 let counter = 0; const fresh = () => import('data:text/javascript;base64,' + Buffer.from(code + `\n// ${counter++}`).toString('base64'));
 const stamp = () => new Date().toISOString();
 const fixture = () => {
@@ -38,7 +38,7 @@ test('secondary cache is validated, shared, and retained on failure; primary out
     const replaced = await m.withSecondary({ ...data, fish: [primary] }, 'fish', []);
     assert.equal(replaced.fish.length, 1); assert.equal(replaced.fish[0], primary); assert.equal(replaced.notice, '');
     assert.equal(replaced.secondaryData.provisionalCount, 0);
-    Date.now = () => realNow() + 31 * 60 * 1000;
+    Date.now = () => realNow() + 6 * 60 * 60 * 1000 + 1000;
     globalThis.fetch = async () => { requests++; throw new Error('GitHub unavailable'); };
     const retained = await m.withSecondary(data, 'fish', []);
     assert.equal(retained.fish.length, 1); assert.equal(requests, 2);

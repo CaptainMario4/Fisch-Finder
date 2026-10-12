@@ -1,9 +1,13 @@
+import { DATASET_MAX_AGE } from '../lib/refresh-policy';
 import { useEffect, useRef, useState } from 'react';
 import type { Rod } from '../lib/rods';
 import type { QuestRod } from '../lib/quests';
 import RodDetails from './RodDetails';
 type CachedRod = { rod:Rod; fetchedAt:string; mode:string; stored:number };
 const cache = new Map<string,CachedRod>();
+if (typeof document !== 'undefined') document.addEventListener('fischfinder:dataset-refreshed', event => {
+  if ((event as CustomEvent<string>).detail?.split('?')[0] === '/api/rods.json') cache.clear();
+});
 export default function QuestRodPopup({page,summary,trigger,close}:{page:string;summary:QuestRod|undefined;trigger:HTMLElement|null;close:()=>void}) {
   const [details,setDetails]=useState<CachedRod>(),[loading,setLoading]=useState(true),[error,setError]=useState(''),[retry,setRetry]=useState(0);
   const dialog=useRef<HTMLDialogElement>(null);
@@ -12,7 +16,7 @@ export default function QuestRodPopup({page,summary,trigger,close}:{page:string;
     return()=>{modal.close();if(trigger?.isConnected&&trigger.closest('dialog')?.hasAttribute('open'))trigger.focus({preventScroll:true});};
   },[trigger]);
   useEffect(()=>{
-    const saved=cache.get(page);if(saved&&Date.now()-saved.stored<30*60*1000){setDetails(saved);setLoading(false);return;}
+    const saved=cache.get(page);if(saved&&Date.now()-saved.stored<DATASET_MAX_AGE){setDetails(saved);setLoading(false);return;}
     const controller=new AbortController(),timeout=window.setTimeout(()=>controller.abort(),60000);let active=true;
     setLoading(true);setError('');
     void (async()=>{

@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import ts from 'typescript';
 
 const dataUri=code=>'data:text/javascript;base64,'+Buffer.from(code).toString('base64');
-const compileFile=path=>ts.transpileModule(fs.readFileSync(new URL(path,import.meta.url),'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;
+const compileFile=path=>ts.transpileModule(fs.readFileSync(new URL(path,import.meta.url),'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/import \{[^}]*\} from ['\"]\.\/refresh-policy['\"];?/g, 'const DATASET_MAX_AGE = 21600000; const MANUAL_REFRESH_COOLDOWN = 300000;');
 const wikiUri=dataUri(compileFile('../src/lib/quest-wiki.ts'));
 const obtainUri=dataUri(compileFile('../src/lib/rod-obtainment.ts').replace("from './quest-wiki'", "from '"+wikiUri+"'"));
 
@@ -18,7 +18,7 @@ const craftingSnapshot = JSON.parse(fs.readFileSync(new URL('../src/data/rod-cra
 snapshot.sources={...snapshot.sources,...craftingSnapshot.sources};
 const compiled = ts.transpileModule(fs.readFileSync(new URL('../src/lib/rods.ts', import.meta.url), 'utf8'), {
   compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
-}).outputText.replace("import snapshot from '../data/rods-snapshot.json';", `const snapshot = ${JSON.stringify(snapshot)};`).replace("import craftingSnapshot from '../data/rod-crafting-snapshot.json';", `const craftingSnapshot = ${JSON.stringify(craftingSnapshot)};`).replace("from './rod-obtainment'", "from '"+obtainUri+"'").replace("import accessSnapshot from '../data/rod-access-snapshot.json';", `const accessSnapshot = ${JSON.stringify(accessSnapshot)};`).replace("from './rod-purchase'", "from '"+purchaseUri+"'").replace("from './rod-access-cache'", "from '"+accessUri+"'").replace("from './rod-crafting'", "from '"+craftingUri+"'");
+}).outputText.replace(/import \{[^}]*\} from ['\"]\.\/refresh-policy['\"];?/g, 'const DATASET_MAX_AGE = 21600000; const MANUAL_REFRESH_COOLDOWN = 300000;').replace("import snapshot from '../data/rods-snapshot.json';", `const snapshot = ${JSON.stringify(snapshot)};`).replace("import craftingSnapshot from '../data/rod-crafting-snapshot.json';", `const craftingSnapshot = ${JSON.stringify(craftingSnapshot)};`).replace("from './rod-obtainment'", "from '"+obtainUri+"'").replace("import accessSnapshot from '../data/rod-access-snapshot.json';", `const accessSnapshot = ${JSON.stringify(accessSnapshot)};`).replace("from './rod-purchase'", "from '"+purchaseUri+"'").replace("from './rod-access-cache'", "from '"+accessUri+"'").replace("from './rod-crafting'", "from '"+craftingUri+"'");
 let moduleId = 0;
 const fresh = () => import('data:text/javascript;base64,' + Buffer.from(compiled + `\n// test ${moduleId++}`).toString('base64'));
 
@@ -131,9 +131,9 @@ test('refresh checks revision IDs, fetches only changed advice, caches, and reta
     const migratedContentRequests = Math.ceil(raw.filter(rod=>snapshot.sources[String(rod.page_id)]?.obtainment?.version!==3).length / 50);
     assert.equal(contentRequests, migratedContentRequests); const initialRequests = requests;
     clock += 10000; await mod.getRodDataset({ forceRefresh: true }); assert.equal(requests, initialRequests);
-    clock += 61000; const refreshed = await mod.getRodDataset({ forceRefresh: true });
+    clock += 301000; const refreshed = await mod.getRodDataset({ forceRefresh: true });
     assert.equal(contentRequests, migratedContentRequests); assert.notEqual(refreshed.fetchedAt, first.fetchedAt);
-    clock += 61000; globalThis.fetch = async () => ({ ok: true, json: async () => ({ bucket: raw.slice(0,2) }) });
+    clock += 301000; globalThis.fetch = async () => ({ ok: true, json: async () => ({ bucket: raw.slice(0,2) }) });
     const failed = await mod.getRodDataset({ forceRefresh: true });
     assert.equal(failed.mode, 'snapshot'); assert.equal(failed.fetchedAt, refreshed.fetchedAt);
     assert.deepEqual(failed.rods, refreshed.rods);

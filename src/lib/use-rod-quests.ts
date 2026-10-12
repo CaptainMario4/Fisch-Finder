@@ -1,3 +1,4 @@
+import { DATASET_MAX_AGE } from './refresh-policy';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { QuestDataset } from './quests';
 import { fetchDataset, pollDataset } from './browser-dataset-cache';
@@ -12,7 +13,7 @@ export function useRodQuests(){
   const timeout=window.setTimeout(()=>request.abort(),45000);
   setLoading(true);setError('');
   try{
-   const next=await fetchDataset<QuestDataset>(endpoint,{force:false,signal:request.signal,maxAge:30*60*1000},next=>Array.isArray(next.quests)&&next.quests.length>0&&Array.isArray(next.fish)&&Array.isArray(next.rods)&&Array.isArray(next.mutations)&&next.quests.every(q=>!!q&&typeof q.page==='string'&&Array.isArray(q.stages)&&Array.isArray(q.notes)));
+   const next=await fetchDataset<QuestDataset>(endpoint,{force:false,signal:request.signal,maxAge:DATASET_MAX_AGE},next=>Array.isArray(next.quests)&&next.quests.length>0&&Array.isArray(next.fish)&&Array.isArray(next.rods)&&Array.isArray(next.mutations)&&next.quests.every(q=>!!q&&typeof q.page==='string'&&Array.isArray(q.stages)&&Array.isArray(q.notes)));
    setData(current=>current&&Date.parse(current.fetchedAt)>Date.parse(next.fetchedAt)?current:next);
   }catch{
    if(controller.current!==request)return;
@@ -31,7 +32,7 @@ export function useRodQuests(){
  },[]);
  useEffect(()=>{
   if(!active)return;
-  const stop=pollDataset(endpoint,refresh,30*60*1000);
+  const stop=pollDataset(endpoint,refresh,DATASET_MAX_AGE);
   return()=>{stop();const current=controller.current;controller.current=null;current?.abort();};
  },[active,refresh]);
  const request=useCallback(()=>setActive(true),[]);

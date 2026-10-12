@@ -1,3 +1,4 @@
+import { DATASET_MAX_AGE, MANUAL_REFRESH_COOLDOWN } from './refresh-policy';
 import snapshot from '../data/fisch-snapshot.json';
 
 export const API = 'https://fischipedia.org/w/api.php';
@@ -60,7 +61,7 @@ async function query(query: string) {
 }
 export async function getDataset({ forceRefresh = false }: { forceRefresh?: boolean } = {}): Promise<Dataset> {
   if (pending) return pending;
-  if (cache && (Date.now() < lastAttempt + 60 * 1000 || (!forceRefresh && Date.now() < expires))) return cache;
+  if (cache && (Date.now() < lastAttempt + MANUAL_REFRESH_COOLDOWN || (!forceRefresh && Date.now() < expires))) return cache;
   lastAttempt = Date.now();
   pending = (async () => {
     try {
@@ -68,7 +69,7 @@ export async function getDataset({ forceRefresh = false }: { forceRefresh?: bool
       // Never silently replace a valid database with a severely incomplete response.
       if (raw.length < snapshot.fish.length * 0.7) throw new Error('Incomplete wiki response');
       cache = { fish: normalize(raw, available), fetchedAt: new Date().toISOString(), mode: 'api', notice: '' };
-      expires = Date.now() + 30 * 60 * 1000;
+      expires = Date.now() + DATASET_MAX_AGE;
       return cache;
     } catch {
       const previous = cache ?? fallback;
@@ -82,3 +83,5 @@ export async function getDataset({ forceRefresh = false }: { forceRefresh?: bool
 
 /** Page rendering never waits for a wiki request; the browser refreshes stale data. */
 export function getCachedDataset() { return cache ?? fallback; }
+
+export function refreshAvailableAt() { return lastAttempt ? lastAttempt + MANUAL_REFRESH_COOLDOWN : 0; }

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import ts from 'typescript';
 const source=fs.readFileSync(new URL('../src/lib/visited-pages.ts',import.meta.url),'utf8');
-const code=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;
+const code=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/import \{[^}]*\} from ['\"]\.\/refresh-policy['\"];?/g, 'const DATASET_MAX_AGE = 21600000; const MANUAL_REFRESH_COOLDOWN = 300000;');
 let id=0;
 const fresh=()=>import('data:text/javascript;base64,'+Buffer.from(code+'\n// '+id++).toString('base64'));
 const props=(time,mode='api')=>JSON.stringify({initialData:[0,{fetchedAt:[0,new Date(time).toISOString()],mode:[0,mode]}]});
@@ -12,7 +12,7 @@ test('visited documents retain source expiry, are isolated, and only public find
  assert.equal(finderPath(new URL('https://test/rods?q=Sunken&rod=Sunken'), 'https://test'),'/rods');
  assert.equal(finderPath(new URL('https://other/rods'),'https://test'),undefined);
  assert.equal(finderPath(new URL('https://test/api/rods.json'),'https://test'),undefined);
- assert.equal(pageExpiry(props(now-600000),now),now+1200000);
+ assert.equal(pageExpiry(props(now-600000),now),now+21000000);
  assert.equal(pageExpiry(props(now,'snapshot'),now),now+60000);
  assert.equal(pageExpiry('broken',now),0);
  const cache=visitedPages(v=>structuredClone(v)),doc={rows:['one']};

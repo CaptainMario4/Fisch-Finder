@@ -1,3 +1,4 @@
+import { DATASET_MAX_AGE, MANUAL_REFRESH_COOLDOWN } from './refresh-policy';
 import bundled from '../data/fandom-secondary.json';
 import type { Dataset, Fish } from './fisch';
 import type { RodDataset, Rod } from './rods';
@@ -5,7 +6,7 @@ export type SecondarySource = { source: 'fandom'; pageId: number; revision: numb
 export type SecondaryStatus = { source: 'fandom'; checkedAt: string; provisionalCount: number };
 type SecondaryData = { schema: number; checkedAt: string; fish: Fish[]; rods: Rod[] };
 const URL = 'https://raw.githubusercontent.com/CaptainMario4/Fisch-Finder/main/src/data/fandom-secondary.json';
-const CACHE_MS = 30 * 60 * 1000;
+const CACHE_MS = DATASET_MAX_AGE;
 export const identity = (value: string) => {
   const key = value.replace(/\s*\((?:fish|fishing rod|rod)\)\s*$/i, '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^\p{L}\p{N}\p{So}]/gu, '');
   // Explicit cross-wiki spelling difference for the Glitchstorm admin item.
@@ -29,10 +30,11 @@ export function validSecondary(data: any): data is SecondaryData {
     && ['fish','rods'].every(kind => Array.isArray(data[kind]) && data[kind].length <= 5000 && new Set(data[kind].map((e: any) => e.id)).size === data[kind].length && data[kind].every((entry: any) => validEntry(entry, kind as 'fish' | 'rods', checked)));
 }
 let cache: SecondaryData | undefined = validSecondary(bundled) ? bundled as unknown as SecondaryData : undefined;
-let expires = 0, pending: Promise<SecondaryData | undefined> | undefined;
-export async function getSecondaryData(): Promise<SecondaryData | undefined> {
+let expires = 0, lastAttempt = 0, pending: Promise<SecondaryData | undefined> | undefined;
+export async function getSecondaryData(forceRefresh = false): Promise<SecondaryData | undefined> {
   if (pending) return pending;
-  if (Date.now() < expires) return cache;
+  if (Date.now() < expires && !forceRefresh || lastAttempt && Date.now() < lastAttempt + MANUAL_REFRESH_COOLDOWN) return cache;
+  lastAttempt = Date.now();
   pending = (async () => {
     try {
       const response = await fetch(URL, { signal: AbortSignal.timeout(4000) });
@@ -60,13 +62,13 @@ export function mergeEntries<T extends { page: string; name: string }>(primary: 
   return added.length ? [...primary, ...added].sort((a, b) => a.name.localeCompare(b.name)) : primary;
 }
 const lastGood = new Map<string, Dataset | RodDataset>();
-export async function withSecondary<T extends Dataset | RodDataset>(data: T, kind: 'fish' | 'rods', knownPrimary: Fish[] | Rod[]): Promise<T> {
+export async function withSecondary<T extends Dataset | RodDataset>(data: T, kind: 'fish' | 'rods', knownPrimary: Fish[] | Rod[], forceRefresh = false): Promise<T> {
   // A primary outage is not evidence that an entry is absent from Fischipedia.
   if (data.mode !== 'api') {
     const previous = lastGood.get(kind);
     return previous && Date.parse(previous.fetchedAt) >= Date.parse(data.fetchedAt) ? { ...previous, mode: data.mode, notice: data.notice } as T : data;
   }
-  return withCachedSecondary(data, kind, knownPrimary, await getSecondaryData());
+  return withCachedSecondary(data, kind, knownPrimary, await getSecondaryData(forceRefresh));
 }
 export function withCachedSecondary<T extends Dataset | RodDataset>(data: T, kind: 'fish' | 'rods', knownPrimary: Fish[] | Rod[], secondary = cache): T {
   if (data.mode !== 'api' || !secondary) return data;

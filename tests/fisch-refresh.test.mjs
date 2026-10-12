@@ -5,7 +5,7 @@ import ts from 'typescript';
 
 const snapshot = JSON.parse(fs.readFileSync(new URL('../src/data/fisch-snapshot.json', import.meta.url), 'utf8'));
 const source = fs.readFileSync(new URL('../src/lib/fisch.ts', import.meta.url), 'utf8');
-const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText
+const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replace(/import \{[^}]*\} from ['\"]\.\/refresh-policy['\"];?/g, 'const DATASET_MAX_AGE = 21600000; const MANUAL_REFRESH_COOLDOWN = 300000;')
   .replace("import snapshot from '../data/fisch-snapshot.json';", `const snapshot = ${JSON.stringify(snapshot)};`);
 let moduleId = 0;
 const freshModule = () => import('data:text/javascript;base64,' + Buffer.from(compiled + `\n// fixture ${moduleId++}`).toString('base64'));
@@ -44,14 +44,21 @@ test('automatic cache, explicit refresh, and source timestamps', async t => {
       assert.equal(requests, 2); assert.equal(cached.fetchedAt, first.fetchedAt);
       const throttled = await mod.getDataset({ forceRefresh: true });
       assert.equal(requests, 2); assert.equal(throttled.fetchedAt, first.fetchedAt);
-      clock += 60_000;
+      clock += 300_000;
       const refreshed = await mod.getDataset({ forceRefresh: true });
       assert.equal(requests, 4); assert.equal(refreshed.fetchedAt, new RealDate(clock).toISOString());
       assert.notEqual(refreshed.fetchedAt, first.fetchedAt); assert.equal(refreshed.mode, 'api');
     });
+    await t.test('automatic data is reused for six hours and manual checks keep a five-minute guard',async()=>{
+      const mod=await freshModule();let requests=0;globalThis.fetch=async url=>{requests++;return success(url);};
+      const first=await mod.getDataset();const available=mod.refreshAvailableAt();assert.equal(available,clock+300000);
+      clock+=61000;await mod.getDataset({forceRefresh:true});assert.equal(requests,2);
+      clock+=2*60*60*1000;assert.equal(await mod.getDataset(),first);assert.equal(requests,2);
+      clock+=4*60*60*1000;const next=await mod.getDataset();assert.equal(requests,4);assert.notEqual(next.fetchedAt,first.fetchedAt);
+    });
     await t.test('failed refresh retains the last successful timestamp and fish data', async () => {
       const mod = await freshModule(); globalThis.fetch = async url => success(url);
-      const first = await mod.getDataset(); clock += 61_000;
+      const first = await mod.getDataset(); clock += 301_000;
       globalThis.fetch = async () => { throw new Error('Wiki unavailable'); };
       const failed = await mod.getDataset({ forceRefresh: true });
       assert.equal(failed.fetchedAt, first.fetchedAt); assert.deepEqual(failed.fish, first.fish);

@@ -1,3 +1,5 @@
+import DatasetRefreshButton from './DatasetRefreshButton';
+import { DATASET_MAX_AGE } from '../lib/refresh-policy';
 import { replaceFinderUrl, listenForFinderHistory } from '../lib/finder-history';
 import { fetchDataset, pollDataset } from '../lib/browser-dataset-cache';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -70,7 +72,7 @@ export default function FishDatabase({ initialData, initialSchedules }: { initia
     if (forceRefresh) setRefreshSequence(current => current + 1);
     setLoading(true); setError('');
     try {
-      const next = await fetchDataset<Dataset>('/api/fish.json?schema=2', { force: forceRefresh, signal: AbortSignal.timeout(22000), maxAge: 30 * 60 * 1000, initialData }, next => Array.isArray(next.fish) && next.fish.length > 0);
+      const next = await fetchDataset<Dataset>('/api/fish.json?schema=2', { force: forceRefresh, signal: AbortSignal.timeout(22000), maxAge: DATASET_MAX_AGE, initialData }, next => Array.isArray(next.fish) && next.fish.length > 0);
       setData(current => {
         // A different server instance may only have the bundled snapshot on
         // failure. Keep the newer data already visible in this browser.
@@ -96,7 +98,7 @@ export default function FishDatabase({ initialData, initialSchedules }: { initia
       restored.status = status === 'available' || status === 'unmarked' ? 'available' : ['unavailable', 'removed', 'unobtainable'].includes(status) ? 'unavailable' : '';
       setFilters(restored); setUrlReady(true);
     };
-    readUrl(); const stopRefresh = pollDataset('/api/fish.json?schema=2', () => refresh(), 30 * 60 * 1000);
+    readUrl(); const stopRefresh = pollDataset('/api/fish.json?schema=2', () => refresh(), DATASET_MAX_AGE);
     const stopHistory = listenForFinderHistory(readUrl);
     return () => { stopHistory(); stopRefresh(); };
   }, []);
@@ -147,7 +149,7 @@ export default function FishDatabase({ initialData, initialSchedules }: { initia
   const filterValue = (key: keyof Filters) => filters[key] === '__none__' ? 'No listed preference' : key === 'status' ? filters[key] === 'available' ? 'Available' : 'Unavailable' : path(filters[key]);
   const filterSelect = (key: keyof typeof options, label: string) => <label className="fish-filter" key={key}><span>{label}</span><select value={filters[key]} onChange={event => updateFilter(key, event.target.value)}><option value="">All {label.toLowerCase()}</option>{['bait', 'time', 'weather', 'season'].includes(key) && <option value="__none__">No listed preference</option>}{filters[key] && filters[key] !== '__none__' && !options[key].includes(filters[key]) && <option value={filters[key]}>{filters[key]}</option>}{options[key].map(value => <option value={value} key={value}>{key === 'location' ? path(value) : value}</option>)}</select></label>;
   return <section className="fish-database" aria-label="Searchable Fisch database">
-    <header className="fish-page-heading flex flex-wrap items-start justify-between gap-lg mb-lg"><div><p className="text-accent text-xs font-semibold uppercase tracking-wide mb-xs">Fischipedia data, easier to read</p><h1 className="text-3xl font-semibold tracking-tight">Fisch Database</h1><p className="text-mute mt-xs">Find a fish. See its listed catch preferences in one place.</p></div><div className="fish-source-summary"><span className={`fish-data-badge ${data.mode === 'snapshot' || error ? 'fish-data-badge-snapshot' : ''}`}>{loading ? 'Checking wiki data…' : error || data.mode === 'snapshot' ? 'Saved wiki snapshot' : 'Wiki API data'}</span><p>Source checked: {timestamp(data.fetchedAt)}</p><button className="fish-refresh" onClick={() => void refresh(true)} disabled={loading}>{loading ? 'Refreshing…' : 'Refresh data'} <span aria-hidden="true">↻</span></button></div></header>
+    <header className="fish-page-heading flex flex-wrap items-start justify-between gap-lg mb-lg"><div><p className="text-accent text-xs font-semibold uppercase tracking-wide mb-xs">Fischipedia data, easier to read</p><h1 className="text-3xl font-semibold tracking-tight">Fisch Database</h1><p className="text-mute mt-xs">Find a fish. See its listed catch preferences in one place.</p></div><div className="fish-source-summary"><span className={`fish-data-badge ${data.mode === 'snapshot' || error ? 'fish-data-badge-snapshot' : ''}`}>{loading ? 'Checking wiki data…' : error || data.mode === 'snapshot' ? 'Saved wiki snapshot' : 'Wiki API data'}</span><p>Source checked: {timestamp(data.fetchedAt)}</p><DatasetRefreshButton endpoint="/api/fish.json?schema=2" loading={loading} onRefresh={()=>void refresh(true)} /></div></header>
     {(error || (!loading && data.notice)) && <p className="fish-data-notice" role="status">{error || data.notice}</p>}
     <ScheduleCards initialData={initialSchedules} refreshSequence={refreshSequence} onSeason={season => {
       setQuery(''); setFilters({ ...defaults, season }); setPage(1);
@@ -157,7 +159,7 @@ export default function FishDatabase({ initialData, initialSchedules }: { initia
     <div className="fish-filter-panel" id="fish-filter-panel" hidden={mobile && !filtersOpen}>
     <div className="flex items-center justify-between gap-md mt-lg mb-sm"><h2 className="text-sm font-semibold">Filter catch preferences</h2><button className="fish-clear" onClick={clearFilters} disabled={!activeFilters && !query}>Clear search & filters{activeFilters > 0 ? ` (${activeFilters})` : ''}</button></div>
     <div className="fish-filters">{filterSelect('region', 'Bestiary / region')}{filterSelect('location', 'Location')}{filterSelect('bait', 'Preferred bait')}{filterSelect('time', 'Time of day')}{filterSelect('weather', 'Weather')}{filterSelect('season', 'Season')}{filterSelect('rarity', 'Rarity')}<label className="fish-filter"><span>Availability status</span><select value={filters.status} onChange={event => updateFilter('status', event.target.value)}><option value="">All</option><option value="available">Available</option><option value="unavailable">Unavailable</option></select></label></div>
-    <details className="fish-data-legend"><summary>How to read this data</summary><p><strong>Preferences are not guarantees.</strong> “No listed preference” means the wiki's preference field is empty (displayed as “None” on the wiki); it does not mean there are no special requirements. “Not listed” means the source field is empty. “Unavailable” means the wiki marks the entry as removed or unobtainable. “Available” means neither flag is set; it does not confirm that every event or catch requirement is active in your server.</p><p>Bestiary / region and location are separate wiki fields. Slash-separated locations show the source's location path. API data is checked when its 30-minute cache expires while this page stays open. Recent data is reused when switching pages. The Refresh data button requests a new wiki check, limited to once per minute; the source time changes only after a successful check. This is wiki data, not live game or server state.</p></details><button className="fish-filter-done" onClick={() => {
+    <details className="fish-data-legend"><summary>How to read this data</summary><p><strong>Preferences are not guarantees.</strong> “No listed preference” means the wiki's preference field is empty (displayed as “None” on the wiki); it does not mean there are no special requirements. “Not listed” means the source field is empty. “Unavailable” means the wiki marks the entry as removed or unobtainable. “Available” means neither flag is set; it does not confirm that every event or catch requirement is active in your server.</p><p>Bestiary / region and location are separate wiki fields. Slash-separated locations show the source's location path. API data is reused for six hours. Automatic checks pause in hidden tabs and resume when needed. Recent data is reused when switching pages. Manual refresh has a five-minute cooldown; the source time changes only after a successful check. This is wiki data, not live game or server state.</p></details><button className="fish-filter-done" onClick={() => {
       setFiltersOpen(false);
       filterToggle.current?.focus({ preventScroll: true });
       window.requestAnimationFrame(() => document.getElementById('fish-search-controls')?.scrollIntoView({ block: 'start' }));

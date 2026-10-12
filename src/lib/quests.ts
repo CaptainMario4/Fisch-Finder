@@ -1,3 +1,4 @@
+import { DATASET_MAX_AGE, MANUAL_REFRESH_COOLDOWN } from './refresh-policy';
 import snapshot from '../data/quests-snapshot.json';
 import { questText, wikiTemplates, wikiSection, questReferences, questTables, stableKey } from './quest-wiki';
 import type { QuestRef, QuestTable } from './quest-wiki';
@@ -124,7 +125,7 @@ let cache:QuestDataset|undefined,expires=0,lastAttempt=0,pending:Promise<QuestDa
 async function request(params:Record<string,string>){const u=new URL(API);u.search=new URLSearchParams({...params,format:'json',formatversion:'2'}).toString();const response=await fetch(u,{cache:'no-store',signal:AbortSignal.timeout(18000),headers:{'User-Agent':'FischFinder/1.0 (read-only quest guide)'}});if(!response.ok)throw new Error('Wiki HTTP '+response.status);const payload=await response.json();if(payload.error)throw new Error('Wiki API error');return payload;}
 async function pages(ids:number[],content:boolean){const batches:number[][]=[];for(let i=0;i<ids.length;i+=50)batches.push(ids.slice(i,i+50));const out:any[]=[];for(let i=0;i<batches.length;i+=2){const replies=await Promise.all(batches.slice(i,i+2).map(batch=>request({action:'query',pageids:batch.join('|'),prop:'revisions',rvprop:content?'ids|content':'ids',...(content?{rvslots:'main'}:{})})));for(const reply of replies){if(!Array.isArray(reply.query?.pages))throw new Error('Missing pages');out.push(...reply.query.pages);}}if(out.length!==ids.length||new Set(out.map(p=>p.pageid)).size!==ids.length||out.some(p=>!ids.includes(p.pageid)||!p.revisions?.[0]?.revid))throw new Error('Incomplete quest pages');return out;}
 export async function getQuestDataset({forceRefresh=false}:{forceRefresh?:boolean}={}):Promise<QuestDataset>{
- if(pending)return pending;if(cache&&(Date.now()<lastAttempt+60000||!forceRefresh&&Date.now()<expires))return cache;lastAttempt=Date.now();
+ if(pending)return pending;if(cache&&(Date.now()<lastAttempt+MANUAL_REFRESH_COOLDOWN||!forceRefresh&&Date.now()<expires))return cache;lastAttempt=Date.now();
  pending=(async()=>{try{
   const [npcPayload,categoryPayload]=await Promise.all([request({action:'bucket',query:NPC_QUERY}),request({action:'query',list:'categorymembers',cmtitle:'Category:Quest NPCs',cmlimit:'500',cmnamespace:'0'})]);
   const all:RawNpc[]=npcPayload.bucket,category=categoryPayload.query?.categorymembers;
@@ -141,9 +142,11 @@ export async function getQuestDataset({forceRefresh=false}:{forceRefresh?:boolea
   const mutationRows=mutationPayload.bucket.filter((r:any)=>needed.has(questText(r.name??r.page_name))||needed.has(String(r.page_name))),mIds=[...new Set<number>(mutationRows.map((r:any)=>Number(r.page_id)))],mutationUpdated={...mutationSources};
   if(mIds.length){const revs=await pages(mIds,false),different=revs.filter(p=>mutationSources[String(p.pageid)]?.revision!==p.revisions[0].revid);if(different.length)for(const p of await pages(different.map(p=>p.pageid),true)){const rev=p.revisions[0];if(typeof rev.slots?.main?.content!=='string')throw new Error('Missing mutation source');mutationUpdated[String(p.pageid)]={revision:rev.revid,details:extractQuestMutation(p.title,rev.slots.main.content)};}}
   const mutations=mutationRows.map((r:any)=>mutationUpdated[String(r.page_id)]?.details).filter(Boolean);sources=updated;mutationSources=mutationUpdated;
-  cache={quests,fish,rods,mutations,fetchedAt:new Date().toISOString(),mode:'api',notice:''};expires=Date.now()+30*60*1000;return cache;
+  cache={quests,fish,rods,mutations,fetchedAt:new Date().toISOString(),mode:'api',notice:''};expires=Date.now()+DATASET_MAX_AGE;return cache;
  }catch{cache={...(cache??questFallback),mode:'snapshot',notice:'Wiki refresh unavailable. Keeping the last successful quest guides, catch data, and source timestamp.'};expires=Date.now()+60000;return cache;}finally{pending=undefined;}})();return pending;
 }
 
 /** Page rendering never waits for a wiki request; the browser refreshes stale data. */
 export function getCachedQuestDataset() { return cache ?? questFallback; }
+
+export function refreshAvailableAt() { return lastAttempt ? lastAttempt + MANUAL_REFRESH_COOLDOWN : 0; }

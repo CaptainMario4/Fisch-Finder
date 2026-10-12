@@ -1,3 +1,4 @@
+import { DATASET_MAX_AGE, MANUAL_REFRESH_COOLDOWN } from './refresh-policy';
 import snapshot from '../data/companions-snapshot.json';
 
 const API = 'https://fischipedia.org/w/api.php';
@@ -132,7 +133,7 @@ async function revisionPages(ids: number[], content: boolean): Promise<any[]> {
 }
 export async function getCompanionDataset({ forceRefresh = false }: { forceRefresh?: boolean } = {}): Promise<CompanionDataset> {
   if (pending) return pending;
-  if (cache && (Date.now() < lastAttempt + 60000 || !forceRefresh && Date.now() < expires)) return cache;
+  if (cache && (Date.now() < lastAttempt + MANUAL_REFRESH_COOLDOWN || !forceRefresh && Date.now() < expires)) return cache;
   lastAttempt = Date.now();
   pending = (async () => {
     try {
@@ -150,7 +151,7 @@ export async function getCompanionDataset({ forceRefresh = false }: { forceRefre
       const companions = normalizeCompanions(raw, updated);
       sources = updated;
       cache = { companions, fetchedAt: new Date().toISOString(), mode: 'api', notice: '' };
-      expires = Date.now() + 30 * 60 * 1000; return cache;
+      expires = Date.now() + DATASET_MAX_AGE; return cache;
     } catch {
       cache = { ...(cache ?? companionFallback), mode: 'snapshot', notice: 'Wiki refresh unavailable. Showing the last successfully retrieved companions and abilities with their original timestamp.' };
       expires = Date.now() + 60000; return cache;
@@ -161,3 +162,5 @@ export async function getCompanionDataset({ forceRefresh = false }: { forceRefre
 
 /** Page rendering never waits for a wiki request; the browser refreshes stale data. */
 export function getCachedCompanionDataset() { return cache ?? companionFallback; }
+
+export function refreshAvailableAt() { return lastAttempt ? lastAttempt + MANUAL_REFRESH_COOLDOWN : 0; }

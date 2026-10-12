@@ -1,10 +1,11 @@
 import type { APIRoute } from 'astro';
-import { getRodDataset, rodFallback } from '../../lib/rods';
+import { getRodDataset, refreshAvailableAt, rodFallback } from '../../lib/rods';
 import { withSecondary } from '../../lib/secondary-source';
+import { cooldownResponse, datasetResponse } from '../../lib/dataset-response';
 export const prerender = false;
-export const GET: APIRoute = async () => new Response(JSON.stringify(await withSecondary(await getRodDataset(), 'rods', rodFallback.rods)), {
-  headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=60, s-maxage=1800' },
-});
-export const POST: APIRoute = async () => new Response(JSON.stringify(await withSecondary(await getRodDataset({ forceRefresh: true }), 'rods', rodFallback.rods)), {
-  headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
-});
+export const GET: APIRoute = async ({request}) => datasetResponse(request, await withSecondary(await getRodDataset(), 'rods', rodFallback.rods), refreshAvailableAt());
+export const POST: APIRoute = async ({request}) => {
+  const availableAt = refreshAvailableAt();
+  if (availableAt > Date.now()) return cooldownResponse(availableAt);
+  return datasetResponse(request, await withSecondary(await getRodDataset({ forceRefresh: true }), 'rods', rodFallback.rods, true), refreshAvailableAt());
+};

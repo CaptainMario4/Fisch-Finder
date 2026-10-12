@@ -1,9 +1,10 @@
 import type { APIRoute } from 'astro';
-import { getCompanionDataset } from '../../lib/companions';
+import { getCompanionDataset, refreshAvailableAt } from '../../lib/companions';
+import { cooldownResponse, datasetResponse } from '../../lib/dataset-response';
 export const prerender = false;
-export const GET: APIRoute = async () => new Response(JSON.stringify(await getCompanionDataset()), {
-  headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=60, s-maxage=1800' },
-});
-export const POST: APIRoute = async () => new Response(JSON.stringify(await getCompanionDataset({ forceRefresh: true })), {
-  headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
-});
+export const GET: APIRoute = async ({request}) => datasetResponse(request, await getCompanionDataset(), refreshAvailableAt());
+export const POST: APIRoute = async ({request}) => {
+  const availableAt = refreshAvailableAt();
+  if (availableAt > Date.now()) return cooldownResponse(availableAt);
+  return datasetResponse(request, await getCompanionDataset({ forceRefresh: true }), refreshAvailableAt());
+};

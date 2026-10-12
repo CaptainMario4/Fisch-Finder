@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import ts from 'typescript';
-const compile=path=>ts.transpileModule(fs.readFileSync(new URL(path,import.meta.url),'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;
+const compile=path=>ts.transpileModule(fs.readFileSync(new URL(path,import.meta.url),'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace(/import \{[^}]*\} from ['\"]\.\/refresh-policy['\"];?/g, 'const DATASET_MAX_AGE = 21600000; const MANUAL_REFRESH_COOLDOWN = 300000;');
 const uri=code=>'data:text/javascript;base64,'+Buffer.from(code).toString('base64');
 const wikiCode=compile('../src/lib/quest-wiki.ts'),wiki=await import(uri(wikiCode));
 const snapshot=JSON.parse(fs.readFileSync(new URL('../src/data/quests-snapshot.json',import.meta.url),'utf8'));
@@ -104,5 +104,5 @@ test('quest refresh coalesces calls, caches success, discovers additions and ret
   else result={query:{pages:p.get('pageids').split('|').map(value=>{const key=Number(value);return {pageid:key,title:key===999999?'New NPC':old.find(q=>q.id===key)?.page,revisions:[{revid:key===999999?1:snapshot.revisions[key],...(p.get('rvslots')?{slots:{main:{content:'{{NPCInfobox|location=New Region}}\n== Quest ==\n{{Quest|name=New Quest|step1=Catch a fish|tasks1=Catch {{Fish|Fish 1}}}}'}}}:{})}]};})}};
   return {ok:true,json:async()=>result};
  };
- try{const [a,b]=await Promise.all([mod.getQuestDataset(),mod.getQuestDataset()]);assert.equal(a,b);assert.equal(a.mode,'api');assert.ok(a.quests.some(q=>q.name==='New Quest'));assert.ok(search.questOptions(a.quests).location.includes('New Region'));const count=calls;await mod.getQuestDataset();assert.equal(calls,count);await mod.getQuestDataset({forceRefresh:true});assert.equal(calls,count);now+=61000;fail=true;const stale=await mod.getQuestDataset({forceRefresh:true});assert.equal(stale.mode,'snapshot');assert.equal(stale.fetchedAt,a.fetchedAt);assert.equal(stale.quests.length,a.quests.length);assert.ok(stale.notice.includes('last successful'));}finally{globalThis.fetch=originalFetch;Date.now=originalNow;}
+ try{const [a,b]=await Promise.all([mod.getQuestDataset(),mod.getQuestDataset()]);assert.equal(a,b);assert.equal(a.mode,'api');assert.ok(a.quests.some(q=>q.name==='New Quest'));assert.ok(search.questOptions(a.quests).location.includes('New Region'));const count=calls;await mod.getQuestDataset();assert.equal(calls,count);await mod.getQuestDataset({forceRefresh:true});assert.equal(calls,count);now+=301000;fail=true;const stale=await mod.getQuestDataset({forceRefresh:true});assert.equal(stale.mode,'snapshot');assert.equal(stale.fetchedAt,a.fetchedAt);assert.equal(stale.quests.length,a.quests.length);assert.ok(stale.notice.includes('last successful'));}finally{globalThis.fetch=originalFetch;Date.now=originalNow;}
 });

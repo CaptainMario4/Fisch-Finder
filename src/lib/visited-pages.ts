@@ -1,5 +1,6 @@
+import { DATASET_MAX_AGE } from './refresh-policy';
 const paths = new Set(['/', '/rods', '/companions', '/quests']);
-const maxAge = 30 * 60 * 1000;
+const maxAge = DATASET_MAX_AGE;
 const snapshotAge = 60 * 1000;
 type Entry<T> = { page: T; expiresAt: number };
 

@@ -6,7 +6,7 @@ import { attachCraftingAccess, craftingPath } from './rod-crafting';
 
 let guides:AccessGuides={...snapshot.guides} as AccessGuides;
 type WikiRequest=(params:Record<string,string>)=>Promise<any>;
-// Called inside the existing 30-minute rod refresh. Revalidate unique locations
+// Called inside the existing rod refresh. Revalidate unique locations
 // in batches, retrieve text only for changed revisions, and share equipment
 // pages. No browser request, per-rod request, or forced refresh is added.
 async function updateGuides(titles:string[],request:WikiRequest){

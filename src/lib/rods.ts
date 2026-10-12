@@ -1,3 +1,4 @@
+import { DATASET_MAX_AGE, MANUAL_REFRESH_COOLDOWN } from './refresh-policy';
 import snapshot from '../data/rods-snapshot.json';
 import craftingSnapshot from '../data/rod-crafting-snapshot.json';
 import { extractRodObtainment, rodQuestReferences } from './rod-obtainment';
@@ -198,7 +199,7 @@ async function revisionPages(ids: number[], content: boolean): Promise<any[]> {
 }
 export async function getRodDataset({ forceRefresh = false }: { forceRefresh?: boolean } = {}): Promise<RodDataset> {
   if (pending) return pending;
-  if (cache && (Date.now() < lastAttempt + 60000 || !forceRefresh && Date.now() < expires)) return cache;
+  if (cache && (Date.now() < lastAttempt + MANUAL_REFRESH_COOLDOWN || !forceRefresh && Date.now() < expires)) return cache;
   lastAttempt = Date.now();
   pending = (async () => {
     try {
@@ -216,7 +217,7 @@ export async function getRodDataset({ forceRefresh = false }: { forceRefresh?: b
       sources = updated;
       const rods = await withPurchaseAreas(normalizeRods(raw, sources), request);
       cache = { rods, fetchedAt: new Date().toISOString(), mode: 'api', notice: '' };
-      expires = Date.now() + 30 * 60 * 1000; return cache;
+      expires = Date.now() + DATASET_MAX_AGE; return cache;
     } catch {
       cache = { ...(cache ?? rodFallback), mode: 'snapshot', notice: 'Wiki refresh unavailable. Showing the last successfully retrieved rods and recommendations with their original timestamp.' };
       expires = Date.now() + 60000; return cache;
@@ -227,3 +228,5 @@ export async function getRodDataset({ forceRefresh = false }: { forceRefresh?: b
 
 /** Page rendering never waits for a wiki request; the browser refreshes stale data. */
 export function getCachedRodDataset() { return cache ?? rodFallback; }
+
+export function refreshAvailableAt() { return lastAttempt ? lastAttempt + MANUAL_REFRESH_COOLDOWN : 0; }

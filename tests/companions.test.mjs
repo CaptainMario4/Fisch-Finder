@@ -5,7 +5,7 @@ import ts from 'typescript';
 const snapshot = JSON.parse(fs.readFileSync(new URL('../src/data/companions-snapshot.json', import.meta.url), 'utf8'));
 const compile = path => ts.transpileModule(fs.readFileSync(new URL(path, import.meta.url), 'utf8'), {
   compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 },
-}).outputText;
+}).outputText.replace(/import \{[^}]*\} from ['\"]\.\/refresh-policy['\"];?/g, 'const DATASET_MAX_AGE = 21600000; const MANUAL_REFRESH_COOLDOWN = 300000;');
 const compiled = compile('../src/lib/companions.ts').replace("import snapshot from '../data/companions-snapshot.json';", `const snapshot = ${JSON.stringify(snapshot)};`);
 let moduleId = 0;
 const fresh = () => import('data:text/javascript;base64,' + Buffer.from(compiled + `\n// test ${moduleId++}`).toString('base64'));
@@ -106,11 +106,11 @@ test('refresh caches and coalesces source requests, adds new companions, fetches
     assert.equal(first.companions.find(c => c.id === 999999).abilities[0].text, 'New bonus at max level.');
     assert.equal(contentRequests, 1); const initialRequests = requests;
     clock += 10000; await mod.getCompanionDataset({ forceRefresh: true }); assert.equal(requests, initialRequests);
-    clock += 61000; const checked = await mod.getCompanionDataset({ forceRefresh: true });
+    clock += 301000; const checked = await mod.getCompanionDataset({ forceRefresh: true });
     assert.equal(contentRequests, 1); assert.notEqual(checked.fetchedAt, first.fetchedAt);
-    clock += 61000; changed = true; const updated = await mod.getCompanionDataset({ forceRefresh: true });
+    clock += 301000; changed = true; const updated = await mod.getCompanionDataset({ forceRefresh: true });
     assert.equal(updated.companions.find(c => c.id === 999999).abilities[0].text, 'Updated bonus at max level.');
-    clock += 61000; incomplete = true;
+    clock += 301000; incomplete = true;
     const failed = await mod.getCompanionDataset({ forceRefresh: true });
     assert.equal(failed.mode, 'snapshot'); assert.equal(failed.fetchedAt, updated.fetchedAt);
     assert.deepEqual(failed.companions, updated.companions);

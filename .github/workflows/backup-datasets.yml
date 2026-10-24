@@ -1,0 +1,35 @@
+name: Save last-good wiki datasets
+on:
+  schedule:
+    - cron: '43 */6 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/backup-datasets.mjs'
+      - 'scripts/dataset-backups.mjs'
+      - '.github/workflows/backup-datasets.yml'
+permissions:
+  contents: read
+concurrency:
+  group: fisch-finder-dataset-backups
+  cancel-in-progress: false
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test backup validation
+        run: node --test tests/dataset-backups.test.mjs
+      - name: Save healthy datasets only
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/backup-datasets.mjs

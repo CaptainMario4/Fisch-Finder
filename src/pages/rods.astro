@@ -1,9 +1,10 @@
 ---
+import { savedDataset } from '../lib/persistent-backup';
 import Layout from '../layouts/Layout.astro';
 import RodDatabase from '../components/RodDatabase';
 import { getCachedRodDataset, rodFallback } from '../lib/rods';
 import { withCachedSecondary } from '../lib/secondary-source';
-const initialData = withCachedSecondary(getCachedRodDataset(), 'rods', rodFallback.rods);
+const initialData = savedDataset('rods', withCachedSecondary(getCachedRodDataset(), 'rods', rodFallback.rods));
 ---
 <Layout title="Rod Finder" description="Search Fisch fishing rods by stage, compare their stats, and read Fischipedia's recommended enchantments.">
   <RodDatabase client:load initialData={initialData} />

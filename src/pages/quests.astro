@@ -1,8 +1,9 @@
 ---
+import { savedDataset } from '../lib/persistent-backup';
 import Layout from '../layouts/Layout.astro';
 import QuestHelper from '../components/QuestHelper';
 import { getCachedQuestDataset, questFallback } from '../lib/quests';
-const initialData = getCachedQuestDataset();
+const initialData = savedDataset('quests', getCachedQuestDataset());
 ---
 <Layout title="Quest Helper" description="Search Fisch quests and follow expanded guides with objectives, required fish, mutation and rod guidance, rewards, and a saved checklist.">
   <QuestHelper client:load initialData={initialData} />

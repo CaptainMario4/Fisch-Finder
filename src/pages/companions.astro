@@ -1,8 +1,9 @@
 ---
+import { savedDataset } from '../lib/persistent-backup';
 import Layout from '../layouts/Layout.astro';
 import CompanionDatabase from '../components/CompanionDatabase';
 import { getCachedCompanionDataset, companionFallback } from '../lib/companions';
-const initialData = getCachedCompanionDataset();
+const initialData = savedDataset('companions', getCachedCompanionDataset());
 ---
 <Layout title="Companions" description="Search Fisch companions, compare their abilities and level bonuses, and find their food, locations, and obtainment requirements.">
   <CompanionDatabase client:load initialData={initialData} />
